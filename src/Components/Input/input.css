@@ -1,0 +1,73 @@
+.custom-input {
+  margin-left: 100px;
+  border: 0;
+}
+
+.custom-input-color-primary {
+  background-color: rgb(219 234 254);
+  color: #668cde;
+}
+
+.custom-input-color-secondary {
+  color: rgb(187, 118, 255);
+  background-color: rgb(243 232 255);
+}
+
+.custom-input-color-success {
+  background-color: rgb(220 252 231);
+  color: rgb(80 203 117);
+}
+
+.custom-input-color-error {
+  background-color: rgb(254 226 226);
+  color: rgb(255, 94, 94);
+}
+
+.custom-input-color-primary::placeholder {
+  color: rgba(102, 140, 222, 0.5);
+}
+
+.custom-input-color-secondary::placeholder {
+  color: rgba(187, 118, 255, 0.5);
+}
+
+.custom-input-color-success::placeholder {
+  color: rgba(80, 203, 117, 0.5);
+}
+
+.custom-input-color-error::placeholder {
+  color: rgba(255, 94, 94, 0.5);
+}
+
+.custom-input-color-primary:focus-within {
+  outline: 2px solid rgba(102, 140, 222, 0.5);
+}
+
+.custom-input-color-secondary:focus-within {
+  outline: 2px solid rgb(187, 118, 255);
+}
+
+.custom-input-color-success:focus-within {
+  outline: 2px solid rgb(80 203 117);
+}
+
+.custom-input-color-error:focus-within {
+  outline: 2px solid rgb(255, 94, 94);
+}
+
+.custom-input-size-small {
+  padding: 6px 10px 4px;
+  border-radius: 12px;
+}
+
+.custom-input-size-medium {
+  padding: 12px 16px 10px;
+  font-size: 16px;
+  border-radius: 20px;
+}
+
+.custom-input-size-large {
+  padding: 15px 18px 12px;
+  font-size: 20px;
+  border-radius: 26px;
+}
