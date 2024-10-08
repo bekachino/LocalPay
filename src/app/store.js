@@ -9,15 +9,12 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import cookieStorage from 'redux-persist-cookie-storage';
-import { Cookies } from 'react-cookie';
+import storage from 'redux-persist/lib/storage';
 import { userReducer } from '../features/usersSlice';
-
-const cookies = new Cookies();
 
 const usersPersistConfig = {
   key: 'localPay:user',
-  storage: cookieStorage(cookies),
+  storage,
   whitelist: ['user'],
 };
 
