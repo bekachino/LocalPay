@@ -1,10 +1,11 @@
-import './App.css';
 import CustomButton from "./Components/CustomButton/CustomButton";
+import Paper from "./Components/Paper/Paper";
+import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <CustomButton size='large' variant='primary'>Привет</CustomButton>
+      <Paper><CustomButton size='large' variant='primary'>Привет</CustomButton></Paper>
     </div>
   );
 }
