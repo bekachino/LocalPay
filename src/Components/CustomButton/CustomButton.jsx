@@ -4,21 +4,36 @@ import './customButton.css';
 const CustomButton = ({
   type = 'button',
   size = 'medium',
-  variant = 'primary',
+  color = 'primary',
   style,
   disabled,
   loading,
   onClick,
-  children
+  icon,
+  children,
 }) => {
   return (
     <button
       type={type}
-      className={`custom-btn custom-btn-size-${size} custom-btn-variant-${variant} ${loading && 'custom-btn-loading' || ''}`}
+      className={`custom-btn custom-btn-size-${![
+        'small',
+        'medium',
+        'large'
+      ].includes(size) ? 'medium' : size} custom-btn-color-${![
+        'primary',
+        'secondary',
+        'success',
+        'warning',
+        'error',
+      ].includes(color) ? 'primary' : color} ${(loading && 'custom-btn-loading') || ''}`}
       style={style}
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={onClick}
     >
+      {icon && <img
+        src={icon}
+        alt=''
+      />}
       {children}
     </button>
   );

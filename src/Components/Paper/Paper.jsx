@@ -1,9 +1,9 @@
 import React from 'react';
 import './paper.css';
 
-const Paper = ({style, children}) => {
+const Paper = ({className, style, children}) => {
   return (
-    <div className='custom-paper' style={style}>
+    <div className={`custom-paper ${className}`} style={style}>
       {children}
     </div>
   );
