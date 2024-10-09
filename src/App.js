@@ -8,6 +8,7 @@ import { useAppSelector } from "./app/hooks";
 import SupervisorHome from "./Containers/Supervisor/SupervisorHome/SupervisorHome";
 import './App.css';
 import CreateUser from "./Containers/Admin/CreateUser/CreateUser";
+import Users from "./Containers/Admin/Users/Users";
 
 function App() {
   const { user } = useAppSelector(state => state.userState);
@@ -37,6 +38,10 @@ function App() {
       <Route
         path='/create-user'
         element={<CreateUser/>}
+      />
+      <Route
+        path='/users'
+        element={<Users/>}
       />
     </>
   };

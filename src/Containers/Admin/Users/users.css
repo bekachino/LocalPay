@@ -1,0 +1,7 @@
+.users {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to bottom right, #9ca3af, #2563eb);
+  background-repeat: no-repeat;
+}

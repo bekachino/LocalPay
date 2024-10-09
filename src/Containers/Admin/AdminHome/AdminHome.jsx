@@ -22,6 +22,7 @@ const AdminHome = () => {
             color='primary'
             size='large'
             icon={GroupIcon}
+            linkTo='/users'
           >Пользователи</CustomButton>
           <CustomButton
             color='warning'

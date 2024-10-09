@@ -6,7 +6,7 @@ html {
   font-family: Montserrat, sans-serif;
 }
 
-body, #root, .App, .home, .login  {
+body, #root, .App, .home, .login, .users  {
   min-height: 100vh;
   margin: 0;
 }
