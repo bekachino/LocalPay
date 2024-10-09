@@ -4,11 +4,12 @@ import './input.css';
 const Input = ({
   color = 'primary',
   size = 'medium',
+  className,
   ...rest
 }) => {
   return (
     <input
-      className={`custom-input custom-input-color-${![
+      className={`${className} custom-input custom-input-color-${![
         'primary',
         'secondary',
         'success',

@@ -1,6 +1,4 @@
-export const apiUrl = 'http://10.1.2.160:8001/api/';
-
-export const SMTH_WENT_WRONG = 'Что-то пошло не так'
+export const apiUrl = 'http://10.1.2.160:8001/';
 
 export const errorMessages = {
   400: 'Неверные данные',
@@ -9,3 +7,18 @@ export const errorMessages = {
   404: 'Нет информации',
   500: 'Ошибка сервера',
 };
+
+export const ROLES = [
+  {
+    en: 'user',
+    ru: 'пользователь'
+  },
+  {
+    en: 'supervisor',
+    ru: 'супервайзер'
+  },
+  {
+    en: 'admin',
+    ru: 'админ'
+  }
+];

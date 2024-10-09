@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from "../../app/hooks";
 import { useDispatch } from "react-redux";
-import { removeAlert } from "../../features/dataSlice";
+import { removeAlert } from "../../features/data/dataSlice";
 import './alerts.css';
 
 const Alerts = () => {

@@ -7,6 +7,7 @@ const CustomButton = ({
   size = 'medium',
   color = 'primary',
   style,
+  className,
   disabled,
   loading,
   onClick,
@@ -14,13 +15,14 @@ const CustomButton = ({
   rounded,
   linkTo,
   children,
+  ...rest
 }) => {
   const navigate = useNavigate();
   
   return (
     <button
       type={type}
-      className={`custom-btn custom-btn-size-${![
+      className={`${className} custom-btn custom-btn-size-${![
         'small',
         'medium',
         'large'
@@ -41,6 +43,7 @@ const CustomButton = ({
         if (onClick) onClick();
         if (linkTo) navigate(linkTo)
       }}
+      {...rest}
     >
       {icon && <img
         src={icon}

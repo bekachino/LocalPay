@@ -3,7 +3,7 @@ import Paper from "../../Components/Paper/Paper";
 import LogoutIcon from "../../assets/logout.svg";
 import CustomButton from "../../Components/CustomButton/CustomButton";
 import { useDispatch } from "react-redux";
-import { logout } from "../../features/userThunk";
+import { logout } from "../../features/user/userThunk";
 import './supervisorHome.css';
 
 const SupervisorHome = () => {

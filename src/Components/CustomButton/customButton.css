@@ -150,6 +150,10 @@
   max-height: 26px;
 }
 
+.t-nw {
+  text-wrap: nowrap;
+}
+
 @keyframes spin {
   to {rotate: 360deg}
 }

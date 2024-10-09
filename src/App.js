@@ -7,37 +7,39 @@ import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "./app/hooks";
 import SupervisorHome from "./Containers/SupervisorHome/SupervisorHome";
 import './App.css';
+import CreateUser from "./Containers/CreateUser/CreateUser";
 
 function App() {
   const { user } = useAppSelector(state => state.userState);
   
-  const nonAuthRoutes = (
-    <Route
-      path='/login'
-      element={<Login/>}
-    />
-  );
-  
-  const userRoutes = (
-    <Route
-      path='/home'
-      element={<UserHome/>}
-    />
-  );
-  
-  const supervisorRoutes = (
-    <Route
-      path='/home'
-      element={<SupervisorHome/>}
-    />
-  );
-  
-  const adminRoutes = (
-    <Route
-      path='/home'
-      element={<AdminHome/>}
-    />
-  );
+  const routes = {
+    nonAuth: <>
+      <Route
+        path='/login'
+        element={<Login/>}
+      /></>,
+    user: <>
+      <Route
+        path='/home'
+        element={<UserHome/>}
+      /></>,
+    supervisor: <>
+      <Route
+        path='/home'
+        element={<SupervisorHome/>}
+      />
+    </>,
+    admin: <>
+      <Route
+        path='/home'
+        element={<AdminHome/>}
+      />
+      <Route
+        path='/create-user'
+        element={<CreateUser/>}
+      />
+    </>
+  };
   
   return (
     <div className='App'>
@@ -50,12 +52,8 @@ function App() {
             replace
           />}
         />
-        {!user && nonAuthRoutes}
-        {!!user && <>
-          {jwtDecode(user.access || '')?.role === 'user' && userRoutes}
-          {jwtDecode(user.access || '')?.role === 'supervisor' && supervisorRoutes}
-          {jwtDecode(user.access || '')?.role === 'admin' && adminRoutes}
-        </>}
+        {!user && routes.nonAuth}
+        {!!user && routes[jwtDecode(user.access || '')?.role || 'nonAuth']}
       </Routes>
     </div>
   );

@@ -10,8 +10,9 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { userReducer } from '../features/usersSlice';
-import { dataReducer } from "../features/dataSlice";
+import { userReducer } from '../features/user/usersSlice';
+import { dataReducer } from "../features/data/dataSlice";
+import { adminReducer } from "../features/admin/adminSlice";
 
 const usersPersistConfig = {
   key: 'localPay:user',
@@ -22,6 +23,7 @@ const usersPersistConfig = {
 const rootReducer = combineReducers({
   userState: persistReducer(usersPersistConfig, userReducer),
   dataState: dataReducer,
+  adminState: adminReducer,
 });
 
 export const store = configureStore({

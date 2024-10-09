@@ -24,7 +24,7 @@
 }
 
 .alert-hidden {
-  translate: 300px;
+  translate: 270px;
   height: 0;
   padding-bottom: 0;
   animation: disappear 0.2s ease-out;
@@ -66,6 +66,6 @@
 }
 
 @keyframes appear {
-  from {translate: 300px}
+  from {translate: 270px}
   to {translate: 0}
 }

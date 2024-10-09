@@ -4,7 +4,7 @@ import './login.css';
 import Input from "../../Components/Input/Input";
 import CustomButton from "../../Components/CustomButton/CustomButton";
 import { useDispatch } from "react-redux";
-import { signIn } from "../../features/userThunk";
+import { signIn } from "../../features/user/userThunk";
 import { useAppSelector } from "../../app/hooks";
 
 const Login = () => {
@@ -40,7 +40,7 @@ const Login = () => {
             value={state?.login}
             color='secondary'
             size='large'
-            placeholder='Логин...'
+            placeholder='Логин'
             onChange={handleChange}
             required
           />
@@ -50,7 +50,7 @@ const Login = () => {
             value={state?.password}
             color='secondary'
             size='large'
-            placeholder='Пароль...'
+            placeholder='Пароль'
             onChange={handleChange}
             required
           />

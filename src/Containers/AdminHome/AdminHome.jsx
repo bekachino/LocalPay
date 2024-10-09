@@ -7,7 +7,7 @@ import PaymentIcon from '../../assets/payment.svg';
 import newUserIcon from '../../assets/new-user.svg';
 import LogoutIcon from '../../assets/logout.svg';
 import { useDispatch } from "react-redux";
-import { logout } from "../../features/userThunk";
+import { logout } from "../../features/user/userThunk";
 import './adminHome.css';
 
 const AdminHome = () => {
@@ -34,9 +34,11 @@ const AdminHome = () => {
             icon={PaymentIcon}
           >Платежи</CustomButton>
           <CustomButton
+            className='t-nw'
             color='secondary'
             size='large'
             icon={newUserIcon}
+            linkTo='/create-user'
           >Добавить пользователя</CustomButton>
           <CustomButton
             color='error'

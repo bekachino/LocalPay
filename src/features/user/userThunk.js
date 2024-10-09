@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axiosApi from '../axiosApi';
-import { errorMessages } from "../constants";
-import { addAlert } from "./dataSlice";
+import axiosApi from '../../axiosApi';
+import { errorMessages } from "../../constants";
+import { addAlert } from "../data/dataSlice";
 
 export const signIn = createAsyncThunk('user/signIn', async (userData, {
   dispatch,
   rejectWithValue
 }) => {
   try {
-    const response = await axiosApi.post("token/", userData);
+    const response = await axiosApi.post("api/token/", userData);
     dispatch(addAlert({
       type: 'success',
       message: 'Вы вошли в систему'
