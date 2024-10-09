@@ -1,9 +1,17 @@
 import './App.css';
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminHome from "./Containers/AdminHome/AdminHome";
+import Login from "./Containers/Login/Login";
 
 function App() {
   const publicRoutes = (
+    <Route
+      path='/login'
+      element={<Login/>}
+    />
+  );
+  
+  const adminRoutes = (
     <Route
       path='/home'
       element={<AdminHome/>}
@@ -21,6 +29,7 @@ function App() {
           />}
         />
         {publicRoutes}
+        {adminRoutes}
       </Routes>
     </div>
   );

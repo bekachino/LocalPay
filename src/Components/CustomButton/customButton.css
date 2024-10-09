@@ -7,6 +7,7 @@
   border: 0;
   font-weight: 600;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .custom-btn:hover {
@@ -102,7 +103,7 @@
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  animation: spin 1s linear infinite;
+  animation: spin .8s linear infinite;
 }
 
 .custom-btn-color-primary.custom-btn-loading::before {

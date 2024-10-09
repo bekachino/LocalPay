@@ -14,11 +14,31 @@ const AdminHome = () => {
       <Paper className='home-paper'>
         <h1>Панель администратора</h1>
         <div className='home-nav-btns'>
-          <CustomButton color='primary' size='large' icon={GroupIcon}>Пользователи</CustomButton>
-          <CustomButton color='warning' size='large' icon={ReportIcon}>Отчёты</CustomButton>
-          <CustomButton color='success' size='large' icon={PaymentIcon}>Платежи</CustomButton>
-          <CustomButton color='secondary' size='large' icon={newUserIcon}>Добавить пользователя</CustomButton>
-          <CustomButton color='error' size='large' icon={LogoutIcon}>Выход</CustomButton>
+          <CustomButton
+            color='primary'
+            size='large'
+            icon={GroupIcon}
+          >Пользователи</CustomButton>
+          <CustomButton
+            color='warning'
+            size='large'
+            icon={ReportIcon}
+          >Отчёты</CustomButton>
+          <CustomButton
+            color='success'
+            size='large'
+            icon={PaymentIcon}
+          >Платежи</CustomButton>
+          <CustomButton
+            color='secondary'
+            size='large'
+            icon={newUserIcon}
+          >Добавить пользователя</CustomButton>
+          <CustomButton
+            color='error'
+            size='large'
+            icon={LogoutIcon}
+          >Выход</CustomButton>
         </div>
       </Paper>
     </div>
