@@ -2,6 +2,7 @@ import './App.css';
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminHome from "./Containers/AdminHome/AdminHome";
 import Login from "./Containers/Login/Login";
+import Alerts from "./Components/Alerts/Alerts";
 
 function App() {
   const publicRoutes = (
@@ -20,6 +21,7 @@ function App() {
   
   return (
     <div className='App'>
+      <Alerts/>
       <Routes>
         <Route
           path='*'

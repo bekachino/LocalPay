@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import uuid from 'uuid-random';
 
 const initialState = {
   alerts: [],
@@ -8,10 +9,15 @@ const DataSlice = createSlice({
   name: 'data',
   initialState,
   reducers: {
-    addAlert: (state, payload) => {
-      state.alerts.push(payload);
+    addAlert: (state, { payload }) => {
+      const id = uuid();
+      state.alerts.push({
+        ...payload,
+        id,
+        show: true
+      });
     },
-    removeAlert: (state, payload) => {
+    removeAlert: (state, { payload }) => {
       state.alerts.find(alert => alert.id === payload).show = false;
     },
   },

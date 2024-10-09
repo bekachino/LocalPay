@@ -1,0 +1,71 @@
+.alerts {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 270px;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  z-index: 999;
+  transition: 0.2s;
+  user-select: none;
+}
+
+.alerts::-webkit-scrollbar {
+  display: none;
+}
+
+.alert {
+  padding-bottom: 15px;
+  max-height: 180px;
+  animation: appear .2s ease-out;
+  transition: max-height .2s ease-out;
+}
+
+.alert-hidden {
+  translate: 300px;
+  height: 0;
+  padding-bottom: 0;
+  animation: disappear 0.2s ease-out;
+}
+
+.alert:last-child {
+  padding-bottom: 0;
+}
+
+.alert-inner {
+  padding: 15px 22px 13px 40px;
+  color: #FFFFFF;
+  border-radius: 6px;
+  cursor: pointer;
+  background-image: url("../../assets/alert-icon.svg");
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: 10px center;
+}
+
+.alert-info {
+  background-color: #45aced;
+}
+
+.alert-secondary {
+  background-color: #9145ed;
+}
+
+.alert-success {
+  background-color: #3ac61b;
+}
+
+.alert-warning {
+  background-color: #ed9f45;
+}
+
+.alert-error {
+  background-color: #bd1414;
+}
+
+@keyframes appear {
+  from {translate: 300px}
+  to {translate: 0}
+}
