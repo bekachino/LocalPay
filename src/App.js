@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import AdminHome from "./Containers/AdminHome/AdminHome";
+import AdminHome from "./Containers/Admin/AdminHome/AdminHome";
 import Login from "./Containers/Login/Login";
 import Alerts from "./Components/Alerts/Alerts";
-import UserHome from "./Containers/UserHome/UserHome";
+import UserHome from "./Containers/User/UserHome/UserHome";
 import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "./app/hooks";
-import SupervisorHome from "./Containers/SupervisorHome/SupervisorHome";
+import SupervisorHome from "./Containers/Supervisor/SupervisorHome/SupervisorHome";
 import './App.css';
-import CreateUser from "./Containers/CreateUser/CreateUser";
+import CreateUser from "./Containers/Admin/CreateUser/CreateUser";
 
 function App() {
   const { user } = useAppSelector(state => state.userState);

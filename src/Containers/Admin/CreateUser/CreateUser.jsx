@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Paper from "../../Components/Paper/Paper";
-import Input from "../../Components/Input/Input";
-import CustomButton from "../../Components/CustomButton/CustomButton";
+import Paper from "../../../Components/Paper/Paper";
+import Input from "../../../Components/Input/Input";
+import CustomButton from "../../../Components/CustomButton/CustomButton";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
-import { ROLES } from "../../constants";
-import Select from "../../Components/Select/Select";
+import { useAppSelector } from "../../../app/hooks";
+import { ROLES } from "../../../constants";
+import Select from "../../../Components/Select/Select";
 import './createUser.css';
-import { createUser } from "../../features/admin/adminThunk";
+import { createUser } from "../../../features/admin/adminThunk";
 import { useNavigate } from "react-router-dom";
 
 const CreateUser = () => {

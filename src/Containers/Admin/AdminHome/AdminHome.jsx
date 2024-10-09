@@ -1,13 +1,13 @@
 import React from 'react';
-import Paper from "../../Components/Paper/Paper";
-import CustomButton from "../../Components/CustomButton/CustomButton";
-import GroupIcon from '../../assets/people-group.svg';
-import ReportIcon from '../../assets/report.svg';
-import PaymentIcon from '../../assets/payment.svg';
-import newUserIcon from '../../assets/new-user.svg';
-import LogoutIcon from '../../assets/logout.svg';
+import Paper from "../../../Components/Paper/Paper";
+import CustomButton from "../../../Components/CustomButton/CustomButton";
+import GroupIcon from '../../../assets/people-group.svg';
+import ReportIcon from '../../../assets/report.svg';
+import PaymentIcon from '../../../assets/payment.svg';
+import newUserIcon from '../../../assets/new-user.svg';
+import LogoutIcon from '../../../assets/logout.svg';
 import { useDispatch } from "react-redux";
-import { logout } from "../../features/user/userThunk";
+import { logout } from "../../../features/user/userThunk";
 import './adminHome.css';
 
 const AdminHome = () => {

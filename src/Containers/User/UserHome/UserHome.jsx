@@ -1,18 +1,18 @@
 import React from 'react';
-import Paper from "../../Components/Paper/Paper";
-import LogoutIcon from "../../assets/logout.svg";
-import CustomButton from "../../Components/CustomButton/CustomButton";
+import Paper from "../../../Components/Paper/Paper";
+import CustomButton from "../../../Components/CustomButton/CustomButton";
+import LogoutIcon from "../../../assets/logout.svg";
 import { useDispatch } from "react-redux";
-import { logout } from "../../features/user/userThunk";
-import './supervisorHome.css';
+import { logout } from "../../../features/user/userThunk";
+import './userHome.css';
 
-const SupervisorHome = () => {
+const UserHome = () => {
   const dispatch = useDispatch();
 
   return (
     <div className='home'>
       <Paper className='home-paper'>
-        <h1>Панель супервайзера</h1>
+        <h1>Панель пользователя</h1>
         <div className='home-nav-btns'>
           <CustomButton
             color='error'
@@ -26,4 +26,4 @@ const SupervisorHome = () => {
   );
 };
 
-export default SupervisorHome;
+export default UserHome;
