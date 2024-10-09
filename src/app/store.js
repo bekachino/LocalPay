@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { userReducer } from '../features/usersSlice';
+import { dataReducer } from "../features/dataSlice";
 
 const usersPersistConfig = {
   key: 'localPay:user',
@@ -20,6 +21,7 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
   userState: persistReducer(usersPersistConfig, userReducer),
+  dataState: dataReducer,
 });
 
 export const store = configureStore({

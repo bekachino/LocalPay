@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signIn, signUp } from './userThunk';
+import { signIn } from './userThunk';
 
 const initialState = {
   user: '',
   signInLoading: false,
-  signUpLoading: false,
   authorizationError: '',
   authorizationMessage: '',
 };
@@ -18,23 +17,6 @@ const UsersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(signUp.pending, (state) => {
-      state.user = '';
-      state.authorizationError = '';
-      state.authorizationMessage = '';
-      state.signUpLoading = true;
-    });
-    builder.addCase(signUp.fulfilled, (state, { payload: res }) => {
-      state.signUpLoading = false;
-      //state.user = res.token || '';
-      //state.authorizationMessage = res.message;
-    });
-    builder.addCase(signUp.rejected, (state, { payload: error }) => {
-      state.signUpLoading = false;
-      //state.authorizationError =
-      //  error?.error || 'Произошла ошибка. Попробуйте позже';
-    });
-    
     builder.addCase(signIn.pending, (state) => {
       state.user = '';
       state.authorizationError = '';
