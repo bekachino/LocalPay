@@ -10,6 +10,7 @@ const CustomButton = ({
   loading,
   onClick,
   icon,
+  rounded,
   children,
 }) => {
   return (
@@ -25,7 +26,7 @@ const CustomButton = ({
         'success',
         'warning',
         'error',
-      ].includes(color) ? 'primary' : color} ${(loading && 'custom-btn-loading') || ''}`}
+      ].includes(color) ? 'primary' : color} ${(loading && 'custom-btn-loading') || ''} ${(rounded && 'custom-btn-rounded') || ''}`}
       style={style}
       disabled={disabled || loading}
       onClick={onClick}
