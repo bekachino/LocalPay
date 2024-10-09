@@ -1,14 +1,34 @@
-import './App.css';
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminHome from "./Containers/AdminHome/AdminHome";
 import Login from "./Containers/Login/Login";
 import Alerts from "./Components/Alerts/Alerts";
+import UserHome from "./Containers/UserHome/UserHome";
+import { jwtDecode } from "jwt-decode";
+import './App.css';
+import { useAppSelector } from "./app/hooks";
+import SupervisorHome from "./Containers/SupervisorHome/SupervisorHome";
 
 function App() {
-  const publicRoutes = (
+  const { user } = useAppSelector(state => state.userState);
+  
+  const nonAuthRoutes = (
     <Route
       path='/login'
       element={<Login/>}
+    />
+  );
+  
+  const userRoutes = (
+    <Route
+      path='/home'
+      element={<UserHome/>}
+    />
+  );
+  
+  const supervisorRoutes = (
+    <Route
+      path='/home'
+      element={<SupervisorHome/>}
     />
   );
   
@@ -26,12 +46,16 @@ function App() {
         <Route
           path='*'
           element={<Navigate
-            to='/login'
+            to={`/${!!user ? 'home' : 'login'}`}
             replace
           />}
         />
-        {publicRoutes}
-        {adminRoutes}
+        {!user && nonAuthRoutes}
+        {!!user && <>
+          {jwtDecode(user.access || '')?.role === 'user' && userRoutes}
+          {jwtDecode(user.access || '')?.role === 'supervisor' && supervisorRoutes}
+          {jwtDecode(user.access || '')?.role === 'admin' && adminRoutes}
+        </>}
       </Routes>
     </div>
   );

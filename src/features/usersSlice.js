@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { signIn } from './userThunk';
-import { useAppDispatch } from "../app/hooks";
-import { addAlert } from "./dataSlice";
 
 const initialState = {
-  user: '',
+  user: null,
   signInLoading: false,
 };
 
@@ -13,7 +11,7 @@ const UsersSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.user = '';
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -25,6 +23,7 @@ const UsersSlice = createSlice({
     });
     builder.addCase(signIn.fulfilled, (state, { payload: res }) => {
       state.signInLoading = false;
+      state.user = res;
     });
     builder.addCase(signIn.rejected, (state, { payload: error }) => {
       state.signInLoading = false;
