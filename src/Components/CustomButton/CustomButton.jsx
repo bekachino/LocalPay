@@ -1,5 +1,6 @@
 import React from 'react';
 import './customButton.css';
+import { useNavigate } from "react-router-dom";
 
 const CustomButton = ({
   type = 'button',
@@ -11,8 +12,11 @@ const CustomButton = ({
   onClick,
   icon,
   rounded,
+  linkTo,
   children,
 }) => {
+  const navigate = useNavigate();
+  
   return (
     <button
       type={type}
@@ -26,10 +30,17 @@ const CustomButton = ({
         'success',
         'warning',
         'error',
-      ].includes(color) ? 'primary' : color} ${(loading && 'custom-btn-loading') || ''} ${(rounded && 'custom-btn-rounded') || ''}`}
+      ].includes(color) ? 'primary' : color} ${(
+        loading && 'custom-btn-loading'
+      ) || ''} ${(
+        rounded && 'custom-btn-rounded'
+      ) || ''}`}
       style={style}
       disabled={disabled || loading}
-      onClick={onClick}
+      onClick={() => {
+        if (onClick) onClick();
+        if (linkTo) navigate(linkTo)
+      }}
     >
       {icon && <img
         src={icon}

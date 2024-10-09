@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { signIn } from './userThunk';
+import { useAppDispatch } from "../app/hooks";
+import { addAlert } from "./dataSlice";
 
 const initialState = {
   user: '',
   signInLoading: false,
-  authorizationError: '',
-  authorizationMessage: '',
 };
 
 const UsersSlice = createSlice({
@@ -25,13 +25,9 @@ const UsersSlice = createSlice({
     });
     builder.addCase(signIn.fulfilled, (state, { payload: res }) => {
       state.signInLoading = false;
-      //state.user = res?.token || '' || res;
-      //state.authorizationMessage = res.message;
     });
     builder.addCase(signIn.rejected, (state, { payload: error }) => {
       state.signInLoading = false;
-      //state.authorizationError =
-      //  error?.error || 'Произошла ошибка. Попробуйте позже';
     });
   },
 });
