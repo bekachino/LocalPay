@@ -6,9 +6,13 @@ import ReportIcon from '../../assets/report.svg';
 import PaymentIcon from '../../assets/payment.svg';
 import newUserIcon from '../../assets/new-user.svg';
 import LogoutIcon from '../../assets/logout.svg';
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/userThunk";
 import './adminHome.css';
 
 const AdminHome = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className='home'>
       <Paper className='home-paper'>
@@ -38,6 +42,7 @@ const AdminHome = () => {
             color='error'
             size='large'
             icon={LogoutIcon}
+            onClick={() => dispatch(logout())}
           >Выход</CustomButton>
         </div>
       </Paper>

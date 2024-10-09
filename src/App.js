@@ -4,9 +4,9 @@ import Login from "./Containers/Login/Login";
 import Alerts from "./Components/Alerts/Alerts";
 import UserHome from "./Containers/UserHome/UserHome";
 import { jwtDecode } from "jwt-decode";
-import './App.css';
 import { useAppSelector } from "./app/hooks";
 import SupervisorHome from "./Containers/SupervisorHome/SupervisorHome";
+import './App.css';
 
 function App() {
   const { user } = useAppSelector(state => state.userState);

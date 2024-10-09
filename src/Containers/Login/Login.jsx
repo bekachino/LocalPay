@@ -5,10 +5,11 @@ import Input from "../../Components/Input/Input";
 import CustomButton from "../../Components/CustomButton/CustomButton";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../features/userThunk";
-import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const { signInLoading } = useAppSelector(state => state.userState);
   const [state, setState] = useState();
   
   const handleChange = e => {
@@ -57,6 +58,7 @@ const Login = () => {
             type='submit'
             color='secondary'
             rounded
+            loading={signInLoading}
           >Войти</CustomButton>
         </form>
       </Paper>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signIn } from './userThunk';
+import { logout, signIn } from './userThunk';
 
 const initialState = {
   user: null,
@@ -9,11 +9,7 @@ const initialState = {
 const UsersSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signIn.pending, (state) => {
       state.user = '';
@@ -28,10 +24,16 @@ const UsersSlice = createSlice({
     builder.addCase(signIn.rejected, (state, { payload: error }) => {
       state.signInLoading = false;
     });
+    
+    builder.addCase(logout.pending, (state) => {
+      state.user = null;
+    });
+    builder.addCase(logout.fulfilled, (state, { payload: res }) => {
+    });
+    builder.addCase(logout.rejected, (state, { payload: error }) => {
+    });
   },
 });
 
 export const userReducer = UsersSlice.reducer;
-export const {
-  logout,
-} = UsersSlice.actions;
+export const {} = UsersSlice.actions;
