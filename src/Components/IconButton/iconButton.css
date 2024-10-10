@@ -1,0 +1,106 @@
+.icon-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 4px;
+  transition: 0.1s;
+}
+
+.icon-button-primary {
+}
+
+.icon-button-secondary {
+}
+
+.icon-button-success {
+  background-color: rgba(58, 198, 27, 0.2);
+}
+
+.icon-button-warning {
+}
+
+.icon-button-error {
+  background-color: rgba(198, 27, 27, 0.2);
+}
+
+.icon-button-primary:hover {
+  scale: 1.1;
+}
+
+.icon-button-secondary:hover {
+  scale: 1.1;
+}
+
+.icon-button-success:hover {
+  scale: 1.1;
+  background-color: rgba(65, 213, 31, 0.4);
+}
+
+.icon-button-warning:hover {
+  scale: 1.1;
+}
+
+.icon-button-error:hover {
+  background-color: rgba(213, 31, 31, 0.4);
+  scale: 1.1;
+}
+
+.icon-button-primary:active {
+  scale: 0.9;
+}
+
+.icon-button-secondary:active {
+  scale: 0.9;
+}
+
+.icon-button-success:active {
+  scale: 0.9;
+}
+
+.icon-button-warning:active {
+  scale: 0.9;
+}
+
+.icon-button-error:active {
+  scale: 0.9;
+}
+
+.icon-button-loading img {
+  opacity: 0;
+}
+
+.icon-button-loading::before {
+  content: '';
+  position: absolute;
+  height: 35%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 3px solid;
+  border-right: 3px solid transparent!important;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  animation: spin .8s linear infinite;
+}
+
+.icon-button-primary.icon-button-loading::before {
+  border-color: rgb(37 99 235);
+}
+
+.icon-button-secondary.icon-button-loading::before {
+  border-color: rgb(147 51 234);
+}
+
+.icon-button-success.icon-button-loading::before {
+  border-color: rgb(28, 207, 94);
+}
+
+.icon-button-warning.icon-button-loading::before {
+  border-color: rgb(248, 140, 31);
+}
+
+.icon-button-error.icon-button-loading::before {
+  border-color: rgb(234, 40, 40);
+}

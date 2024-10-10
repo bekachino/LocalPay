@@ -24,6 +24,7 @@ export const addInterceptors = (store) => {
       dispatch(addAlert({type: 'warning', message: 'Токен устарел, авторизуйтесь снова'}));
       return dispatch(logout());
     }
+    return Promise.reject(error);
   });
 };
 

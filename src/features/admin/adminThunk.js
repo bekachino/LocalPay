@@ -38,3 +38,23 @@ export const getUsers = createAsyncThunk('admin/getUsers', async (_, {
     return rejectWithValue(errorMessages[e.response.status]);
   }
 });
+
+export const deleteUser = createAsyncThunk('admin/deleteUser', async (userId, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi.delete(`user/${userId}/delete_user/`, userId);
+    dispatch(addAlert({
+      type: 'success',
+      message: 'Пользователь успешно удалён'
+    }));
+    return await req.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: errorMessages[e?.response?.status || 500]
+    }));
+    return rejectWithValue(errorMessages[e.response.status]);
+  }
+});

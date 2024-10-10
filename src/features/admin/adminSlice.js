@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUser, getUsers } from "./adminThunk";
+import { createUser, deleteUser, getUsers } from "./adminThunk";
 
 const initialState = {
   users: [],
@@ -31,6 +31,13 @@ const AdminSlice = createSlice({
     });
     builder.addCase(getUsers.rejected, (state, { payload: error }) => {
       state.usersLoading = false;
+    });
+    
+    builder.addCase(deleteUser.pending, _ => {
+    });
+    builder.addCase(deleteUser.fulfilled, _ => {
+    });
+    builder.addCase(deleteUser.rejected, _ => {
     });
   },
 });

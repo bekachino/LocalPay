@@ -23,7 +23,7 @@ const Alerts = () => {
     
     const lastAlert = alerts[alerts.length - 1];
     if (lastAlert) {
-      setTimeout(() => dispatch(removeAlert(lastAlert.id)), 80000);
+      setTimeout(() => dispatch(removeAlert(lastAlert.id)), 8000);
     }
   }, [alerts, alerts.length, dispatch, prevAmount]);
   
