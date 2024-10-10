@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUser, deleteUser, getUser, getUsers } from "./adminThunk";
+import {
+  createUser,
+  deleteUser,
+  editUser,
+  getUser,
+  getUsers
+} from "./adminThunk";
 
 const initialState = {
   users: [],
   user: null,
   getUserLoading: false,
   createUserLoading: false,
+  editUserLoading: false,
   usersLoading: false,
 };
 
@@ -14,16 +21,6 @@ const AdminSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createUser.pending, state => {
-      state.createUserLoading = true;
-    });
-    builder.addCase(createUser.fulfilled, state => {
-      state.createUserLoading = false;
-    });
-    builder.addCase(createUser.rejected, state => {
-      state.createUserLoading = false;
-    });
-    
     builder.addCase(getUsers.pending, state => {
       state.usersLoading = true;
     });
@@ -35,13 +32,6 @@ const AdminSlice = createSlice({
       state.usersLoading = false;
     });
     
-    builder.addCase(deleteUser.pending, _ => {
-    });
-    builder.addCase(deleteUser.fulfilled, _ => {
-    });
-    builder.addCase(deleteUser.rejected, _ => {
-    });
-    
     builder.addCase(getUser.pending, state => {
       state.getUserLoading = true;
     });
@@ -51,6 +41,33 @@ const AdminSlice = createSlice({
     });
     builder.addCase(getUser.rejected, state => {
       state.getUserLoading = false;
+    });
+    
+    builder.addCase(createUser.pending, state => {
+      state.createUserLoading = true;
+    });
+    builder.addCase(createUser.fulfilled, state => {
+      state.createUserLoading = false;
+    });
+    builder.addCase(createUser.rejected, state => {
+      state.createUserLoading = false;
+    });
+    
+    builder.addCase(editUser.pending, state => {
+      state.editUserLoading = true;
+    });
+    builder.addCase(editUser.fulfilled, state => {
+      state.editUserLoading = false;
+    });
+    builder.addCase(editUser.rejected, state => {
+      state.editUserLoading = false;
+    });
+    
+    builder.addCase(deleteUser.pending, _ => {
+    });
+    builder.addCase(deleteUser.fulfilled, _ => {
+    });
+    builder.addCase(deleteUser.rejected, _ => {
     });
   },
 });

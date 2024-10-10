@@ -6,11 +6,13 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../app/hooks";
 import { ROLES } from "../../../constants";
 import Select from "../../../Components/UI/Select/Select";
-import './createUser.css';
-import { createUser, getUser } from "../../../features/admin/adminThunk";
+import {
+  createUser, editUser, getUser
+} from "../../../features/admin/adminThunk";
 import { useNavigate, useParams } from "react-router-dom";
+import './createEditUser.css';
 
-const CreateUser = ({ isEdit }) => {
+const CreateEditUser = ({ isEdit }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,7 +27,11 @@ const CreateUser = ({ isEdit }) => {
     if (isEdit && id) {
       dispatch(getUser(id));
     }
-  }, []);
+  }, [
+    dispatch,
+    id,
+    isEdit
+  ]);
   
   useEffect(() => {
     if (user) {
@@ -49,13 +55,22 @@ const CreateUser = ({ isEdit }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if (isEdit) {
+      dispatch(editUser({
+        ...state,
+        new_password: state.password,
+        confirm_password: state.password,
+      })).then(res => {
+        if (!!res.payload.id) {
+          navigate('/users')
+        }
+      });
     } else {
       dispatch(createUser({
         ...state,
         is_active: true,
       })).then(res => {
         if (!!res.payload.id) {
-          navigate('/home')
+          navigate('/users')
         }
       });
     }
@@ -109,7 +124,6 @@ const CreateUser = ({ isEdit }) => {
               color='secondary'
               placeholder='Пароль'
               onChange={handleChange}
-              required
             />
           </div>
           <div
@@ -135,7 +149,7 @@ const CreateUser = ({ isEdit }) => {
               name='avail_balance'
               value={state?.avail_balance}
               color='secondary'
-              placeholder='password'
+              placeholder='Затраты'
               onChange={handleChange}
               required
             />
@@ -175,15 +189,31 @@ const CreateUser = ({ isEdit }) => {
             onChange={handleChange}
             required
           >
-            {
-              ROLES.map(role => (
-                <option
-                  value={role.en}
-                  key={role.en}
-                >{role.ru}</option>
-              ))
-            }
+            {ROLES.map(role => (
+              <option
+                value={role.en}
+                key={role.en}
+              >{role.ru}</option>
+            ))}
           </Select>
+          {isEdit && <Select
+            name='is_active'
+            value={state?.is_active}
+            color='secondary'
+            onChange={handleChange}
+            required
+          >
+            <option
+              value='true'
+            >
+              активный
+            </option>
+            <option
+              value='false'
+            >
+              заблокирован
+            </option>
+          </Select>}
           <CustomButton
             type='submit'
             color='secondary'
@@ -198,4 +228,4 @@ const CreateUser = ({ isEdit }) => {
   );
 };
 
-export default CreateUser;
+export default CreateEditUser;

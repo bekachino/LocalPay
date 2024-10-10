@@ -3,26 +3,6 @@ import axiosApi from '../../axiosApi';
 import { addAlert } from "../data/dataSlice";
 import { errorMessages } from "../../constants";
 
-export const createUser = createAsyncThunk('admin/createUser', async (data, {
-  dispatch,
-  rejectWithValue
-}) => {
-  try {
-    const req = await axiosApi.post('user/create/', data);
-    dispatch(addAlert({
-      type: 'success',
-      message: 'Пользователь успешно создан'
-    }));
-    return await req.data;
-  } catch (e) {
-    dispatch(addAlert({
-      type: 'error',
-      message: e?.response?.status === 400 ? 'Пользователь с таким логином уже сущесвует' : errorMessages[e?.response?.status || 500]
-    }));
-    return rejectWithValue(errorMessages[e.response.status]);
-  }
-});
-
 export const getUsers = createAsyncThunk('admin/getUsers', async (_, {
   dispatch,
   rejectWithValue
@@ -52,6 +32,47 @@ export const getUser = createAsyncThunk('admin/getUser', async (userId, {
       message: errorMessages[e?.response?.status || 500]
     }));
     return rejectWithValue(errorMessages[e.response.status]);
+  }
+});
+
+
+export const createUser = createAsyncThunk('admin/createUser', async (data, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi.post('user/create/', data);
+    dispatch(addAlert({
+      type: 'success',
+      message: 'Пользователь успешно создан'
+    }));
+    return await req.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: e?.response?.status === 400 ? 'Пользователь с таким логином уже сущесвует' : errorMessages[e?.response?.status || 500]
+    }));
+    return rejectWithValue(errorMessages[e.response.status]);
+  }
+});
+
+export const editUser = createAsyncThunk('admin/editUser', async (userData, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi.put(`users/${userData?.id}/update_user/`, userData);
+    dispatch(addAlert({
+      type: 'success',
+      message: 'Пользователь успешно изменён'
+    }));
+    return await req.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: errorMessages[e?.response?.status || 500]
+    }));
+    return rejectWithValue(errorMessages[e?.response?.status]);
   }
 });
 

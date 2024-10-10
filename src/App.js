@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "./app/hooks";
 import SupervisorHome from "./Containers/Supervisor/SupervisorHome/SupervisorHome";
 import './App.css';
-import CreateUser from "./Containers/Admin/CreateUser/CreateUser";
+import CreateEditUser from "./Containers/Admin/CreateUser/CreateEditUser";
 import Users from "./Containers/Admin/Users/Users";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
       />
       <Route
         path='/create-user'
-        element={<CreateUser/>}
+        element={<CreateEditUser/>}
       />
       <Route
         path='/users'
@@ -45,7 +45,7 @@ function App() {
       />
       <Route
         path='/edit-user/:id'
-        element={<CreateUser isEdit/>}
+        element={<CreateEditUser isEdit/>}
       />
     </>
   };
