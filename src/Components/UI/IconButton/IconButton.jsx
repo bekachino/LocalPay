@@ -10,6 +10,7 @@ const IconButton = ({
   loading,
   linkTo,
   onClick,
+  style,
   ...rest
 }) => {
   const navigate = useNavigate();
@@ -22,8 +23,8 @@ const IconButton = ({
         'success',
         'warning',
         'error',
-      ].includes(color) ? 'primary' : color} ${loading && 'icon-button-loading' || ''}`}
-      style={{ borderRadius: borderRadius || '6px' }}
+      ].includes(color) ? 'primary' : color} ${(loading && 'icon-button-loading') || ''}`}
+      style={{ borderRadius: borderRadius || '6px', ...style, }}
       {...rest}
       disabled={loading}
       onClick={() => {

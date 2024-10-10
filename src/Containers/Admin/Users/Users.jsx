@@ -8,11 +8,14 @@ import SmallEditIcon from '../../../assets/small-edit-icon.svg';
 import SmallDeleteIcon from '../../../assets/small-delete-icon.svg';
 import './users.css';
 import { ROLES } from "../../../constants";
+import UserDeleteConfirmation
+  from "../../../Components/UI/UserDeleteConfirmation/UserDeleteConfirmation";
 
 const Users = () => {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.adminState);
   const [usersInDeleteProcess, setUsersInDeleteProcess] = useState([]);
+  const [deleteUserId, setDeleteUserId] = useState('');
   
   useEffect(() => {
     dispatch(getUsers());
@@ -30,8 +33,13 @@ const Users = () => {
       setUsersInDeleteProcess(prevState => (
         [...prevState.filter(prevId => prevId !== id)]
       ));
+      toggleDeleteUserModal();
       dispatch(getUsers());
     }
+  };
+  
+  const toggleDeleteUserModal = userId => {
+    setDeleteUserId(userId || '');
   };
   
   return (
@@ -61,7 +69,7 @@ const Users = () => {
             </tr>
             </thead>
             <tbody>
-            {users.map(user => (
+            {users?.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.name || '-'} {user.surname || '-'}</td>
@@ -99,7 +107,7 @@ const Users = () => {
                       icon={SmallDeleteIcon}
                       color='error'
                       size='20px'
-                      onClick={() => onDeleteUser(user?.id)}
+                      onClick={() => toggleDeleteUserModal(user?.id)}
                       loading={usersInDeleteProcess.includes(user?.id)}
                     />
                   </div>
@@ -110,6 +118,12 @@ const Users = () => {
           </table>
         </div>
       </Paper>
+      {!!deleteUserId &&
+        <UserDeleteConfirmation
+          userId={deleteUserId}
+          toggleModal={toggleDeleteUserModal}
+          onDeleteUser={onDeleteUser}
+        />}
     </div>
   );
 };

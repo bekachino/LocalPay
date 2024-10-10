@@ -1,0 +1,14 @@
+.user-delete-confirmation-modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.user-delete-confirmation-modal h2 {
+  color: #FFFFFF;
+  text-align: center;
+}
