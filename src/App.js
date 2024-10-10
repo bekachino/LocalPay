@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminHome from "./Containers/Admin/AdminHome/AdminHome";
 import Login from "./Containers/Login/Login";
-import Alerts from "./Components/Alerts/Alerts";
+import Alerts from "./Components/UI/Alerts/Alerts";
 import UserHome from "./Containers/User/UserHome/UserHome";
 import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "./app/hooks";

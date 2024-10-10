@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Paper from "../../../Components/Paper/Paper";
+import Paper from "../../../Components/UI/Paper/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUsers } from "../../../features/admin/adminThunk";
 import { formatDate } from "../../../utils";
-import IconButton from "../../../Components/IconButton/IconButton";
+import IconButton from "../../../Components/UI/IconButton/IconButton";
 import SmallEditIcon from '../../../assets/small-edit-icon.svg';
 import SmallDeleteIcon from '../../../assets/small-delete-icon.svg';
 import './users.css';
@@ -35,7 +35,10 @@ const Users = () => {
   
   return (
     <div className='users'>
-      <Paper className='home-paper' style={{maxWidth: '1120px'}}>
+      <Paper
+        className='home-paper'
+        style={{ maxWidth: '1120px' }}
+      >
         <h1>Пользователи</h1>
         <div className='users-list-container'>
           <table className='users-list'>
@@ -46,7 +49,9 @@ const Users = () => {
               <th>Логин</th>
               <th>Регион</th>
               <th>Доступный баланс</th>
-              <th>Общие затраты</th>
+              <th>Затраты</th>
+              <th>Списания</th>
+              <th>Пополнения</th>
               <th>Дата регистрации</th>
               <th>Комментарий</th>
               <th>Статус</th>
@@ -66,6 +71,14 @@ const Users = () => {
                 </td>
                 <td>
                   {user.avail_balance || 0}
+                  <span className='currence-highlight'>с</span>
+                </td>
+                <td>
+                  {user.write_off || 0}
+                  <span className='currence-highlight'>с</span>
+                </td>
+                <td>
+                  {user.refill || 0}
                   <span className='currence-highlight'>с</span>
                 </td>
                 <td>{!!user.date_reg ? formatDate(user.date_reg) : '-'}</td>

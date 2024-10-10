@@ -1,6 +1,6 @@
 import React from 'react';
-import Paper from "../../../Components/Paper/Paper";
-import CustomButton from "../../../Components/CustomButton/CustomButton";
+import Paper from "../../../Components/UI/Paper/Paper";
+import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
 import LogoutIcon from "../../../assets/logout.svg";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../features/user/userThunk";

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Paper from "../../Components/Paper/Paper";
+import Paper from "../../Components/UI/Paper/Paper";
 import './login.css';
-import Input from "../../Components/Input/Input";
-import CustomButton from "../../Components/CustomButton/CustomButton";
+import Input from "../../Components/UI/Input/Input";
+import CustomButton from "../../Components/UI/CustomButton/CustomButton";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../features/user/userThunk";
 import { useAppSelector } from "../../app/hooks";

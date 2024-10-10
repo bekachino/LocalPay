@@ -1,7 +1,7 @@
 import React from 'react';
-import Paper from "../../../Components/Paper/Paper";
+import Paper from "../../../Components/UI/Paper/Paper";
 import LogoutIcon from "../../../assets/logout.svg";
-import CustomButton from "../../../Components/CustomButton/CustomButton";
+import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../features/user/userThunk";
 import './supervisorHome.css';
