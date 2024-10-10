@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import './iconButton.css';
 
 const IconButton = ({
@@ -7,8 +8,12 @@ const IconButton = ({
   borderRadius,
   icon,
   loading,
+  linkTo,
+  onClick,
   ...rest
 }) => {
+  const navigate = useNavigate();
+
   return (
     <button
       className={`icon-button icon-button-${![
@@ -21,6 +26,10 @@ const IconButton = ({
       style={{ borderRadius: borderRadius || '6px' }}
       {...rest}
       disabled={loading}
+      onClick={() => {
+        if (onClick) onClick();
+        if (linkTo) navigate(linkTo);
+      }}
     >
       <img
         src={icon}

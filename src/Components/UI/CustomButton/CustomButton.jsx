@@ -41,7 +41,7 @@ const CustomButton = ({
       disabled={disabled || loading}
       onClick={() => {
         if (onClick) onClick();
-        if (linkTo) navigate(linkTo)
+        if (linkTo) navigate(linkTo);
       }}
       {...rest}
     >

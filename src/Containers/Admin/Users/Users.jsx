@@ -7,6 +7,7 @@ import IconButton from "../../../Components/UI/IconButton/IconButton";
 import SmallEditIcon from '../../../assets/small-edit-icon.svg';
 import SmallDeleteIcon from '../../../assets/small-delete-icon.svg';
 import './users.css';
+import { ROLES } from "../../../constants";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const Users = () => {
               <th>Пополнения</th>
               <th>Дата регистрации</th>
               <th>Комментарий</th>
+              <th>Роль</th>
               <th>Статус</th>
               <th>Действия</th>
             </tr>
@@ -83,6 +85,7 @@ const Users = () => {
                 </td>
                 <td>{!!user.date_reg ? formatDate(user.date_reg) : '-'}</td>
                 <td style={{ textAlign: !!user.comment ? 'left' : 'center' }}>{user.comment || '-'}</td>
+                <td style={{ textAlign: 'center' }}>{ROLES.find(role => role.en === user?.role)?.ru || '-'}</td>
                 <td className={`user-status-${user.is_active ? 'active' : 'inactive'}`}>{user.is_active ? 'активный' : 'заблокирован'}</td>
                 <td>
                   <div className='user-action-btns'>
@@ -90,6 +93,7 @@ const Users = () => {
                       icon={SmallEditIcon}
                       color='success'
                       size='20px'
+                      linkTo={`/edit-user/${user?.id}`}
                     />
                     <IconButton
                       icon={SmallDeleteIcon}

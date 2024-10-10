@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUser, deleteUser, getUsers } from "./adminThunk";
+import { createUser, deleteUser, getUser, getUsers } from "./adminThunk";
 
 const initialState = {
   users: [],
+  user: null,
+  getUserLoading: false,
   createUserLoading: false,
   usersLoading: false,
 };
@@ -12,24 +14,24 @@ const AdminSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createUser.pending, (state) => {
+    builder.addCase(createUser.pending, state => {
       state.createUserLoading = true;
     });
-    builder.addCase(createUser.fulfilled, (state, { payload: res }) => {
+    builder.addCase(createUser.fulfilled, state => {
       state.createUserLoading = false;
     });
-    builder.addCase(createUser.rejected, (state, { payload: error }) => {
+    builder.addCase(createUser.rejected, state => {
       state.createUserLoading = false;
     });
     
-    builder.addCase(getUsers.pending, (state) => {
+    builder.addCase(getUsers.pending, state => {
       state.usersLoading = true;
     });
     builder.addCase(getUsers.fulfilled, (state, { payload: res }) => {
       state.usersLoading = false;
       state.users = res;
     });
-    builder.addCase(getUsers.rejected, (state, { payload: error }) => {
+    builder.addCase(getUsers.rejected, state => {
       state.usersLoading = false;
     });
     
@@ -38,6 +40,17 @@ const AdminSlice = createSlice({
     builder.addCase(deleteUser.fulfilled, _ => {
     });
     builder.addCase(deleteUser.rejected, _ => {
+    });
+    
+    builder.addCase(getUser.pending, state => {
+      state.getUserLoading = true;
+    });
+    builder.addCase(getUser.fulfilled, (state, { payload: res }) => {
+      state.getUserLoading = false;
+      state.user = res;
+    });
+    builder.addCase(getUser.rejected, state => {
+      state.getUserLoading = false;
     });
   },
 });

@@ -25,12 +25,12 @@ const UsersSlice = createSlice({
       state.signInLoading = false;
     });
     
-    builder.addCase(logout.pending, (state) => {
+    builder.addCase(logout.pending, state => {
       state.user = null;
     });
-    builder.addCase(logout.fulfilled, (state, { payload: res }) => {
+    builder.addCase(logout.fulfilled, _ => {
     });
-    builder.addCase(logout.rejected, (state, { payload: error }) => {
+    builder.addCase(logout.rejected, _ => {
     });
   },
 });

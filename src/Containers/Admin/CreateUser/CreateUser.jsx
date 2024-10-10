@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from "../../../Components/UI/Paper/Paper";
 import Input from "../../../Components/UI/Input/Input";
 import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
@@ -7,14 +7,31 @@ import { useAppSelector } from "../../../app/hooks";
 import { ROLES } from "../../../constants";
 import Select from "../../../Components/UI/Select/Select";
 import './createUser.css';
-import { createUser } from "../../../features/admin/adminThunk";
-import { useNavigate } from "react-router-dom";
+import { createUser, getUser } from "../../../features/admin/adminThunk";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateUser = () => {
+const CreateUser = ({ isEdit }) => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { createUserLoading } = useAppSelector(state => state.adminState);
+  const {
+    user,
+    createUserLoading,
+    getUserLoading
+  } = useAppSelector(state => state.adminState);
   const [state, setState] = useState({ role: 'user' });
+  
+  useEffect(() => {
+    if (isEdit && id) {
+      dispatch(getUser(id));
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (user) {
+      setState(user);
+    }
+  }, [user]);
   
   const handleChange = e => {
     const {
@@ -31,16 +48,26 @@ const CreateUser = () => {
   
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createUser({
-      ...state,
-      is_active: true,
-    })).then(_ => navigate('/home'));
+    if (isEdit) {
+    } else {
+      dispatch(createUser({
+        ...state,
+        is_active: true,
+      })).then(res => {
+        if (!!res.payload.id) {
+          navigate('/home')
+        }
+      });
+    }
   };
   
   return (
     <div className='login'>
-      <Paper className='login-paper'>
-        <h1>Регистрация пользователя</h1>
+      <Paper
+        className='login-paper'
+        style={{ maxWidth: '700px' }}
+      >
+        <h1>{isEdit ? 'Редактирование' : 'Регистрация'} пользователя</h1>
         <form onSubmit={handleSubmit}>
           <Input
             name='name'
@@ -55,15 +82,6 @@ const CreateUser = () => {
             value={state?.surname}
             color='secondary'
             placeholder='Фамилия'
-            onChange={handleChange}
-            required
-          />
-          <Input
-            type='email'
-            name='email'
-            value={state?.email}
-            color='secondary'
-            placeholder='email'
             onChange={handleChange}
             required
           />
@@ -94,6 +112,62 @@ const CreateUser = () => {
               required
             />
           </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '10px',
+            }}
+          >
+            <Input
+              style={{ flexGrow: '1' }}
+              type='number'
+              name='balance'
+              value={state?.balance}
+              color='secondary'
+              placeholder='Доступный баланс'
+              onChange={handleChange}
+              required
+            />
+            <Input
+              style={{ flexGrow: '1' }}
+              type='number'
+              name='avail_balance'
+              value={state?.avail_balance}
+              color='secondary'
+              placeholder='password'
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '10px',
+            }}
+          >
+            <Input
+              style={{ flexGrow: '1' }}
+              type='number'
+              name='refill'
+              value={state?.refill}
+              color='secondary'
+              placeholder='Пополнения'
+              onChange={handleChange}
+              required
+            />
+            <Input
+              style={{ flexGrow: '1' }}
+              type='number'
+              name='write_off'
+              value={state?.write_off}
+              color='secondary'
+              placeholder='Списания'
+              onChange={handleChange}
+              required
+            />
+          </div>
           <Select
             name='role'
             value={state?.role}
@@ -114,8 +188,10 @@ const CreateUser = () => {
             type='submit'
             color='secondary'
             rounded
-            loading={createUserLoading}
-          >Создать</CustomButton>
+            loading={createUserLoading || (
+              isEdit && getUserLoading
+            )}
+          >{isEdit ? 'Сохранить' : 'Создать'}</CustomButton>
         </form>
       </Paper>
     </div>

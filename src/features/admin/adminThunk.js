@@ -17,7 +17,7 @@ export const createUser = createAsyncThunk('admin/createUser', async (data, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: errorMessages[e?.response?.status || 500]
+      message: e?.response?.status === 400 ? 'Пользователь с таким логином уже сущесвует' : errorMessages[e?.response?.status || 500]
     }));
     return rejectWithValue(errorMessages[e.response.status]);
   }
@@ -29,6 +29,22 @@ export const getUsers = createAsyncThunk('admin/getUsers', async (_, {
 }) => {
   try {
     const req = await axiosApi('users/');
+    return await req.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: errorMessages[e?.response?.status || 500]
+    }));
+    return rejectWithValue(errorMessages[e.response.status]);
+  }
+});
+
+export const getUser = createAsyncThunk('admin/getUser', async (userId, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi(`users/${userId}`);
     return await req.data;
   } catch (e) {
     dispatch(addAlert({

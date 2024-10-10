@@ -43,6 +43,10 @@ function App() {
         path='/users'
         element={<Users/>}
       />
+      <Route
+        path='/edit-user/:id'
+        element={<CreateUser isEdit/>}
+      />
     </>
   };
   
