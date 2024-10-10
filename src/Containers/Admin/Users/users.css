@@ -5,3 +5,84 @@
   background-image: linear-gradient(to bottom right, #9ca3af, #2563eb);
   background-repeat: no-repeat;
 }
+
+.users .home-paper {
+  width: calc(100% - 30px);
+}
+
+.users-list-container {
+  border-radius: 10px;
+  max-width: 100%;
+  overflow: auto;
+  max-height: calc(100vh - 200px);
+  box-sizing: border-box;
+  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-image: linear-gradient(180deg, #6b83b3, #4d72cd);
+  background-repeat: no-repeat;
+}
+
+.users-list-container::-webkit-scrollbar {
+}
+
+.users-list {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+.users-list th, .users-list td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.users-list th {
+  border-top: none;
+}
+
+.users-list th:first-child,
+.users-list td:first-child {
+  border-left: none;
+}
+
+.users-list th:last-child,
+.users-list td:last-child {
+  border-right: none;
+}
+
+.users-list tr:last-child td {
+  border-bottom: none;
+}
+
+.users-list th {
+  font-weight: bold;
+  text-align: center;
+}
+
+.user-status-active {
+  color: #6ff16f;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-status-inactive {
+  color: #ff4242;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.users-list td:first-child {
+  text-align: center;
+}
+
+.users-list tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.currence-highlight {
+  text-decoration: underline;
+  font-weight: bold;
+  margin-left: 5px;
+}

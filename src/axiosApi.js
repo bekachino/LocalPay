@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { apiUrl } from './constants';
 import { logout } from "./features/user/userThunk";
+import { addAlert } from "./features/data/dataSlice";
 
 export const addInterceptors = (store) => {
   const { dispatch } = store;
@@ -20,7 +21,8 @@ export const addInterceptors = (store) => {
     return response;
   }, function (error) {
     if (error.status === 401 && error.response.data.code === 'token_not_valid') {
-      dispatch(logout());
+      dispatch(addAlert({type: 'warning', message: 'Токен устарел, авторизуйтесь снова'}));
+      return dispatch(logout());
     }
   });
 };

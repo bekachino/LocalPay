@@ -23,7 +23,7 @@ export const signIn = createAsyncThunk('user/signIn', async (userData, {
   }
 });
 
-export const logout = createAsyncThunk('user/logout', async (userData, { dispatch }) => {
+export const logout = createAsyncThunk('user/logout', async (noAlert, { dispatch }) => {
   try {
     return dispatch(addAlert({
       type: 'secondary',

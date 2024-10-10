@@ -6,4 +6,5 @@
   margin: auto;
   background-repeat: no-repeat;
   box-shadow: 0 0 20px -10px #000000;
+  box-sizing: border-box;
 }
