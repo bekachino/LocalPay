@@ -14,6 +14,7 @@
   border-radius: 10px;
   max-width: 100%;
   overflow: auto;
+  overscroll-behavior: contain;
   max-height: calc(100vh - 200px);
   box-sizing: border-box;
   margin-top: 20px;
@@ -30,6 +31,7 @@
   border-collapse: collapse;
   overflow: hidden;
   color: #FFFFFF;
+  font-size: 14px;
 }
 
 .users-list th, .users-list td {
@@ -63,13 +65,13 @@
 
 .user-status-active {
   color: #6ff16f;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
 }
 
 .user-status-inactive {
   color: #ff4242;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
 }
 

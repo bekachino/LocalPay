@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import uuid from 'uuid-random';
 
 const initialState = {
   alerts: [],
@@ -10,10 +9,19 @@ const DataSlice = createSlice({
   initialState,
   reducers: {
     addAlert: (state, { payload }) => {
-      const id = uuid();
+      const randomNumber1 = Math.random() * (
+        20000 - 1000 + 1
+      ) + 1000;
+      const randomNumber2 = Math.random() * (
+        20000 - 1000 + 1
+      ) + 1000;
+      const randomNumber3 = Math.random() * (
+        20000 - 1000 + 1
+      ) + 1000;
+      
       state.alerts.push({
         ...payload,
-        id,
+        id: `${randomNumber1 * randomNumber2 + randomNumber3}`,
         show: true
       });
     },

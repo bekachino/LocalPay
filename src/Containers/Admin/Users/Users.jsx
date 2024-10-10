@@ -35,7 +35,7 @@ const Users = () => {
   
   return (
     <div className='users'>
-      <Paper className='home-paper'>
+      <Paper className='home-paper' style={{maxWidth: '1120px'}}>
         <h1>Пользователи</h1>
         <div className='users-list-container'>
           <table className='users-list'>
