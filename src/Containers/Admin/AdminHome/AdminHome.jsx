@@ -33,6 +33,7 @@ const AdminHome = () => {
             color='success'
             size='large'
             icon={PaymentIcon}
+            linkTo='/payments'
           >Платежи</CustomButton>
           <CustomButton
             className='t-nw'

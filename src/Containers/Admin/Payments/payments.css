@@ -1,0 +1,11 @@
+.payments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to bottom right, #c5dac0, #3a8838);
+  background-repeat: no-repeat;
+}
+
+.payments .home-paper {
+  background-image: unset;
+}

@@ -12,6 +12,7 @@ import Users from "./Containers/Admin/Users/Users";
 import IconButton from "./Components/UI/IconButton/IconButton";
 import HomeIcon from './assets/home-icon.svg';
 import './App.css';
+import Payments from "./Containers/Admin/Payments/Payments";
 
 function App() {
   const { user } = useAppSelector(state => state.userState);
@@ -50,6 +51,10 @@ function App() {
       <Route
         path='/edit-user/:id'
         element={<CreateEditUser isEdit/>}
+      />
+      <Route
+        path='/payments'
+        element={<Payments/>}
       />
     </>
   };
