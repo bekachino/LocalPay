@@ -2,18 +2,20 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   createUser,
   deleteUser,
-  editUser,
+  editUser, getPayments,
   getUser,
   getUsers
 } from "./adminThunk";
 
 const initialState = {
   users: [],
+  payments: [],
   user: null,
   getUserLoading: false,
+  usersLoading: false,
   createUserLoading: false,
   editUserLoading: false,
-  usersLoading: false,
+  paymentsLoading: false,
 };
 
 const AdminSlice = createSlice({
@@ -68,6 +70,17 @@ const AdminSlice = createSlice({
     builder.addCase(deleteUser.fulfilled, _ => {
     });
     builder.addCase(deleteUser.rejected, _ => {
+    });
+    
+    builder.addCase(getPayments.pending, state => {
+      state.paymentsLoading = true;
+    });
+    builder.addCase(getPayments.fulfilled, (state, {payload: res}) => {
+      state.paymentsLoading = false;
+      state.payments = res;
+    });
+    builder.addCase(getPayments.rejected, state => {
+      state.paymentsLoading = false;
     });
   },
 });

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi';
-import { errorMessages } from "../../constants";
+import { ERROR_MESSAGES } from "../../constants";
 import { addAlert } from "../data/dataSlice";
 
 export const signIn = createAsyncThunk('user/signIn', async (userData, {
@@ -17,9 +17,9 @@ export const signIn = createAsyncThunk('user/signIn', async (userData, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: errorMessages[e?.response?.status || 500]
+      message: ERROR_MESSAGES[e?.response?.status || 500]
     }));
-    return rejectWithValue(errorMessages[e.response.status]);
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
 

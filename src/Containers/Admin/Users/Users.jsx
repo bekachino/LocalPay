@@ -6,10 +6,10 @@ import { formatDate } from "../../../utils";
 import IconButton from "../../../Components/UI/IconButton/IconButton";
 import SmallEditIcon from '../../../assets/small-edit-icon.svg';
 import SmallDeleteIcon from '../../../assets/small-delete-icon.svg';
-import './users.css';
 import { ROLES } from "../../../constants";
 import UserDeleteConfirmation
   from "../../../Components/UI/UserDeleteConfirmation/UserDeleteConfirmation";
+import './users.css';
 
 const Users = () => {
   const dispatch = useDispatch();

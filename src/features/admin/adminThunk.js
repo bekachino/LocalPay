@@ -1,21 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi';
 import { addAlert } from "../data/dataSlice";
-import { errorMessages } from "../../constants";
+import { ERROR_MESSAGES } from "../../constants";
 
 export const getUsers = createAsyncThunk('admin/getUsers', async (_, {
   dispatch,
   rejectWithValue
 }) => {
   try {
-    const req = await axiosApi('users/');
-    return await req.data;
+    const req = await axiosApi(`users/?page=1&page_size=6`);
+    return await req.data?.results;
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: errorMessages[e?.response?.status || 500]
+      message: ERROR_MESSAGES[e?.response?.status || 500]
     }));
-    return rejectWithValue(errorMessages[e.response.status]);
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
 
@@ -29,9 +29,9 @@ export const getUser = createAsyncThunk('admin/getUser', async (userId, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: errorMessages[e?.response?.status || 500]
+      message: ERROR_MESSAGES[e?.response?.status || 500]
     }));
-    return rejectWithValue(errorMessages[e.response.status]);
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
 
@@ -50,9 +50,9 @@ export const createUser = createAsyncThunk('admin/createUser', async (data, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: e?.response?.status === 400 ? 'Пользователь с таким логином уже сущесвует' : errorMessages[e?.response?.status || 500]
+      message: e?.response?.status === 400 ? 'Пользователь с таким логином уже сущесвует' : ERROR_MESSAGES[e?.response?.status || 500]
     }));
-    return rejectWithValue(errorMessages[e.response.status]);
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
 
@@ -70,9 +70,9 @@ export const editUser = createAsyncThunk('admin/editUser', async (userData, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: errorMessages[e?.response?.status || 500]
+      message: ERROR_MESSAGES[e?.response?.status || 500]
     }));
-    return rejectWithValue(errorMessages[e?.response?.status]);
+    return rejectWithValue(ERROR_MESSAGES[e?.response?.status]);
   }
 });
 
@@ -90,8 +90,24 @@ export const deleteUser = createAsyncThunk('admin/deleteUser', async (userId, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: errorMessages[e?.response?.status || 500]
+      message: ERROR_MESSAGES[e?.response?.status || 500]
     }));
-    return rejectWithValue(errorMessages[e.response.status]);
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
+  }
+});
+
+export const getPayments = createAsyncThunk('admin/getPayments', async (_, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi('api/payment-history/?page=1&page_size=6');
+    return await req.data?.results;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: ERROR_MESSAGES[e?.response?.status || 500]
+    }));
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });

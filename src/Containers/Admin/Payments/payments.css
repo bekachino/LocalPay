@@ -9,3 +9,7 @@
 .payments .home-paper {
   background-image: unset;
 }
+
+.payments .users-list-container {
+  background-image: linear-gradient(181deg, #a2c699, #52b550);
+}

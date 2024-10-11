@@ -1,6 +1,6 @@
-export const apiUrl = 'http://10.1.2.160:8001/';
+export const apiUrl = 'http://10.1.2.162:8001/';
 
-export const errorMessages = {
+export const ERROR_MESSAGES = {
   400: 'Неверные данные',
   401: 'Вы не авторизованы!',
   403: 'У вас нет доступа!',

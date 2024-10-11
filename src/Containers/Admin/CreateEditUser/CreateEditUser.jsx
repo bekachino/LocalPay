@@ -59,6 +59,7 @@ const CreateEditUser = ({ isEdit }) => {
         ...state,
         new_password: state.password,
         confirm_password: state.password,
+        role: state?.role? state.role : 'user'
       })).then(res => {
         if (!!res.payload.id) {
           navigate('/users')

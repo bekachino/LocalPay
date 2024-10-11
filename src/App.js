@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "./app/hooks";
 import SupervisorHome
   from "./Containers/Supervisor/SupervisorHome/SupervisorHome";
-import CreateEditUser from "./Containers/Admin/CreateUser/CreateEditUser";
+import CreateEditUser from "./Containers/Admin/CreateEditUser/CreateEditUser";
 import Users from "./Containers/Admin/Users/Users";
 import IconButton from "./Components/UI/IconButton/IconButton";
 import HomeIcon from './assets/home-icon.svg';
