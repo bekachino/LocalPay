@@ -3,13 +3,16 @@ import axiosApi from '../../axiosApi';
 import { addAlert } from "../data/dataSlice";
 import { ERROR_MESSAGES } from "../../constants";
 
-export const getUsers = createAsyncThunk('admin/getUsers', async (_, {
+export const getUsers = createAsyncThunk('admin/getUsers', async ({
+  page,
+  page_size
+}, {
   dispatch,
   rejectWithValue
 }) => {
   try {
-    const req = await axiosApi(`users/?page=1&page_size=6`);
-    return await req.data?.results;
+    const req = await axiosApi(`users/?page=${page}&page_size=${page_size}`);
+    return await req.data;
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
@@ -96,13 +99,16 @@ export const deleteUser = createAsyncThunk('admin/deleteUser', async (userId, {
   }
 });
 
-export const getPayments = createAsyncThunk('admin/getPayments', async (_, {
+export const getPayments = createAsyncThunk('admin/getPayments', async ({
+  page,
+  page_size
+}, {
   dispatch,
   rejectWithValue
 }) => {
   try {
-    const req = await axiosApi('api/payment-history/?page=1&page_size=6');
-    return await req.data?.results;
+    const req = await axiosApi(`api/payment-history/?page=${page}&page_size=${page_size}`);
+    return await req.data;
   } catch (e) {
     dispatch(addAlert({
       type: 'error',

@@ -79,7 +79,7 @@
   text-align: center;
 }
 
-.users-list tr:hover {
+.users-list tbody tr:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -105,4 +105,26 @@
   height: 100%;
   width: 100%;
   box-sizing: border-box;
+}
+
+.pagination-container {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.pagination-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pagination-field-title {
+  color: #FFFFFF;
+  font-size: 12px;
 }

@@ -19,7 +19,7 @@ const Select = ({
         'large'
       ].includes(size) ? 'medium' : size}`}
       {...rest}
-    ></select>
+    />
   );
 };
 

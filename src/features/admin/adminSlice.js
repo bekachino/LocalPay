@@ -9,7 +9,9 @@ import {
 
 const initialState = {
   users: [],
+  usersPagesAmount: [],
   payments: [],
+  paymentsPagesAmount: [],
   user: null,
   getUserLoading: false,
   usersLoading: false,
@@ -26,9 +28,15 @@ const AdminSlice = createSlice({
     builder.addCase(getUsers.pending, state => {
       state.usersLoading = true;
     });
-    builder.addCase(getUsers.fulfilled, (state, { payload: res }) => {
+    builder.addCase(getUsers.fulfilled, (state, {
+      payload: {
+        count,
+        results
+      }
+    }) => {
       state.usersLoading = false;
-      state.users = res;
+      state.users = results || [];
+      state.usersPagesAmount = count || 1;
     });
     builder.addCase(getUsers.rejected, state => {
       state.usersLoading = false;
@@ -75,9 +83,15 @@ const AdminSlice = createSlice({
     builder.addCase(getPayments.pending, state => {
       state.paymentsLoading = true;
     });
-    builder.addCase(getPayments.fulfilled, (state, {payload: res}) => {
+    builder.addCase(getPayments.fulfilled, (state, {
+      payload: {
+        count,
+        results
+      }
+    }) => {
       state.paymentsLoading = false;
-      state.payments = res;
+      state.payments = results || [];
+      state.paymentsPagesAmount = count || 1;
     });
     builder.addCase(getPayments.rejected, state => {
       state.paymentsLoading = false;

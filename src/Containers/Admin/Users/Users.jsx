@@ -9,17 +9,26 @@ import SmallDeleteIcon from '../../../assets/small-delete-icon.svg';
 import { ROLES } from "../../../constants";
 import UserDeleteConfirmation
   from "../../../Components/UI/UserDeleteConfirmation/UserDeleteConfirmation";
+import Select from "../../../Components/UI/Select/Select";
 import './users.css';
 
 const Users = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.adminState);
+  const {
+    users,
+    usersLoading,
+    usersPagesAmount
+  } = useSelector((state) => state.adminState);
   const [usersInDeleteProcess, setUsersInDeleteProcess] = useState([]);
   const [deleteUserId, setDeleteUserId] = useState('');
+  const [paginationData, setPaginationData] = useState({
+    page: 1,
+    page_size: 5,
+  });
   
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    dispatch(getUsers(paginationData));
+  }, [dispatch, paginationData]);
   
   const onDeleteUser = async id => {
     if (id) {
@@ -42,13 +51,26 @@ const Users = () => {
     setDeleteUserId(userId || '');
   };
   
+  const onPaginationDataChange = e => {
+    const {
+      name,
+      value
+    } = e.target;
+    setPaginationData(prevState => (
+      {
+        ...prevState,
+        [name]: value,
+      }
+    ));
+  };
+  
   return (
     <div className='users'>
       <Paper
         className='home-paper'
         style={{ maxWidth: '1120px' }}
       >
-        <h1>Пользователи</h1>
+        <h1>{usersLoading ? 'Загрузка...' : 'Пользователи'}</h1>
         <div className='users-list-container'>
           <table className='users-list'>
             <thead>
@@ -116,14 +138,48 @@ const Users = () => {
             ))}
             </tbody>
           </table>
+          <div className='pagination-container'>
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Пользователей на страницу:</span>
+              <Select
+                size='small'
+                name='page_size'
+                value={paginationData.page_size}
+                onChange={onPaginationDataChange}
+              >
+                <option value='5'>5</option>
+                <option value='10'>10</option>
+                <option value='20'>20</option>
+                <option value='50'>50</option>
+                <option value='100'>100</option>
+              </Select>
+            </div>
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Страница:</span>
+              <Select
+                size='small'
+                name='page'
+                value={paginationData.page}
+                onChange={onPaginationDataChange}
+              >
+                {Array.from({ length: usersPagesAmount || 0 }, (_, index) => (
+                  <option
+                    key={index + 1}
+                    value={index + 1}
+                  >
+                    {index + 1}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </div>
         </div>
       </Paper>
-      {!!deleteUserId &&
-        <UserDeleteConfirmation
-          userId={deleteUserId}
-          toggleModal={toggleDeleteUserModal}
-          onDeleteUser={onDeleteUser}
-        />}
+      {!!deleteUserId && <UserDeleteConfirmation
+        userId={deleteUserId}
+        toggleModal={toggleDeleteUserModal}
+        onDeleteUser={onDeleteUser}
+      />}
     </div>
   );
 };
