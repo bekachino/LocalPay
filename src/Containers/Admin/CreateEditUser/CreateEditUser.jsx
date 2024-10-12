@@ -7,10 +7,11 @@ import { useAppSelector } from "../../../app/hooks";
 import { ROLES } from "../../../constants";
 import Select from "../../../Components/UI/Select/Select";
 import {
-  createUser, editUser, getUser
+  createUser, editUser
 } from "../../../features/admin/adminThunk";
 import { useNavigate, useParams } from "react-router-dom";
 import './createEditUser.css';
+import { getUser } from "../../../features/data/dataThunk";
 
 const CreateEditUser = ({ isEdit }) => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ const CreateEditUser = ({ isEdit }) => {
         ...state,
         new_password: state.password,
         confirm_password: state.password,
-        role: state?.role? state.role : 'user'
+        role: state?.role ? state.role : 'user'
       })).then(res => {
         if (!!res.payload.id) {
           navigate('/users')

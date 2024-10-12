@@ -89,11 +89,6 @@
   margin-left: 5px;
 }
 
-.users .users-list td:last-child {
-  position: relative;
-  padding: 0;
-}
-
 .user-action-btns {
   position: absolute;
   top: 0;
@@ -112,7 +107,9 @@
   bottom: 0;
   left: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 5px 15px;
   padding: 10px;
   border-top: 0.5px solid rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);

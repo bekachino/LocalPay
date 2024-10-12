@@ -12,8 +12,6 @@ const initialState = {
   usersPagesAmount: [],
   payments: [],
   paymentsPagesAmount: [],
-  user: null,
-  getUserLoading: false,
   usersLoading: false,
   createUserLoading: false,
   editUserLoading: false,
@@ -41,17 +39,6 @@ const AdminSlice = createSlice({
     });
     builder.addCase(getUsers.rejected, state => {
       state.usersLoading = false;
-    });
-    
-    builder.addCase(getUser.pending, state => {
-      state.getUserLoading = true;
-    });
-    builder.addCase(getUser.fulfilled, (state, { payload: res }) => {
-      state.getUserLoading = false;
-      state.user = res;
-    });
-    builder.addCase(getUser.rejected, state => {
-      state.getUserLoading = false;
     });
     
     builder.addCase(createUser.pending, state => {

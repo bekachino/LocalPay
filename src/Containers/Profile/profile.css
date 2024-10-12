@@ -2,10 +2,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to bottom right, #b1a38f, #eda436);
+  background-image: linear-gradient(to bottom right, #b1a38f, #ed9836);
   background-repeat: no-repeat;
 }
 
 .profile .home-paper {
-  background-image: linear-gradient(160deg, #e1b787, #ed9840);
+  background-image: linear-gradient(160deg, #e3b37c, #ed9840);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  color: #FFFFFF;
+}
+
+.profile-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 12px 0 7px;
+  border-bottom: .5px solid rgba(255, 255, 255, 0.70);
+}
+
+.profile-info-row:first-child {
+  padding-top: 0;
+}
+
+.profile-info-row span {
+  text-align: right;
 }

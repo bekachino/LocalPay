@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getUser } from "./dataThunk";
 
 const initialState = {
   alerts: [],
+  user: null,
+  getUserLoading: false,
 };
 
 const DataSlice = createSlice({
@@ -30,6 +33,16 @@ const DataSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getUser.pending, state => {
+      state.getUserLoading = true;
+    });
+    builder.addCase(getUser.fulfilled, (state, { payload: res }) => {
+      state.getUserLoading = false;
+      state.user = res;
+    });
+    builder.addCase(getUser.rejected, state => {
+      state.getUserLoading = false;
+    });
   },
 });
 

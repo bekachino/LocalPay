@@ -11,6 +11,8 @@ import UserDeleteConfirmation
   from "../../../Components/UI/UserDeleteConfirmation/UserDeleteConfirmation";
 import Select from "../../../Components/UI/Select/Select";
 import './users.css';
+import { jwtDecode } from "jwt-decode";
+import { useAppSelector } from "../../../app/hooks";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -19,16 +21,21 @@ const Users = () => {
     usersLoading,
     usersPagesAmount
   } = useSelector((state) => state.adminState);
+  const { user } = useAppSelector(state => state.userState);
   const [usersInDeleteProcess, setUsersInDeleteProcess] = useState([]);
   const [deleteUserId, setDeleteUserId] = useState('');
   const [paginationData, setPaginationData] = useState({
     page: 1,
     page_size: 5,
   });
+  const { role } = jwtDecode(user.access || '');
   
   useEffect(() => {
     dispatch(getUsers(paginationData));
-  }, [dispatch, paginationData]);
+  }, [
+    dispatch,
+    paginationData
+  ]);
   
   const onDeleteUser = async id => {
     if (id) {
@@ -78,7 +85,7 @@ const Users = () => {
               <th>№</th>
               <th>ФИО</th>
               <th>Логин</th>
-              <th>Регион</th>
+              <th>Область</th>
               <th>Доступный баланс</th>
               <th>Затраты</th>
               <th>Списания</th>
@@ -87,7 +94,10 @@ const Users = () => {
               <th>Комментарий</th>
               <th>Роль</th>
               <th>Статус</th>
-              <th>Действия</th>
+              {
+                ['admin'].includes(role) &&
+                <th>Действия</th>
+              }
             </tr>
             </thead>
             <tbody>
@@ -117,23 +127,26 @@ const Users = () => {
                 <td style={{ textAlign: !!user.comment ? 'left' : 'center' }}>{user.comment || '-'}</td>
                 <td style={{ textAlign: 'center' }}>{ROLES.find(role => role.en === user?.role)?.ru || '-'}</td>
                 <td className={`user-status-${user.is_active ? 'active' : 'inactive'}`}>{user.is_active ? 'активный' : 'заблокирован'}</td>
-                <td>
-                  <div className='user-action-btns'>
-                    <IconButton
-                      icon={SmallEditIcon}
-                      color='success'
-                      size='20px'
-                      linkTo={`/edit-user/${user?.id}`}
-                    />
-                    <IconButton
-                      icon={SmallDeleteIcon}
-                      color='error'
-                      size='20px'
-                      onClick={() => toggleDeleteUserModal(user?.id)}
-                      loading={usersInDeleteProcess.includes(user?.id)}
-                    />
-                  </div>
-                </td>
+                {
+                  ['admin'].includes(role) &&
+                  <td style={{position: 'relative', padding: '0'}}>
+                    <div className='user-action-btns'>
+                      <IconButton
+                        icon={SmallEditIcon}
+                        color='success'
+                        size='20px'
+                        linkTo={`/edit-user/${user?.id}`}
+                      />
+                      <IconButton
+                        icon={SmallDeleteIcon}
+                        color='error'
+                        size='20px'
+                        onClick={() => toggleDeleteUserModal(user?.id)}
+                        loading={usersInDeleteProcess.includes(user?.id)}
+                      />
+                    </div>
+                  </td>
+                }
               </tr>
             ))}
             </tbody>
