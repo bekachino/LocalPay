@@ -27,16 +27,17 @@ const AdminSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUsers.pending, state => {
       state.usersLoading = true;
+      state.users = [];
     });
     builder.addCase(getUsers.fulfilled, (state, {
       payload: {
-        count,
+        total_pages,
         results
       }
     }) => {
       state.usersLoading = false;
       state.users = results || [];
-      state.usersPagesAmount = count || 1;
+      state.usersPagesAmount = total_pages || 1;
     });
     builder.addCase(getUsers.rejected, state => {
       state.usersLoading = false;
@@ -82,16 +83,17 @@ const AdminSlice = createSlice({
     
     builder.addCase(getPayments.pending, state => {
       state.paymentsLoading = true;
+      state.payments = [];
     });
     builder.addCase(getPayments.fulfilled, (state, {
       payload: {
-        count,
+        total_pages,
         results
       }
     }) => {
       state.paymentsLoading = false;
       state.payments = results || [];
-      state.paymentsPagesAmount = count || 1;
+      state.paymentsPagesAmount = total_pages || 1;
     });
     builder.addCase(getPayments.rejected, state => {
       state.paymentsLoading = false;

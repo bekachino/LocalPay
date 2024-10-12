@@ -34,6 +34,14 @@ function App() {
         path='/home'
         element={<SupervisorHome/>}
       />
+      <Route
+        path='/users'
+        element={<Users/>}
+      />
+      <Route
+        path='/payments'
+        element={<Payments/>}
+      />
     </>,
     admin: <>
       <Route

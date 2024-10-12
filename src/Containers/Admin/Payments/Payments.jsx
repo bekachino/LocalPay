@@ -3,8 +3,8 @@ import Paper from "../../../Components/UI/Paper/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { getPayments } from "../../../features/admin/adminThunk";
 import { formatDate } from "../../../utils";
-import './payments.css';
 import Select from "../../../Components/UI/Select/Select";
+import './payments.css';
 
 const Payments = () => {
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const Payments = () => {
             </thead>
             <tbody>
             {payments?.map((payment, i) => (
-              <tr key={payment.ls_abon || i}>
+              <tr key={payment.number_payment || i}>
                 <td>{payment.ls_abon || '-'}</td>
                 <td>{!!payment.date_payment ? formatDate(payment.accept_payment) : '-'}</td>
                 <td>{!!payment.accept_payment ? formatDate(payment.accept_payment) : '-'}</td>
@@ -70,9 +70,10 @@ const Payments = () => {
           </table>
           <div className='pagination-container'>
             <div className='pagination-field-wrapper'>
-              <span className='pagination-field-title'>Пользователей на страницу:</span>
+              <span className='pagination-field-title'>Платежей на страницу:</span>
               <Select
                 size='small'
+                color='success'
                 name='page_size'
                 value={paginationData.page_size}
                 onChange={onPaginationDataChange}
@@ -88,6 +89,7 @@ const Payments = () => {
               <span className='pagination-field-title'>Страница:</span>
               <Select
                 size='small'
+                color='success'
                 name='page'
                 value={paginationData.page}
                 onChange={onPaginationDataChange}
