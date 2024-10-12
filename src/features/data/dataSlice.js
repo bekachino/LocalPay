@@ -35,6 +35,7 @@ const DataSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUser.pending, state => {
       state.getUserLoading = true;
+      state.user = null;
     });
     builder.addCase(getUser.fulfilled, (state, { payload: res }) => {
       state.getUserLoading = false;

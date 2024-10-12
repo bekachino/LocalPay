@@ -10,8 +10,8 @@ import {
   createUser, editUser
 } from "../../../features/admin/adminThunk";
 import { useNavigate, useParams } from "react-router-dom";
-import './createEditUser.css';
 import { getUser } from "../../../features/data/dataThunk";
+import './createEditUser.css';
 
 const CreateEditUser = ({ isEdit }) => {
   const { id } = useParams();

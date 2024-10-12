@@ -14,6 +14,7 @@ import HomeIcon from './assets/home-icon.svg';
 import Payments from "./Containers/Admin/Payments/Payments";
 import './App.css';
 import Profile from "./Containers/Profile/Profile";
+import CreatePayment from "./Containers/User/CreatePayment/CreatePayment";
 
 function App() {
   const { user } = useAppSelector(state => state.userState);
@@ -30,6 +31,10 @@ function App() {
       <Route
         path='/profile'
         element={<Profile/>}
+      />
+      <Route
+        path='/create-payment'
+        element={<CreatePayment/>}
       />
     </>,
     user: <>

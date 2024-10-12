@@ -1,0 +1,18 @@
+.create-payment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to bottom right, #c5dac0, #3a8838);
+  background-repeat: no-repeat;
+}
+
+.create-payment .home-paper {
+  background-image: linear-gradient(181deg, #9dc693, #56bc54);
+}
+
+.create-payment form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}

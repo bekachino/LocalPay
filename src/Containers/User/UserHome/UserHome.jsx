@@ -4,23 +4,23 @@ import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
 import LogoutIcon from "../../../assets/logout.svg";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../features/user/userThunk";
+import PaymentIcon from "../../../assets/payment.svg";
 import './userHome.css';
-import UserIcon from "../../../assets/user-icon.svg";
 
 const UserHome = () => {
   const dispatch = useDispatch();
-
+  
   return (
     <div className='home'>
       <Paper className='home-paper'>
         <h1>Панель пользователя</h1>
         <div className='home-nav-btns'>
           <CustomButton
-            color='warning'
+            color='success'
             size='large'
-            icon={UserIcon}
-            linkTo='/profile'
-          >Профиль</CustomButton>
+            icon={PaymentIcon}
+            linkTo='/create-payment'
+          >Оплатить</CustomButton>
           <CustomButton
             color='error'
             size='large'

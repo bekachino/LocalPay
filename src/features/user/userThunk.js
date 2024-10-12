@@ -36,3 +36,23 @@ export const logout = createAsyncThunk('user/logout', async (noAlert, { dispatch
     }));
   }
 });
+
+export const createPayment = createAsyncThunk('user/createPayment', async (data, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const response = await axiosApi.post("api/create-payment/", data);
+    dispatch(addAlert({
+      type: 'success',
+      message: 'Оплачено'
+    }));
+    return response.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: ERROR_MESSAGES[e?.response?.status || 500]
+    }));
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
+  }
+});

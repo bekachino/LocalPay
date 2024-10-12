@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { logout, signIn } from './userThunk';
+import { createPayment, logout, signIn } from './userThunk';
 
 const initialState = {
   user: null,
   signInLoading: false,
+  createPaymentLoading: false,
 };
 
 const UsersSlice = createSlice({
@@ -31,6 +32,16 @@ const UsersSlice = createSlice({
     builder.addCase(logout.fulfilled, _ => {
     });
     builder.addCase(logout.rejected, _ => {
+    });
+    
+    builder.addCase(createPayment.pending, state => {
+      state.createPaymentLoading = true;
+    });
+    builder.addCase(createPayment.fulfilled, state => {
+      state.createPaymentLoading = false;
+    });
+    builder.addCase(createPayment.rejected, state => {
+      state.createPaymentLoading = false;
     });
   },
 });

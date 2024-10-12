@@ -6,7 +6,7 @@ html {
   font-family: Montserrat, sans-serif;
 }
 
-body, #root, .App, .home, .login, .users, .payments, .profile  {
+body, #root, .App, .home, .login, .users, .payments, .profile, .create-payment {
   min-height: 100vh;
   margin: 0;
 }
