@@ -21,6 +21,7 @@ const SupervisorHome = () => {
             color='warning'
             size='large'
             icon={UserIcon}
+            linkTo='/profile'
           >Профиль</CustomButton>
           <CustomButton
             color='primary'

@@ -1,0 +1,11 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to bottom right, #b1a38f, #eda436);
+  background-repeat: no-repeat;
+}
+
+.profile .home-paper {
+  background-image: linear-gradient(160deg, #e1b787, #ed9840);
+}

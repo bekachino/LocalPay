@@ -5,6 +5,7 @@ import LogoutIcon from "../../../assets/logout.svg";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../features/user/userThunk";
 import './userHome.css';
+import UserIcon from "../../../assets/user-icon.svg";
 
 const UserHome = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,12 @@ const UserHome = () => {
       <Paper className='home-paper'>
         <h1>Панель пользователя</h1>
         <div className='home-nav-btns'>
+          <CustomButton
+            color='warning'
+            size='large'
+            icon={UserIcon}
+            linkTo='/profile'
+          >Профиль</CustomButton>
           <CustomButton
             color='error'
             size='large'
