@@ -10,9 +10,10 @@ import { ROLES } from "../../../constants";
 import UserDeleteConfirmation
   from "../../../Components/UI/UserDeleteConfirmation/UserDeleteConfirmation";
 import Select from "../../../Components/UI/Select/Select";
-import './users.css';
 import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "../../../app/hooks";
+import Input from "../../../Components/UI/Input/Input";
+import './users.css';
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -26,16 +27,32 @@ const Users = () => {
   const [deleteUserId, setDeleteUserId] = useState('');
   const [paginationData, setPaginationData] = useState({
     page: 1,
-    page_size: 5,
+    page_size: 20,
   });
+  const [searchWord, setSearchWord] = useState('');
   const { role } = jwtDecode(user.access || '');
   
   useEffect(() => {
-    dispatch(getUsers(paginationData));
+    const handler = setTimeout(() => {
+      setSearchWord(searchWord);
+      dispatch(getUsers({
+        ...paginationData,
+        searchWord
+      }));
+    }, 700);
+    
+    return () => {
+      clearTimeout(handler);
+    };
   }, [
     dispatch,
-    paginationData
+    paginationData,
+    searchWord
   ]);
+  
+  const handleSearchWordChange = (e) => {
+    setSearchWord(e.target.value);
+  };
   
   const onDeleteUser = async id => {
     if (id) {
@@ -78,6 +95,13 @@ const Users = () => {
         style={{ maxWidth: '1120px' }}
       >
         <h1>{usersLoading ? 'Загрузка...' : 'Пользователи'}</h1>
+        <div className='user-filters'>
+          <Input
+            size='small'
+            placeholder='поиск...'
+            onChange={handleSearchWordChange}
+          />
+        </div>
         <div className='users-list-container'>
           <table className='users-list'>
             <thead>
@@ -107,19 +131,19 @@ const Users = () => {
                 <td>{user.name || '-'} {user.surname || '-'}</td>
                 <td>{user.login || '-'}</td>
                 <td>{user.region || '-'}</td>
-                <td>
+                <td style={{ textAlign: 'center' }}>
                   {user.balance || 0}
                   <span className='currence-highlight'>с</span>
                 </td>
-                <td>
+                <td style={{ textAlign: 'center' }}>
                   {user.avail_balance || 0}
                   <span className='currence-highlight'>с</span>
                 </td>
-                <td>
+                <td style={{ textAlign: 'center' }}>
                   {user.write_off || 0}
                   <span className='currence-highlight'>с</span>
                 </td>
-                <td>
+                <td style={{ textAlign: 'center' }}>
                   {user.refill || 0}
                   <span className='currence-highlight'>с</span>
                 </td>
@@ -129,7 +153,12 @@ const Users = () => {
                 <td className={`user-status-${user.is_active ? 'active' : 'inactive'}`}>{user.is_active ? 'активный' : 'заблокирован'}</td>
                 {
                   ['admin'].includes(role) &&
-                  <td style={{position: 'relative', padding: '0'}}>
+                  <td
+                    style={{
+                      position: 'relative',
+                      padding: '0'
+                    }}
+                  >
                     <div className='user-action-btns'>
                       <IconButton
                         icon={SmallEditIcon}

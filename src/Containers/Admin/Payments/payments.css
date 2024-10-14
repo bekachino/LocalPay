@@ -8,8 +8,11 @@
 
 .payments .home-paper {
   background-image: unset;
+  max-width: unset!important;
 }
 
 .payments .users-list-container {
   background-image: linear-gradient(181deg, #a2c699, #52b550);
+  width: 100%;
+  max-height: calc(100vh - 200px);
 }

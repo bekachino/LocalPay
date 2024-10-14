@@ -5,13 +5,14 @@ import { ERROR_MESSAGES } from "../../constants";
 
 export const getUsers = createAsyncThunk('admin/getUsers', async ({
   page,
-  page_size
+  page_size,
+  searchWord,
 }, {
   dispatch,
   rejectWithValue
 }) => {
   try {
-    const req = await axiosApi(`users/?page=${page}&page_size=${page_size}`);
+    const req = await axiosApi(`users/?page=${page}&page_size=${page_size}&search=${searchWord}`);
     return await req.data;
   } catch (e) {
     dispatch(addAlert({
@@ -84,13 +85,16 @@ export const deleteUser = createAsyncThunk('admin/deleteUser', async (userId, {
 
 export const getPayments = createAsyncThunk('admin/getPayments', async ({
   page,
-  page_size
+  page_size,
+  searchWord,
+  date_from,
+  date_to,
 }, {
   dispatch,
   rejectWithValue
 }) => {
   try {
-    const req = await axiosApi(`api/payment-history/?page=${page}&page_size=${page_size}`);
+    const req = await axiosApi(`api/payment-history/?page=${page}&page_size=${page_size}&search=${searchWord || ''}&date_from=${date_from || ''}&date_to=${date_to || ''}`);
     return await req.data;
   } catch (e) {
     dispatch(addAlert({

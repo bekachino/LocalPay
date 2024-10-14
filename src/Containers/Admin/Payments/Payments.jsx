@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPayments } from "../../../features/admin/adminThunk";
 import { formatDate } from "../../../utils";
 import Select from "../../../Components/UI/Select/Select";
+import Input from "../../../Components/UI/Input/Input";
 import './payments.css';
+import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
 
 const Payments = () => {
   const dispatch = useDispatch();
@@ -15,14 +17,21 @@ const Payments = () => {
   } = useSelector((state) => state.adminState);
   const [paginationData, setPaginationData] = useState({
     page: 1,
-    page_size: 5,
+    page_size: 20,
   });
+  const [searchWord, setSearchWord] = useState('');
+  const [dateFilter, setDateFilter] = useState(null);
   
   useEffect(() => {
-    dispatch(getPayments(paginationData));
+    dispatch(getPayments({
+      ...paginationData,
+      searchWord,
+      ...dateFilter,
+    }));
   }, [
+    // do not add searchWord, dateFilter as deps
     dispatch,
-    paginationData
+    paginationData,
   ]);
   
   const onPaginationDataChange = e => {
@@ -38,15 +47,76 @@ const Payments = () => {
     ));
   };
   
+  const handleSearchWordChange = (e) => {
+    setSearchWord(e.target.value);
+  };
+  
+  const handleDateFitlerChange = e => {
+    const {
+      name,
+      value
+    } = e.target;
+    
+    setDateFilter(prevState => (
+      {
+        ...prevState,
+        [name]: value,
+      }
+    ))
+  };
+  
+  const searchWithFilters = () => {
+    dispatch(getPayments({
+      ...paginationData,
+      searchWord,
+      ...dateFilter,
+    }));
+  };
+  
+  console.log(dateFilter);
+  
   return (
     <div className='payments'>
       <Paper className='home-paper'>
         <h1>{paymentsLoading ? 'Загрузка...' : 'Платежи'}</h1>
+        <div className='user-filters'>
+          <div className='user-filters-inner'>
+            <Input
+              size='small'
+              placeholder='поиск...'
+              color='success'
+              onChange={handleSearchWordChange}
+            />
+            <Input
+              type='date'
+              name='date_from'
+              value={dateFilter?.date_from}
+              color='success'
+              size='small'
+              onChange={handleDateFitlerChange}
+            />
+            <Input
+              type='date'
+              name='date_to'
+              value={dateFilter?.date_to}
+              color='success'
+              size='small'
+              onChange={handleDateFitlerChange}
+            />
+          </div>
+          <CustomButton
+            color='success'
+            size='small'
+            rounded
+            onClick={searchWithFilters}
+          >Искать...</CustomButton>
+        </div>
         <div className='users-list-container'>
           <table className='users-list'>
             <thead>
             <tr>
               <th>ЛС абонента</th>
+              <th>СИ</th>
               <th>Дата оплаты</th>
               <th>Дата принятия оплаты</th>
               <th>Баланс</th>
@@ -57,13 +127,14 @@ const Payments = () => {
             {payments?.map((payment, i) => (
               <tr key={payment.number_payment || i}>
                 <td>{payment.ls_abon || '-'}</td>
+                <td>{payment.user_name || '-'}</td>
                 <td>{!!payment.date_payment ? formatDate(payment.accept_payment) : '-'}</td>
                 <td>{!!payment.accept_payment ? formatDate(payment.accept_payment) : '-'}</td>
-                <td>
+                <td style={{ textAlign: 'center' }}>
                   {payment.money || 0}
                   <span className='currence-highlight'>с</span>
                 </td>
-                <td>{payment.status_payment || '-'}</td>
+                <td style={{ textAlign: 'center' }}>{payment.status_payment || '-'}</td>
               </tr>
             ))}
             </tbody>

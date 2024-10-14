@@ -8,6 +8,16 @@
 
 .users .home-paper {
   width: calc(100% - 30px);
+  max-width: unset!important;
+}
+
+.user-filters {
+  margin-top: 20px;
+  flex-grow: 1;
+}
+
+.user-filters input {
+  width: 100%;
 }
 
 .users-list-container {
@@ -15,9 +25,9 @@
   max-width: 100%;
   overflow: auto;
   overscroll-behavior: contain;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 160px);
   box-sizing: border-box;
-  margin-top: 20px;
+  margin-top: 10px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   background-image: linear-gradient(180deg, #6b83b3, #4d72cd);
   background-repeat: no-repeat;
@@ -119,6 +129,17 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.user-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-filters-inner {
+  display: flex;
+  gap: 10px;
 }
 
 .pagination-field-title {
