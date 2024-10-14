@@ -26,6 +26,7 @@ const AdminSlice = createSlice({
     builder.addCase(getUsers.pending, state => {
       state.usersLoading = true;
       state.users = [];
+      state.usersPagesAmount = 1;
     });
     builder.addCase(getUsers.fulfilled, (state, {
       payload: {
@@ -71,6 +72,7 @@ const AdminSlice = createSlice({
     builder.addCase(getPayments.pending, state => {
       state.paymentsLoading = true;
       state.payments = [];
+      state.paymentsPagesAmount = 1;
     });
     builder.addCase(getPayments.fulfilled, (state, {
       payload: {

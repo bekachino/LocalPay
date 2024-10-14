@@ -18,10 +18,10 @@ const CreateEditUser = ({ isEdit }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
-    user,
     createUserLoading,
     getUserLoading
   } = useAppSelector(state => state.adminState);
+  const { user } = useAppSelector(state => state.dataState);
   const [state, setState] = useState({ role: 'user' });
   
   useEffect(() => {
@@ -79,7 +79,7 @@ const CreateEditUser = ({ isEdit }) => {
   };
   
   return (
-    <div className='login'>
+    <div className='login create-edit-user'>
       <Paper
         className='login-paper'
         style={{ maxWidth: '700px' }}
@@ -135,26 +135,32 @@ const CreateEditUser = ({ isEdit }) => {
               gap: '10px',
             }}
           >
-            <Input
-              style={{ flexGrow: '1' }}
-              type='number'
-              name='balance'
-              value={state?.balance}
-              color='secondary'
-              placeholder='Доступный баланс'
-              onChange={handleChange}
-              required
-            />
-            <Input
-              style={{ flexGrow: '1' }}
-              type='number'
-              name='avail_balance'
-              value={state?.avail_balance}
-              color='secondary'
-              placeholder='Затраты'
-              onChange={handleChange}
-              required
-            />
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Доступный баланс:</span>
+              <Input
+                style={{ flexGrow: '1' }}
+                type='number'
+                name='balance'
+                value={state?.balance}
+                color='secondary'
+                placeholder='Доступный баланс'
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Затраты:</span>
+              <Input
+                style={{ flexGrow: '1' }}
+                type='number'
+                name='avail_balance'
+                value={state?.avail_balance}
+                color='secondary'
+                placeholder='Затраты'
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
           <div
             style={{
@@ -163,26 +169,32 @@ const CreateEditUser = ({ isEdit }) => {
               gap: '10px',
             }}
           >
-            <Input
-              style={{ flexGrow: '1' }}
-              type='number'
-              name='refill'
-              value={state?.refill}
-              color='secondary'
-              placeholder='Пополнения'
-              onChange={handleChange}
-              required
-            />
-            <Input
-              style={{ flexGrow: '1' }}
-              type='number'
-              name='write_off'
-              value={state?.write_off}
-              color='secondary'
-              placeholder='Списания'
-              onChange={handleChange}
-              required
-            />
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Пополнения:</span>
+              <Input
+                style={{ flexGrow: '1' }}
+                type='number'
+                name='refill'
+                value={state?.refill}
+                color='secondary'
+                placeholder='Пополнения'
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Списания:</span>
+              <Input
+                style={{ flexGrow: '1' }}
+                type='number'
+                name='write_off'
+                value={state?.write_off}
+                color='secondary'
+                placeholder='Списания'
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
           <Select
             name='role'
