@@ -102,6 +102,20 @@ const CreateEditUser = ({ isEdit }) => {
             onChange={handleChange}
             required
           />
+          {
+            isEdit &&
+            <div className='pagination-field-wrapper'>
+              <span className='pagination-field-title'>Планап ID:</span>
+              <Input
+                name='planup_id'
+                value={state?.planup_id}
+                color='secondary'
+                placeholder='Планап ID'
+                onChange={handleChange}
+                required
+              />
+            </div>
+          }
           <div
             style={{
               display: 'flex',

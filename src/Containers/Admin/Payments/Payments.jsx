@@ -5,8 +5,9 @@ import { getPayments } from "../../../features/admin/adminThunk";
 import { formatDate } from "../../../utils";
 import Select from "../../../Components/UI/Select/Select";
 import Input from "../../../Components/UI/Input/Input";
-import './payments.css';
 import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
+import * as XLSX from 'xlsx';
+import './payments.css';
 
 const Payments = () => {
   const dispatch = useDispatch();
@@ -21,12 +22,13 @@ const Payments = () => {
   });
   const [searchWord, setSearchWord] = useState('');
   const [dateFilter, setDateFilter] = useState(null);
+  const [chosenPayments, setChosenPayments] = useState([]);
+  const [listAction, setListAction] = useState('');
   
   useEffect(() => {
     dispatch(getPayments({
       ...paginationData,
-      searchWord,
-      ...dateFilter,
+      searchWord, ...dateFilter,
     }));
   }, [
     // do not add searchWord, dateFilter as deps
@@ -68,12 +70,107 @@ const Payments = () => {
   const searchWithFilters = () => {
     dispatch(getPayments({
       ...paginationData,
-      searchWord,
-      ...dateFilter,
+      searchWord, ...dateFilter,
     }));
   };
   
-  console.log(dateFilter);
+  const onChoosePayment = (e, id) => {
+    const { checked } = e.target;
+    
+    if (id === 'all') {
+      if (chosenPayments?.length === payments?.length) setChosenPayments(() => []); else setChosenPayments(() => [...payments?.map(payment => payment?.number_payment)]);
+      return;
+    }
+    
+    if (checked) {
+      if (chosenPayments.includes(id)) return;
+      setChosenPayments([
+        ...chosenPayments,
+        id,
+      ]);
+    } else {
+      const filteredList = [...chosenPayments].filter(payment => payment !== id);
+      setChosenPayments(filteredList);
+    }
+  };
+  
+  const onListActionChange = e => {
+    const { value } = e.target;
+    setListAction(value || '');
+  };
+  
+  const handleExcelFileExport = (data) => {
+    const workbook = XLSX.utils.book_new();
+    
+    const worksheet = XLSX.utils.json_to_sheet([]);
+    
+    let rowIndex = 1;
+    let totalSum = 0;
+    
+    data.forEach((payment) => {
+      if (!chosenPayments.includes(payment.number_payment)) return;
+      
+      totalSum += parseFloat(payment?.money || 0);
+      
+      const userRow = `A${rowIndex}:E${rowIndex}`;
+      XLSX.utils.sheet_add_aoa(worksheet, [[`Платежи пользователя: ${payment.user_name}`]], { origin: `A${rowIndex}` });
+      
+      if (!worksheet['!merges']) worksheet['!merges'] = [];
+      worksheet['!merges'].push(XLSX.utils.decode_range(userRow));
+      
+      worksheet[`A${rowIndex}`].s = {
+        alignment: {
+          font: { bold: true },
+          horizontal: "center",
+          vertical: "center",
+          bold: true
+        }
+      };
+      
+      rowIndex += 1;
+      XLSX.utils.sheet_add_aoa(worksheet, [
+        [
+          'Номер платежа',
+          'Время проведения платежа',
+          'Лицевой счет',
+          'Деньги',
+          'Статус платежа'
+        ]
+      ], { origin: `A${rowIndex}` });
+      
+      rowIndex += 1;
+      XLSX.utils.sheet_add_aoa(worksheet, [
+        [
+          payment.number_payment,
+          payment.date_payment,
+          payment.ls_abon,
+          payment.money,
+          payment.status_payment
+        ]
+      ], { origin: `A${rowIndex}` });
+      
+      rowIndex += 2;
+    });
+    
+    rowIndex += 1;
+    XLSX.utils.sheet_add_aoa(worksheet, [[`Общая сумма: ${totalSum || 0}`]], { origin: `A${rowIndex}` });
+    
+    worksheet['!cols'] = [
+      { wch: 25 },
+      { wch: 22 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+    ];
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Payments');
+    
+    XLSX.writeFile(workbook, 'Payments.xlsx');
+  };
+  
+  const onActionExecute = () => {
+    if (listAction === 'uploadChosenOptions') handleExcelFileExport(payments);
+  };
   
   return (
     <div className='payments'>
@@ -115,6 +212,13 @@ const Payments = () => {
           <table className='users-list'>
             <thead>
             <tr>
+              <th>
+                <input
+                  type='checkbox'
+                  checked={chosenPayments?.length === payments?.length}
+                  onChange={e => onChoosePayment(e, 'all')}
+                />
+              </th>
               <th>ЛС абонента</th>
               <th>СИ</th>
               <th>Дата оплаты</th>
@@ -126,6 +230,13 @@ const Payments = () => {
             <tbody>
             {payments?.map((payment, i) => (
               <tr key={payment.number_payment || i}>
+                <th>
+                  <input
+                    type='checkbox'
+                    onChange={e => onChoosePayment(e, payment?.number_payment)}
+                    checked={chosenPayments.includes(payment?.number_payment)}
+                  />
+                </th>
                 <td>{payment.ls_abon || '-'}</td>
                 <td>{payment.user_name || '-'}</td>
                 <td>{!!payment.date_payment ? formatDate(payment.accept_payment) : '-'}</td>
@@ -140,7 +251,35 @@ const Payments = () => {
             </tbody>
           </table>
           <div className='pagination-container'>
-            <div className='pagination-field-wrapper'>
+            <div className='list-actions'>
+              <div
+                className='pagination-field-wrapper'
+                style={{ marginLeft: 'auto' }}
+              >
+                <span className='pagination-field-title'>Выберите действие:</span>
+                <Select
+                  color='success'
+                  size='small'
+                  onChange={onListActionChange}
+                >
+                  <option value=''>-</option>
+                  <option value='uploadChosenOptions'>
+                    Выгрузить выбранные
+                  </option>
+                </Select>
+              </div>
+              <CustomButton
+                color='success'
+                size='small'
+                style={{ marginTop: 'auto' }}
+                rounded
+                onClick={onActionExecute}
+              >Выполнить</CustomButton>
+            </div>
+            <div
+              className='pagination-field-wrapper'
+              style={{ marginLeft: 'auto' }}
+            >
               <span className='pagination-field-title'>Платежей на страницу:</span>
               <Select
                 size='small'

@@ -3,7 +3,6 @@ import Paper from "../../../Components/UI/Paper/Paper";
 import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
 import UserIcon from '../../../assets/user-icon.svg';
 import GroupIcon from '../../../assets/people-group.svg';
-import ReportIcon from '../../../assets/report.svg';
 import PaymentIcon from '../../../assets/payment.svg';
 import newUserIcon from '../../../assets/new-user.svg';
 import LogoutIcon from '../../../assets/logout.svg';
