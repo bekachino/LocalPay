@@ -13,6 +13,8 @@ import Select from "../../../Components/UI/Select/Select";
 import { jwtDecode } from "jwt-decode";
 import { useAppSelector } from "../../../app/hooks";
 import Input from "../../../Components/UI/Input/Input";
+import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
+import * as XLSX from "xlsx";
 import './users.css';
 
 const Users = () => {
@@ -31,27 +33,34 @@ const Users = () => {
   });
   const [searchWord, setSearchWord] = useState('');
   const { role } = jwtDecode(user.access || '');
+  const [chosenUsers, setChosenUsers] = useState([]);
+  const [listAction, setListAction] = useState('');
   
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setSearchWord(searchWord);
-      dispatch(getUsers({
-        ...paginationData,
-        searchWord
-      }));
-    }, 700);
-    
-    return () => {
-      clearTimeout(handler);
-    };
+    dispatch(getUsers({
+      ...paginationData,
+      searchWord,
+    }));
   }, [
+    // do not add searchWord, dateFilter as deps
     dispatch,
     paginationData,
-    searchWord
   ]);
   
   const handleSearchWordChange = (e) => {
     setSearchWord(e.target.value);
+  };
+  
+  const searchWithFilters = () => {
+    dispatch(getUsers({
+      ...paginationData,
+      searchWord,
+    }));
+  };
+  
+  const onListActionChange = e => {
+    const { value } = e.target;
+    setListAction(value || '');
   };
   
   const onDeleteUser = async id => {
@@ -67,7 +76,7 @@ const Users = () => {
         [...prevState.filter(prevId => prevId !== id)]
       ));
       toggleDeleteUserModal();
-      dispatch(getUsers());
+      dispatch(getUsers({ ...paginationData }));
     }
   };
   
@@ -88,6 +97,80 @@ const Users = () => {
     ));
   };
   
+  const onChooseUser = (e, id) => {
+    const { checked } = e.target;
+    
+    if (id === 'all') {
+      if (chosenUsers?.length === users?.length) setChosenUsers(() => []); else setChosenUsers(() => [...users?.map(user => user?.id)]);
+      return;
+    }
+    
+    if (checked) {
+      if (chosenUsers.includes(id)) return;
+      setChosenUsers([
+        ...chosenUsers,
+        id,
+      ]);
+    } else {
+      const filteredList = [...chosenUsers].filter(user => user !== id);
+      setChosenUsers(filteredList);
+    }
+  };
+  
+  const handleExcelFileExport = (data) => {
+    const workbook = XLSX.utils.book_new();
+    
+    const worksheet = XLSX.utils.json_to_sheet([]);
+    
+    let rowIndex = 1;
+    
+    XLSX.utils.sheet_add_aoa(worksheet, [
+      [
+        'ФИО',
+        'Баланс',
+        'Регион',
+        'Дата регистрации',
+        'Роль',
+        'Статус активности',
+        'Планап id',
+      ]
+    ], { origin: `A1` });
+    
+    data.forEach((payment) => {
+      if (!chosenUsers.includes(payment.id)) return;
+      
+      rowIndex += 1;
+      
+      XLSX.utils.sheet_add_aoa(worksheet, [
+        [
+          `${payment.name || '-'} ${payment.surname || '-'}`,
+          payment.balance || '-',
+          payment.region || '-',
+          !!payment?.date_reg ? formatDate(payment.date_reg) : '-',
+          payment.role || '-',
+          payment.is_active || '-',
+          payment.planup_id || '-'
+        ]
+      ], { origin: `A${rowIndex}` });
+    });
+    
+    worksheet['!cols'] = [
+      { wch: 25 },
+      { wch: 12 },
+      { wch: 17 },
+      { wch: 15 },
+      { wch: 10 },
+    ];
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Пользователи');
+    
+    XLSX.writeFile(workbook, 'Пользователи.xlsx');
+  };
+  
+  const onActionExecute = () => {
+    if (listAction === 'uploadChosenOptions' && chosenUsers.length) handleExcelFileExport(users);
+  };
+  
   return (
     <div className='users'>
       <Paper
@@ -101,11 +184,24 @@ const Users = () => {
             placeholder='поиск...'
             onChange={handleSearchWordChange}
           />
+          <CustomButton
+            size='small'
+            rounded
+            onClick={searchWithFilters}
+            loading={usersLoading}
+          >Искать...</CustomButton>
         </div>
         <div className='users-list-container'>
           <table className='users-list'>
             <thead>
             <tr>
+              <th>
+                <input
+                  type='checkbox'
+                  checked={chosenUsers?.length === users?.length}
+                  onChange={e => onChooseUser(e, 'all')}
+                />
+              </th>
               <th>№</th>
               <th>ФИО</th>
               <th>Логин</th>
@@ -127,6 +223,13 @@ const Users = () => {
             <tbody>
             {users?.map(user => (
               <tr key={user.id}>
+                <th>
+                  <input
+                    type='checkbox'
+                    onChange={e => onChooseUser(e, user?.id)}
+                    checked={chosenUsers.includes(user?.id)}
+                  />
+                </th>
                 <td>{user.id}</td>
                 <td>{user.name || '-'} {user.surname || '-'}</td>
                 <td>{user.login || '-'}</td>
@@ -181,7 +284,33 @@ const Users = () => {
             </tbody>
           </table>
           <div className='pagination-container'>
-            <div className='pagination-field-wrapper'>
+            <div className='list-actions'>
+              <div
+                className='pagination-field-wrapper'
+                style={{ marginLeft: 'auto' }}
+              >
+                <span className='pagination-field-title'>Выберите действие:</span>
+                <Select
+                  size='small'
+                  onChange={onListActionChange}
+                >
+                  <option value=''>-</option>
+                  <option value='uploadChosenOptions'>
+                    Выгрузить выбранные
+                  </option>
+                </Select>
+              </div>
+              <CustomButton
+                size='small'
+                style={{ marginTop: 'auto' }}
+                rounded
+                onClick={onActionExecute}
+              >Выполнить</CustomButton>
+            </div>
+            <div
+              className='pagination-field-wrapper'
+              style={{ marginLeft: 'auto' }}
+            >
               <span className='pagination-field-title'>Пользователей на страницу:</span>
               <Select
                 size='small'

@@ -53,7 +53,7 @@ const Payments = () => {
     setSearchWord(e.target.value);
   };
   
-  const handleDateFitlerChange = e => {
+  const handleDateFilterChange = e => {
     const {
       name,
       value
@@ -149,7 +149,7 @@ const Payments = () => {
   };
   
   const onActionExecute = () => {
-    if (listAction === 'uploadChosenOptions') handleExcelFileExport(payments);
+    if (listAction === 'uploadChosenOptions' && chosenPayments.length) handleExcelFileExport(payments);
   };
   
   return (
@@ -170,7 +170,7 @@ const Payments = () => {
               value={dateFilter?.date_from}
               color='success'
               size='small'
-              onChange={handleDateFitlerChange}
+              onChange={handleDateFilterChange}
             />
             <Input
               type='date'
@@ -178,7 +178,7 @@ const Payments = () => {
               value={dateFilter?.date_to}
               color='success'
               size='small'
-              onChange={handleDateFitlerChange}
+              onChange={handleDateFilterChange}
             />
           </div>
           <CustomButton
@@ -186,6 +186,7 @@ const Payments = () => {
             size='small'
             rounded
             onClick={searchWithFilters}
+            loading={paymentsLoading}
           >Искать...</CustomButton>
         </div>
         <div className='users-list-container'>
