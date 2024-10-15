@@ -105,67 +105,47 @@ const Payments = () => {
     const worksheet = XLSX.utils.json_to_sheet([]);
     
     let rowIndex = 1;
-    let totalSum = 0;
+    
+    XLSX.utils.sheet_add_aoa(worksheet, [
+      [
+        'Номер платежа',
+        'Время проведения платежа',
+        'Лицевой счет',
+        'Деньги',
+        'Статус платежа',
+        'Сервис инженер',
+      ]
+    ], { origin: `A1` });
     
     data.forEach((payment) => {
       if (!chosenPayments.includes(payment.number_payment)) return;
       
-      totalSum += parseFloat(payment?.money || 0);
-      
-      const userRow = `A${rowIndex}:E${rowIndex}`;
-      XLSX.utils.sheet_add_aoa(worksheet, [[`Платежи пользователя: ${payment.user_name}`]], { origin: `A${rowIndex}` });
-      
-      if (!worksheet['!merges']) worksheet['!merges'] = [];
-      worksheet['!merges'].push(XLSX.utils.decode_range(userRow));
-      
-      worksheet[`A${rowIndex}`].s = {
-        alignment: {
-          font: { bold: true },
-          horizontal: "center",
-          vertical: "center",
-          bold: true
-        }
-      };
-      
       rowIndex += 1;
+      
       XLSX.utils.sheet_add_aoa(worksheet, [
         [
-          'Номер платежа',
-          'Время проведения платежа',
-          'Лицевой счет',
-          'Деньги',
-          'Статус платежа'
+          payment.number_payment || '-',
+          payment.date_payment || '-',
+          payment.ls_abon || '-',
+          payment.money || 0,
+          payment.status_payment || '-',
+          payment.user_name || '-',
         ]
       ], { origin: `A${rowIndex}` });
-      
-      rowIndex += 1;
-      XLSX.utils.sheet_add_aoa(worksheet, [
-        [
-          payment.number_payment,
-          payment.date_payment,
-          payment.ls_abon,
-          payment.money,
-          payment.status_payment
-        ]
-      ], { origin: `A${rowIndex}` });
-      
-      rowIndex += 2;
     });
-    
-    rowIndex += 1;
-    XLSX.utils.sheet_add_aoa(worksheet, [[`Общая сумма: ${totalSum || 0}`]], { origin: `A${rowIndex}` });
     
     worksheet['!cols'] = [
       { wch: 25 },
-      { wch: 22 },
+      { wch: 25 },
+      { wch: 17 },
+      { wch: 14 },
       { wch: 20 },
-      { wch: 20 },
-      { wch: 20 },
+      { wch: 25 },
     ];
     
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Payments');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Платежи');
     
-    XLSX.writeFile(workbook, 'Payments.xlsx');
+    XLSX.writeFile(workbook, 'Платежи.xlsx');
   };
   
   const onActionExecute = () => {
