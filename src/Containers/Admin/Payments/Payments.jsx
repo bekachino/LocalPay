@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Paper from "../../../Components/UI/Paper/Paper";
 import { useDispatch, useSelector } from "react-redux";
-import { getPayments } from "../../../features/admin/adminThunk";
-import { formatDate } from "../../../utils";
+import {
+  getPayments, getPaymentsForUpload
+} from "../../../features/admin/adminThunk";
+import {
+  formatDate, handleExcelFileExport, handleNewVersionExcelFileExport
+} from "../../../utils";
 import Select from "../../../Components/UI/Select/Select";
 import Input from "../../../Components/UI/Input/Input";
 import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
-import * as XLSX from 'xlsx';
 import './payments.css';
+import { addAlert } from "../../../features/data/dataSlice";
+import { ERROR_MESSAGES } from "../../../constants";
 
 const Payments = () => {
   const dispatch = useDispatch();
@@ -99,57 +104,28 @@ const Payments = () => {
     setListAction(value || '');
   };
   
-  const handleExcelFileExport = (data) => {
-    const workbook = XLSX.utils.book_new();
-    
-    const worksheet = XLSX.utils.json_to_sheet([]);
-    
-    let rowIndex = 1;
-    
-    XLSX.utils.sheet_add_aoa(worksheet, [
-      [
-        'Номер платежа',
-        'Время проведения платежа',
-        'Лицевой счет',
-        'Деньги',
-        'Статус платежа',
-        'Сервис инженер',
-      ]
-    ], { origin: `A1` });
-    
-    data.forEach((payment) => {
-      if (!chosenPayments.includes(payment.number_payment)) return;
-      
-      rowIndex += 1;
-      
-      XLSX.utils.sheet_add_aoa(worksheet, [
-        [
-          payment.number_payment || '-',
-          payment.date_payment || '-',
-          payment.ls_abon || '-',
-          payment.money || 0,
-          payment.status_payment || '-',
-          payment.user_name || '-',
-        ]
-      ], { origin: `A${rowIndex}` });
-    });
-    
-    worksheet['!cols'] = [
-      { wch: 25 },
-      { wch: 25 },
-      { wch: 17 },
-      { wch: 14 },
-      { wch: 20 },
-      { wch: 25 },
-    ];
-    
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Платежи');
-    
-    XLSX.writeFile(workbook, 'Платежи.xlsx');
-  };
-  
   const onActionExecute = () => {
-    if (listAction === 'uploadChosenOptions' && chosenPayments.length) handleExcelFileExport(payments);
+    if (listAction === 'uploadChosenOptions' && chosenPayments.length) handleExcelFileExport(payments, chosenPayments);
+    
+    if (listAction === 'newVersionUpload' && !!dateFilter?.date_from && !!dateFilter?.date_to) {
+      const user_ids = new Set(payments?.map(payment => payment?.user_id) || []);
+      
+      dispatch(getPaymentsForUpload({
+        ...dateFilter,
+        user_ids: Array.from(user_ids),
+      }))
+      .then(res => {
+        console.log(res);
+        if (res?.error) {
+          dispatch(addAlert({
+            type: 'warning',
+            message: 'Данные отсуствуют'
+          }));
+          return;
+        }
+        handleNewVersionExcelFileExport(res?.payload?.results);
+      });
+    }
   };
   
   return (
@@ -245,7 +221,10 @@ const Payments = () => {
                 >
                   <option value=''>-</option>
                   <option value='uploadChosenOptions'>
-                    Выгрузить выбранные
+                    Выгрузить платежи (старая версия)
+                  </option>
+                  <option value='newVersionUpload'>
+                    Выгрузить платежи
                   </option>
                 </Select>
               </div>

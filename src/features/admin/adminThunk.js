@@ -104,3 +104,27 @@ export const getPayments = createAsyncThunk('admin/getPayments', async ({
     return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
+
+export const getPaymentsForUpload = createAsyncThunk('admin/getPaymentsForUpload', async ({
+  date_from,
+  date_to,
+  user_ids,
+}, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi.post(`api/user/payment-comparison/`, {
+      date_from,
+      date_to,
+      user_ids,
+    });
+    return await req.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: ERROR_MESSAGES[e?.response?.status || 500]
+    }));
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
+  }
+});
