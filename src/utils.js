@@ -72,7 +72,7 @@ export const handleNewVersionExcelFileExport = (payments) => {
   let rowIndex = 1;
   
   [...payments?.slice(0, payments?.length - 1)]?.forEach((payment) => {
-    const userName = `Платежи пользователя: ${payment?.payments[0]?.name || '-'} ${payment?.payments[0]?.surname || '-'}`;
+    const userName = `Платежи пользователя: ${payment?.name || '-'} ${payment?.surname || '-'}`;
     XLSX.utils.sheet_add_aoa(worksheet, [[userName]], { origin: `A${rowIndex}` });
     
     worksheet['!merges'] = worksheet['!merges'] || [];
@@ -131,12 +131,12 @@ export const handleNewVersionExcelFileExport = (payments) => {
     
     const sumLocalPayMoney = payment?.payments.reduce((total, payment) => {
       return total + (
-        Number.isInteger(Number(payment?.localpay_money)) ? Number(payment?.localpay_money) : 0
+        Number.isInteger(Number(payment?.localpay_money)) && payment?.status_payment === 'Выполнен' ? Number(payment?.localpay_money) : 0
       );
     }, 0);
     const sumPlanUpMoney = payment?.payments.reduce((total, payment) => {
       return total + (
-        Number.isInteger(Number(payment?.planup_money)) ? Number(payment?.planup_money) : 0
+        Number.isInteger(Number(payment?.planup_money)) && payment?.status_payment === 'Выполнен' ? Number(payment?.planup_money) : 0
       );
     }, 0);
     

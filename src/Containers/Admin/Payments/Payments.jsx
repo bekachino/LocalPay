@@ -10,9 +10,8 @@ import {
 import Select from "../../../Components/UI/Select/Select";
 import Input from "../../../Components/UI/Input/Input";
 import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
-import './payments.css';
 import { addAlert } from "../../../features/data/dataSlice";
-import { ERROR_MESSAGES } from "../../../constants";
+import './payments.css';
 
 const Payments = () => {
   const dispatch = useDispatch();
@@ -57,6 +56,10 @@ const Payments = () => {
   const handleSearchWordChange = (e) => {
     setSearchWord(e.target.value);
   };
+  
+  useEffect(() => {
+    setSearchWord(searchWord?.trim());
+  }, [searchWord]);
   
   const handleDateFilterChange = e => {
     const {
@@ -108,14 +111,11 @@ const Payments = () => {
     if (listAction === 'uploadChosenOptions' && chosenPayments.length) handleExcelFileExport(payments, chosenPayments);
     
     if (listAction === 'newVersionUpload' && !!dateFilter?.date_from && !!dateFilter?.date_to) {
-      const user_ids = new Set(payments?.map(payment => payment?.user_id) || []);
-      
       dispatch(getPaymentsForUpload({
         ...dateFilter,
-        user_ids: Array.from(user_ids),
+        user_id: payments?.find(payment => payment?.login === searchWord)?.user_id,
       }))
       .then(res => {
-        console.log(res);
         if (res?.error) {
           dispatch(addAlert({
             type: 'warning',
@@ -178,6 +178,7 @@ const Payments = () => {
               </th>
               <th>ЛС абонента</th>
               <th>СИ</th>
+              <th>Логин</th>
               <th>Дата оплаты</th>
               <th>Дата принятия оплаты</th>
               <th>Баланс</th>
@@ -196,6 +197,7 @@ const Payments = () => {
                 </th>
                 <td>{payment.ls_abon || '-'}</td>
                 <td>{payment.user_name || '-'}</td>
+                <td>{payment.login || '-'}</td>
                 <td>{!!payment.date_payment ? formatDate(payment.accept_payment) : '-'}</td>
                 <td>{!!payment.accept_payment ? formatDate(payment.accept_payment) : '-'}</td>
                 <td style={{ textAlign: 'center' }}>

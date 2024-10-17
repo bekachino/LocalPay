@@ -108,7 +108,7 @@ export const getPayments = createAsyncThunk('admin/getPayments', async ({
 export const getPaymentsForUpload = createAsyncThunk('admin/getPaymentsForUpload', async ({
   date_from,
   date_to,
-  user_ids,
+  user_id,
 }, {
   dispatch,
   rejectWithValue
@@ -117,7 +117,7 @@ export const getPaymentsForUpload = createAsyncThunk('admin/getPaymentsForUpload
     const req = await axiosApi.post(`api/user/payment-comparison/`, {
       date_from,
       date_to,
-      user_ids,
+      user_id,
     });
     return await req.data;
   } catch (e) {
