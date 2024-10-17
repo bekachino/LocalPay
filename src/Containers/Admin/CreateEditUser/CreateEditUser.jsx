@@ -35,7 +35,7 @@ const CreateEditUser = ({ isEdit }) => {
   ]);
   
   useEffect(() => {
-    if (user) {
+    if (isEdit && user) {
       setState(user);
     }
   }, [user]);

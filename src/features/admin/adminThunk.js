@@ -128,3 +128,21 @@ export const getPaymentsForUpload = createAsyncThunk('admin/getPaymentsForUpload
     return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
+
+export const annulPayment = createAsyncThunk('admin/annulPayment', async (id, {
+  dispatch,
+  rejectWithValue
+}) => {
+  try {
+    const req = await axiosApi.put(`api/payment_update/${id}/`, {
+      annulment: true,
+    });
+    return await req.data;
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: ERROR_MESSAGES[e?.response?.status || 500]
+    }));
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
+  }
+});

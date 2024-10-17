@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  annulPayment,
   createUser,
   deleteUser,
   editUser, getPayments,
@@ -86,6 +87,13 @@ const AdminSlice = createSlice({
     });
     builder.addCase(getPayments.rejected, state => {
       state.paymentsLoading = false;
+    });
+    
+    builder.addCase(annulPayment.pending, _ => {
+    });
+    builder.addCase(annulPayment.fulfilled, _ => {
+    });
+    builder.addCase(annulPayment.rejected, _ => {
     });
   },
 });

@@ -2,16 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Paper from "../../../Components/UI/Paper/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getPayments, getPaymentsForUpload
+  annulPayment,
+  getPayments,
+  getPaymentsForUpload
 } from "../../../features/admin/adminThunk";
 import {
-  formatDate, handleExcelFileExport, handleNewVersionExcelFileExport
+  formatDate,
+  handleExcelFileExport,
+  handleNewVersionExcelFileExport
 } from "../../../utils";
 import Select from "../../../Components/UI/Select/Select";
 import Input from "../../../Components/UI/Input/Input";
 import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
 import { addAlert } from "../../../features/data/dataSlice";
 import './payments.css';
+import { useAppSelector } from "../../../app/hooks";
+import { jwtDecode } from "jwt-decode";
 
 const Payments = () => {
   const dispatch = useDispatch();
@@ -20,6 +26,8 @@ const Payments = () => {
     paymentsLoading,
     paymentsPagesAmount
   } = useSelector((state) => state.adminState);
+  const { user } = useAppSelector(state => state.userState);
+  const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({
     page: 1,
     page_size: 20,
@@ -28,6 +36,7 @@ const Payments = () => {
   const [dateFilter, setDateFilter] = useState(null);
   const [chosenPayments, setChosenPayments] = useState([]);
   const [listAction, setListAction] = useState('');
+  const [paymentInAnnulmentProcess, setPaymentInAnnulmentProcess] = useState([]);
   
   useEffect(() => {
     dispatch(getPayments({
@@ -128,6 +137,25 @@ const Payments = () => {
     }
   };
   
+  const onPaymentAnnulment = async id => {
+    if (id) {
+      setPaymentInAnnulmentProcess(prevState => (
+        [
+          ...prevState,
+          id,
+        ]
+      ));
+      await dispatch(annulPayment(id));
+      setPaymentInAnnulmentProcess(prevState => (
+        [...prevState.filter(prevId => prevId !== id)]
+      ));
+      dispatch(getPayments({
+        ...paginationData,
+        searchWord, ...dateFilter,
+      }));
+    }
+  };
+  
   return (
     <div className='payments'>
       <Paper className='home-paper'>
@@ -183,6 +211,7 @@ const Payments = () => {
               <th>Дата принятия оплаты</th>
               <th>Баланс</th>
               <th>Статус оплаты</th>
+              <th>Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -205,6 +234,23 @@ const Payments = () => {
                   <span className='currence-highlight'>с</span>
                 </td>
                 <td style={{ textAlign: 'center' }}>{payment.status_payment || '-'}</td>
+                {
+                  ['admin'].includes(role) &&
+                  <td
+                  >
+                    <div
+                      className='user-action-btns'
+                      style={{ position: 'unset' }}
+                    >
+                      <CustomButton
+                        color='success'
+                        onClick={_ => onPaymentAnnulment(payment?.id)}
+                        size='small'
+                        loading={paymentInAnnulmentProcess.includes(payment?.id)}
+                      >аннулировать</CustomButton>
+                    </div>
+                  </td>
+                }
               </tr>
             ))}
             </tbody>
