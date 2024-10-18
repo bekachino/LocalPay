@@ -23,6 +23,7 @@
 .users-list-container {
   border-radius: 10px;
   max-width: 100%;
+  width: 100%;
   overflow: auto;
   overscroll-behavior: contain;
   max-height: calc(100vh - 160px);
@@ -130,6 +131,7 @@
 
 .user-filters {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 10px;
 }
