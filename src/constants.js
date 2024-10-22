@@ -12,14 +12,14 @@ export const ERROR_MESSAGES = {
 export const ROLES = [
   {
     en: 'user',
-    ru: 'пользователь'
+    ru: 'пользователь',
   },
   {
     en: 'supervisor',
-    ru: 'супервайзер'
+    ru: 'супервайзер',
   },
   {
     en: 'admin',
-    ru: 'админ'
-  }
+    ru: 'админ',
+  },
 ];

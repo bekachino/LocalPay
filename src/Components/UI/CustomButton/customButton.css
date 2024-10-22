@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 0;
   font-weight: 600;
   transition: 0.2s;
@@ -24,7 +24,7 @@
 
 .custom-btn:disabled:hover {
   scale: 1;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .custom-btn-color-primary {
@@ -111,11 +111,11 @@
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   border: 5px solid;
-  border-right: 5px solid transparent!important;
+  border-right: 5px solid transparent !important;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  animation: spin .8s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 .custom-btn-color-primary.custom-btn-loading::before {
@@ -155,5 +155,7 @@
 }
 
 @keyframes spin {
-  to {rotate: 360deg}
+  to {
+    rotate: 360deg;
+  }
 }

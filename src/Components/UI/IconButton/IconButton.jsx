@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import './iconButton.css';
 
 const IconButton = ({
@@ -17,14 +17,12 @@ const IconButton = ({
 
   return (
     <button
-      className={`icon-button icon-button-${![
-        'primary',
-        'secondary',
-        'success',
-        'warning',
-        'error',
-      ].includes(color) ? 'primary' : color} ${(loading && 'icon-button-loading') || ''}`}
-      style={{ borderRadius: borderRadius || '6px', ...style, }}
+      className={`icon-button icon-button-${
+        !['primary', 'secondary', 'success', 'warning', 'error'].includes(color)
+          ? 'primary'
+          : color
+      } ${(loading && 'icon-button-loading') || ''}`}
+      style={{ borderRadius: borderRadius || '6px', ...style }}
       {...rest}
       disabled={loading}
       onClick={() => {
@@ -32,11 +30,7 @@ const IconButton = ({
         if (linkTo) navigate(linkTo);
       }}
     >
-      <img
-        src={icon}
-        alt='_'
-        style={{ width: size || '25px' }}
-      />
+      <img src={icon} alt="_" style={{ width: size || '25px' }} />
     </button>
   );
 };

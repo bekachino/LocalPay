@@ -8,7 +8,7 @@
 
 .users .home-paper {
   width: calc(100% - 30px);
-  max-width: unset!important;
+  max-width: unset !important;
 }
 
 .user-filters {
@@ -38,11 +38,12 @@
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 14px;
 }
 
-.users-list th, .users-list td {
+.users-list th,
+.users-list td {
   padding: 12px 15px;
   text-align: left;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -148,14 +149,14 @@
 }
 
 .pagination-field-title {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 12px;
 }
 
-.users-list input[type=checkbox] {
+.users-list input[type='checkbox'] {
   appearance: none;
   background-color: #f0f0f0;
-  border: 2px solid #4CAF50;
+  border: 2px solid #4caf50;
   border-radius: 4px;
   width: 20px;
   height: 20px;
@@ -163,28 +164,28 @@
   transition: all 0.2s ease-in-out;
 }
 
-.users .users-list input[type=checkbox] {
+.users .users-list input[type='checkbox'] {
   border: 2px solid #6f92e8;
 }
 
-.users-list input[type=checkbox]:checked {
-  background-color: #4CAF50;
-  border-color: #4CAF50;
+.users-list input[type='checkbox']:checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 10.4l-3.2-3.2L2 9.2l4 4 8-8-1.4-1.4L6 10.4z'/%3E%3C/svg%3E");
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.users .users-list input[type=checkbox]:checked {
+.users .users-list input[type='checkbox']:checked {
   background-color: #5481c5;
   border-color: #5272c1;
 }
 
-.users-list input[type=checkbox]:hover {
+.users-list input[type='checkbox']:hover {
   border-color: #45a049;
 }
 
-.users .users-list input[type=checkbox]:hover {
+.users .users-list input[type='checkbox']:hover {
   border-color: #4f70b8;
 }

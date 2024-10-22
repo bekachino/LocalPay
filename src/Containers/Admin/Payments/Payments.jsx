@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import Paper from "../../../Components/UI/Paper/Paper";
-import { useDispatch, useSelector } from "react-redux";
+import Paper from '../../../Components/UI/Paper/Paper';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   annulPayment,
   getPayments,
-  getPaymentsForUpload
-} from "../../../features/admin/adminThunk";
+  getPaymentsForUpload,
+} from '../../../features/admin/adminThunk';
 import {
   formatDate,
   handleExcelFileExport,
-  handleNewVersionExcelFileExport
-} from "../../../utils";
-import Select from "../../../Components/UI/Select/Select";
-import Input from "../../../Components/UI/Input/Input";
-import CustomButton from "../../../Components/UI/CustomButton/CustomButton";
-import { addAlert } from "../../../features/data/dataSlice";
+  handleNewVersionExcelFileExport,
+} from '../../../utils';
+import Select from '../../../Components/UI/Select/Select';
+import Input from '../../../Components/UI/Input/Input';
+import CustomButton from '../../../Components/UI/CustomButton/CustomButton';
+import { addAlert } from '../../../features/data/dataSlice';
 import './payments.css';
-import { useAppSelector } from "../../../app/hooks";
-import { jwtDecode } from "jwt-decode";
+import { useAppSelector } from '../../../app/hooks';
+import { jwtDecode } from 'jwt-decode';
 
 const Payments = () => {
   const dispatch = useDispatch();
-  const {
-    payments,
-    paymentsLoading,
-    paymentsPagesAmount
-  } = useSelector((state) => state.adminState);
-  const { user } = useAppSelector(state => state.userState);
+  const { payments, paymentsLoading, paymentsPagesAmount } = useSelector(
+    (state) => state.adminState
+  );
+  const { user } = useAppSelector((state) => state.userState);
   const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({
     page: 1,
@@ -36,290 +34,319 @@ const Payments = () => {
   const [dateFilter, setDateFilter] = useState(null);
   const [chosenPayments, setChosenPayments] = useState([]);
   const [listAction, setListAction] = useState('');
-  const [paymentInAnnulmentProcess, setPaymentInAnnulmentProcess] = useState([]);
-  
+  const [paymentInAnnulmentProcess, setPaymentInAnnulmentProcess] = useState(
+    []
+  );
+
   useEffect(() => {
-    dispatch(getPayments({
-      ...paginationData,
-      searchWord, ...dateFilter,
-    }));
+    dispatch(
+      getPayments({
+        ...paginationData,
+        searchWord,
+        ...dateFilter,
+      })
+    );
   }, [
     // do not add searchWord, dateFilter as deps
     dispatch,
     paginationData,
   ]);
-  
-  const onPaginationDataChange = e => {
-    const {
-      name,
-      value
-    } = e.target;
-    setPaginationData(prevState => (
-      {
-        ...prevState,
-        [name]: value,
-      }
-    ));
+
+  const onPaginationDataChange = (e) => {
+    const { name, value } = e.target;
+    setPaginationData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
-  
+
   const handleSearchWordChange = (e) => {
     setSearchWord(e.target.value);
   };
-  
+
   useEffect(() => {
     setSearchWord(searchWord?.trim());
   }, [searchWord]);
-  
-  const handleDateFilterChange = e => {
-    const {
-      name,
-      value
-    } = e.target;
-    
-    setDateFilter(prevState => (
-      {
-        ...prevState,
-        [name]: value,
-      }
-    ))
-  };
-  
-  const searchWithFilters = () => {
-    dispatch(getPayments({
-      ...paginationData,
-      searchWord, ...dateFilter,
+
+  const handleDateFilterChange = (e) => {
+    const { name, value } = e.target;
+
+    setDateFilter((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
   };
-  
+
+  const searchWithFilters = () => {
+    dispatch(
+      getPayments({
+        ...paginationData,
+        searchWord,
+        ...dateFilter,
+      })
+    );
+  };
+
   const onChoosePayment = (e, id) => {
     const { checked } = e.target;
-    
+
     if (id === 'all') {
-      if (chosenPayments?.length === payments?.length) setChosenPayments(() => []); else setChosenPayments(() => [...payments?.map(payment => payment?.number_payment)]);
+      if (chosenPayments?.length === payments?.length)
+        setChosenPayments(() => []);
+      else
+        setChosenPayments(() => [
+          ...payments?.map((payment) => payment?.number_payment),
+        ]);
       return;
     }
-    
+
     if (checked) {
       if (chosenPayments.includes(id)) return;
-      setChosenPayments([
-        ...chosenPayments,
-        id,
-      ]);
+      setChosenPayments([...chosenPayments, id]);
     } else {
-      const filteredList = [...chosenPayments].filter(payment => payment !== id);
+      const filteredList = [...chosenPayments].filter(
+        (payment) => payment !== id
+      );
       setChosenPayments(filteredList);
     }
   };
-  
-  const onListActionChange = e => {
+
+  const onListActionChange = (e) => {
     const { value } = e.target;
     setListAction(value || '');
   };
-  
+
   const onActionExecute = () => {
-    if (listAction === 'uploadChosenOptions' && chosenPayments.length) handleExcelFileExport(payments, chosenPayments);
-    
-    if (listAction === 'newVersionUpload' && !!dateFilter?.date_from && !!dateFilter?.date_to) {
-      dispatch(getPaymentsForUpload({
-        ...dateFilter,
-        user_id: payments?.find(payment => payment?.login === searchWord)?.user_id,
-      }))
-      .then(res => {
+    if (listAction === 'uploadChosenOptions' && chosenPayments.length)
+      handleExcelFileExport(payments, chosenPayments);
+
+    if (
+      listAction === 'newVersionUpload' &&
+      !!dateFilter?.date_from &&
+      !!dateFilter?.date_to
+    ) {
+      dispatch(
+        getPaymentsForUpload({
+          ...dateFilter,
+          user_id: payments?.find((payment) => payment?.login === searchWord)
+            ?.user_id,
+        })
+      ).then((res) => {
         if (res?.error) {
-          dispatch(addAlert({
-            type: 'warning',
-            message: 'Данные отсуствуют'
-          }));
+          dispatch(
+            addAlert({
+              type: 'warning',
+              message: 'Данные отсуствуют',
+            })
+          );
           return;
         }
         handleNewVersionExcelFileExport(res?.payload?.results);
       });
     }
   };
-  
-  const onPaymentAnnulment = async id => {
+
+  const onPaymentAnnulment = async (id) => {
     if (id) {
-      setPaymentInAnnulmentProcess(prevState => (
-        [
-          ...prevState,
-          id,
-        ]
-      ));
+      setPaymentInAnnulmentProcess((prevState) => [...prevState, id]);
       await dispatch(annulPayment(id));
-      setPaymentInAnnulmentProcess(prevState => (
-        [...prevState.filter(prevId => prevId !== id)]
-      ));
-      dispatch(getPayments({
-        ...paginationData,
-        searchWord, ...dateFilter,
-      }));
+      setPaymentInAnnulmentProcess((prevState) => [
+        ...prevState.filter((prevId) => prevId !== id),
+      ]);
+      dispatch(
+        getPayments({
+          ...paginationData,
+          searchWord,
+          ...dateFilter,
+        })
+      );
     }
   };
-  
+
   return (
-    <div className='payments'>
-      <Paper className='home-paper'>
+    <div className="payments">
+      <Paper className="home-paper">
         <h1>{paymentsLoading ? 'Загрузка...' : 'Платежи'}</h1>
-        <div className='user-filters'>
-          <div className='user-filters-inner'>
+        <div className="user-filters">
+          <div className="user-filters-inner">
             <Input
-              size='small'
-              placeholder='поиск...'
-              color='success'
+              size="small"
+              placeholder="поиск..."
+              color="success"
               onChange={handleSearchWordChange}
             />
             <Input
-              type='date'
-              name='date_from'
+              type="date"
+              name="date_from"
               value={dateFilter?.date_from}
-              color='success'
-              size='small'
+              color="success"
+              size="small"
               onChange={handleDateFilterChange}
             />
             <Input
-              type='date'
-              name='date_to'
+              type="date"
+              name="date_to"
               value={dateFilter?.date_to}
-              color='success'
-              size='small'
+              color="success"
+              size="small"
               onChange={handleDateFilterChange}
             />
           </div>
           <CustomButton
-            color='success'
-            size='small'
+            color="success"
+            size="small"
             rounded
             onClick={searchWithFilters}
             loading={paymentsLoading}
-          >Искать...</CustomButton>
+          >
+            Искать...
+          </CustomButton>
         </div>
-        <div className='users-list-container'>
-          <table className='users-list'>
+        <div className="users-list-container">
+          <table className="users-list">
             <thead>
-            <tr>
-              <th>
-                <input
-                  type='checkbox'
-                  checked={chosenPayments?.length === payments?.length}
-                  onChange={e => onChoosePayment(e, 'all')}
-                />
-              </th>
-              <th>ЛС абонента</th>
-              <th>СИ</th>
-              <th>Логин</th>
-              <th>Дата оплаты</th>
-              <th>Дата принятия оплаты</th>
-              <th>Баланс</th>
-              <th>Статус оплаты</th>
-              <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            {payments?.map((payment, i) => (
-              <tr key={payment.number_payment || i}>
+              <tr>
                 <th>
                   <input
-                    type='checkbox'
-                    onChange={e => onChoosePayment(e, payment?.number_payment)}
-                    checked={chosenPayments.includes(payment?.number_payment)}
+                    type="checkbox"
+                    checked={chosenPayments?.length === payments?.length}
+                    onChange={(e) => onChoosePayment(e, 'all')}
                   />
                 </th>
-                <td>{payment.ls_abon || '-'}</td>
-                <td>{payment.user_name || '-'}</td>
-                <td>{payment.login || '-'}</td>
-                <td>{!!payment.date_payment ? formatDate(payment.accept_payment) : '-'}</td>
-                <td>{!!payment.accept_payment ? formatDate(payment.accept_payment) : '-'}</td>
-                <td style={{ textAlign: 'center' }}>
-                  {payment.money || 0}
-                  <span className='currence-highlight'>с</span>
-                </td>
-                <td style={{ textAlign: 'center' }}>{payment.status_payment || '-'}</td>
-                {
-                  ['admin'].includes(role) &&
-                  <td
-                  >
-                    <div
-                      className='user-action-btns'
-                      style={{ position: 'unset' }}
-                    >
-                      <CustomButton
-                        color='success'
-                        onClick={_ => onPaymentAnnulment(payment?.id)}
-                        size='small'
-                        loading={paymentInAnnulmentProcess.includes(payment?.id)}
-                      >аннулировать</CustomButton>
-                    </div>
-                  </td>
-                }
+                <th>ЛС абонента</th>
+                <th>СИ</th>
+                <th>Логин</th>
+                <th>Дата оплаты</th>
+                <th>Дата принятия оплаты</th>
+                <th>Баланс</th>
+                <th>Статус оплаты</th>
+                <th>Действия</th>
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {payments?.map((payment, i) => (
+                <tr key={payment.number_payment || i}>
+                  <th>
+                    <input
+                      type="checkbox"
+                      onChange={(e) =>
+                        onChoosePayment(e, payment?.number_payment)
+                      }
+                      checked={chosenPayments.includes(payment?.number_payment)}
+                    />
+                  </th>
+                  <td>{payment.ls_abon || '-'}</td>
+                  <td>{payment.user_name || '-'}</td>
+                  <td>{payment.login || '-'}</td>
+                  <td>
+                    {!!payment.date_payment
+                      ? formatDate(payment.accept_payment)
+                      : '-'}
+                  </td>
+                  <td>
+                    {!!payment.accept_payment
+                      ? formatDate(payment.accept_payment)
+                      : '-'}
+                  </td>
+                  <td style={{ textAlign: 'center' }}>
+                    {payment.money || 0}
+                    <span className="currence-highlight">с</span>
+                  </td>
+                  <td style={{ textAlign: 'center' }}>
+                    {payment.status_payment || '-'}
+                  </td>
+                  {['admin'].includes(role) && (
+                    <td>
+                      <div
+                        className="user-action-btns"
+                        style={{ position: 'unset' }}
+                      >
+                        <CustomButton
+                          color="success"
+                          onClick={(_) => onPaymentAnnulment(payment?.id)}
+                          size="small"
+                          loading={paymentInAnnulmentProcess.includes(
+                            payment?.id
+                          )}
+                        >
+                          аннулировать
+                        </CustomButton>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))}
             </tbody>
           </table>
-          <div className='pagination-container'>
-            <div className='list-actions'>
+          <div className="pagination-container">
+            <div className="list-actions">
               <div
-                className='pagination-field-wrapper'
+                className="pagination-field-wrapper"
                 style={{ marginLeft: 'auto' }}
               >
-                <span className='pagination-field-title'>Выберите действие:</span>
+                <span className="pagination-field-title">
+                  Выберите действие:
+                </span>
                 <Select
-                  color='success'
-                  size='small'
+                  color="success"
+                  size="small"
                   onChange={onListActionChange}
                 >
-                  <option value=''>-</option>
-                  <option value='uploadChosenOptions'>
+                  <option value="">-</option>
+                  <option value="uploadChosenOptions">
                     Выгрузить платежи (старая версия)
                   </option>
-                  <option value='newVersionUpload'>
-                    Выгрузить платежи
-                  </option>
+                  <option value="newVersionUpload">Выгрузить платежи</option>
                 </Select>
               </div>
               <CustomButton
-                color='success'
-                size='small'
+                color="success"
+                size="small"
                 style={{ marginTop: 'auto' }}
                 rounded
                 onClick={onActionExecute}
-              >Выполнить</CustomButton>
+              >
+                Выполнить
+              </CustomButton>
             </div>
             <div
-              className='pagination-field-wrapper'
+              className="pagination-field-wrapper"
               style={{ marginLeft: 'auto' }}
             >
-              <span className='pagination-field-title'>Платежей на страницу:</span>
+              <span className="pagination-field-title">
+                Платежей на страницу:
+              </span>
               <Select
-                size='small'
-                color='success'
-                name='page_size'
+                size="small"
+                color="success"
+                name="page_size"
                 value={paginationData.page_size}
                 onChange={onPaginationDataChange}
               >
-                <option value='5'>5</option>
-                <option value='10'>10</option>
-                <option value='20'>20</option>
-                <option value='50'>50</option>
-                <option value='100'>100</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
               </Select>
             </div>
-            <div className='pagination-field-wrapper'>
-              <span className='pagination-field-title'>Страница:</span>
+            <div className="pagination-field-wrapper">
+              <span className="pagination-field-title">Страница:</span>
               <Select
-                size='small'
-                color='success'
-                name='page'
+                size="small"
+                color="success"
+                name="page"
                 value={paginationData.page}
                 onChange={onPaginationDataChange}
               >
-                {Array.from({ length: paymentsPagesAmount || 0 }, (_, index) => (
-                  <option
-                    key={index + 1}
-                    value={index + 1}
-                  >
-                    {index + 1}
-                  </option>
-                ))}
+                {Array.from(
+                  { length: paymentsPagesAmount || 0 },
+                  (_, index) => (
+                    <option key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </option>
+                  )
+                )}
               </Select>
             </div>
           </div>

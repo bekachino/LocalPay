@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { apiUrl } from './constants';
-import { logout } from "./features/user/userThunk";
-import { addAlert } from "./features/data/dataSlice";
+import { logout } from './features/user/userThunk';
+import { addAlert } from './features/data/dataSlice';
 
 export const addInterceptors = (store) => {
   const { dispatch } = store;
-  
+
   axiosApi.interceptors.request.use((config) => {
     const { url } = config;
     const isSignIn = url?.includes('/token');
@@ -16,16 +16,27 @@ export const addInterceptors = (store) => {
     }
     return config;
   });
-  
-  axiosApi.interceptors.response.use(function (response) {
-    return response;
-  }, function (error) {
-    if (error.status === 401 && error.response.data.code === 'token_not_valid') {
-      dispatch(addAlert({type: 'warning', message: 'Токен устарел, авторизуйтесь снова'}));
-      return dispatch(logout());
+
+  axiosApi.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      if (
+        error.status === 401 &&
+        error.response.data.code === 'token_not_valid'
+      ) {
+        dispatch(
+          addAlert({
+            type: 'warning',
+            message: 'Токен устарел, авторизуйтесь снова',
+          })
+        );
+        return dispatch(logout());
+      }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
-  });
+  );
 };
 
 const axiosApi = axios.create({

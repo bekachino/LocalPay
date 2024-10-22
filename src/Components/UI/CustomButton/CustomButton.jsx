@@ -1,6 +1,6 @@
 import React from 'react';
 import './customButton.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const CustomButton = ({
   type = 'button',
@@ -18,25 +18,19 @@ const CustomButton = ({
   ...rest
 }) => {
   const navigate = useNavigate();
-  
+
   return (
     <button
       type={type}
-      className={`${className} custom-btn custom-btn-size-${![
-        'small',
-        'medium',
-        'large'
-      ].includes(size) ? 'medium' : size} custom-btn-color-${![
-        'primary',
-        'secondary',
-        'success',
-        'warning',
-        'error',
-      ].includes(color) ? 'primary' : color} ${(
-        loading && 'custom-btn-loading'
-      ) || ''} ${(
-        rounded && 'custom-btn-rounded'
-      ) || ''}`}
+      className={`${className} custom-btn custom-btn-size-${
+        !['small', 'medium', 'large'].includes(size) ? 'medium' : size
+      } custom-btn-color-${
+        !['primary', 'secondary', 'success', 'warning', 'error'].includes(color)
+          ? 'primary'
+          : color
+      } ${(loading && 'custom-btn-loading') || ''} ${
+        (rounded && 'custom-btn-rounded') || ''
+      }`}
       style={style}
       disabled={disabled || loading}
       onClick={() => {
@@ -45,10 +39,7 @@ const CustomButton = ({
       }}
       {...rest}
     >
-      {icon && <img
-        src={icon}
-        alt=''
-      />}
+      {icon && <img src={icon} alt="" />}
       {children}
     </button>
   );

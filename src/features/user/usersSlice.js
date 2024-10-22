@@ -25,22 +25,20 @@ const UsersSlice = createSlice({
     builder.addCase(signIn.rejected, (state, { payload: error }) => {
       state.signInLoading = false;
     });
-    
-    builder.addCase(logout.pending, state => {
+
+    builder.addCase(logout.pending, (state) => {
       state.user = null;
     });
-    builder.addCase(logout.fulfilled, _ => {
-    });
-    builder.addCase(logout.rejected, _ => {
-    });
-    
-    builder.addCase(createPayment.pending, state => {
+    builder.addCase(logout.fulfilled, (_) => {});
+    builder.addCase(logout.rejected, (_) => {});
+
+    builder.addCase(createPayment.pending, (state) => {
       state.createPaymentLoading = true;
     });
-    builder.addCase(createPayment.fulfilled, state => {
+    builder.addCase(createPayment.fulfilled, (state) => {
       state.createPaymentLoading = false;
     });
-    builder.addCase(createPayment.rejected, state => {
+    builder.addCase(createPayment.rejected, (state) => {
       state.createPaymentLoading = false;
     });
   },

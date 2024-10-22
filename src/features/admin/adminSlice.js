@@ -3,10 +3,11 @@ import {
   annulPayment,
   createUser,
   deleteUser,
-  editUser, getPayments,
+  editUser,
+  getPayments,
   getUser,
-  getUsers
-} from "./adminThunk";
+  getUsers,
+} from './adminThunk';
 
 const initialState = {
   users: [],
@@ -24,77 +25,67 @@ const AdminSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUsers.pending, state => {
+    builder.addCase(getUsers.pending, (state) => {
       state.usersLoading = true;
       state.users = [];
       state.usersPagesAmount = 1;
     });
-    builder.addCase(getUsers.fulfilled, (state, {
-      payload: {
-        total_pages,
-        results
+    builder.addCase(
+      getUsers.fulfilled,
+      (state, { payload: { total_pages, results } }) => {
+        state.usersLoading = false;
+        state.users = results || [];
+        state.usersPagesAmount = total_pages || 1;
       }
-    }) => {
-      state.usersLoading = false;
-      state.users = results || [];
-      state.usersPagesAmount = total_pages || 1;
-    });
-    builder.addCase(getUsers.rejected, state => {
+    );
+    builder.addCase(getUsers.rejected, (state) => {
       state.usersLoading = false;
     });
-    
-    builder.addCase(createUser.pending, state => {
+
+    builder.addCase(createUser.pending, (state) => {
       state.createUserLoading = true;
     });
-    builder.addCase(createUser.fulfilled, state => {
+    builder.addCase(createUser.fulfilled, (state) => {
       state.createUserLoading = false;
     });
-    builder.addCase(createUser.rejected, state => {
+    builder.addCase(createUser.rejected, (state) => {
       state.createUserLoading = false;
     });
-    
-    builder.addCase(editUser.pending, state => {
+
+    builder.addCase(editUser.pending, (state) => {
       state.editUserLoading = true;
     });
-    builder.addCase(editUser.fulfilled, state => {
+    builder.addCase(editUser.fulfilled, (state) => {
       state.editUserLoading = false;
     });
-    builder.addCase(editUser.rejected, state => {
+    builder.addCase(editUser.rejected, (state) => {
       state.editUserLoading = false;
     });
-    
-    builder.addCase(deleteUser.pending, _ => {
-    });
-    builder.addCase(deleteUser.fulfilled, _ => {
-    });
-    builder.addCase(deleteUser.rejected, _ => {
-    });
-    
-    builder.addCase(getPayments.pending, state => {
+
+    builder.addCase(deleteUser.pending, (_) => {});
+    builder.addCase(deleteUser.fulfilled, (_) => {});
+    builder.addCase(deleteUser.rejected, (_) => {});
+
+    builder.addCase(getPayments.pending, (state) => {
       state.paymentsLoading = true;
       state.payments = [];
       state.paymentsPagesAmount = 1;
     });
-    builder.addCase(getPayments.fulfilled, (state, {
-      payload: {
-        total_pages,
-        results
+    builder.addCase(
+      getPayments.fulfilled,
+      (state, { payload: { total_pages, results } }) => {
+        state.paymentsLoading = false;
+        state.payments = results || [];
+        state.paymentsPagesAmount = total_pages || 1;
       }
-    }) => {
-      state.paymentsLoading = false;
-      state.payments = results || [];
-      state.paymentsPagesAmount = total_pages || 1;
-    });
-    builder.addCase(getPayments.rejected, state => {
+    );
+    builder.addCase(getPayments.rejected, (state) => {
       state.paymentsLoading = false;
     });
-    
-    builder.addCase(annulPayment.pending, _ => {
-    });
-    builder.addCase(annulPayment.fulfilled, _ => {
-    });
-    builder.addCase(annulPayment.rejected, _ => {
-    });
+
+    builder.addCase(annulPayment.pending, (_) => {});
+    builder.addCase(annulPayment.fulfilled, (_) => {});
+    builder.addCase(annulPayment.rejected, (_) => {});
   },
 });
 
