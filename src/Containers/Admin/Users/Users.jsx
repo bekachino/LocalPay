@@ -29,7 +29,7 @@ const Users = () => {
   const [deleteUserId, setDeleteUserId] = useState('');
   const [paginationData, setPaginationData] = useState({
     page: 1,
-    page_size: 20,
+    page_size: 600,
   });
   const [searchWord, setSearchWord] = useState('');
   const { role } = jwtDecode(user.access || '');
@@ -39,12 +39,14 @@ const Users = () => {
   const [sortByRegion, setSortByRegion] = useState(0);
   
   useEffect(() => {
-    dispatch(getUsers({
-      ...paginationData,
-      searchWord,
-    }));
+    if (!usersPagesAmount || paginationData.page < usersPagesAmount) {
+      dispatch(getUsers({
+        ...paginationData,
+        searchWord,
+      }));
+    }
   }, [
-    // do not add searchWord, dateFilter as deps
+    // do not add searchWord, usersPagesAmount as deps
     dispatch,
     paginationData,
   ]);
@@ -69,7 +71,17 @@ const Users = () => {
     dispatch(getUsers({
       ...paginationData,
       searchWord,
+      isSearch: true,
     }));
+  };
+  
+  const onShowMore = async () => {
+    setPaginationData(prevState => (
+      {
+        ...prevState,
+        page: prevState.page + 1,
+      }
+    ));
   };
   
   const onListActionChange = (e) => {
@@ -94,19 +106,6 @@ const Users = () => {
   
   const toggleDeleteUserModal = (userId) => {
     setDeleteUserId(userId || '');
-  };
-  
-  const onPaginationDataChange = (e) => {
-    const {
-      name,
-      value,
-    } = e.target;
-    setPaginationData((prevState) => (
-      {
-        ...prevState,
-        [name]: value,
-      }
-    ));
   };
   
   const onChooseUser = (e, id) => {
@@ -220,10 +219,10 @@ const Users = () => {
               <th>ФИО</th>
               <th>Логин</th>
               <th
-                style={{cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
                 onClick={() => setSortByRegion(sortByRegion === 0 ? 1 : sortByRegion === 1 ? 2 : 0)}
               >
-                Область {sortByRegion === 1 ? '▼' : sortByRegion === 2 ? '▲' : '' }
+                Область {sortByRegion === 1 ? '▼' : sortByRegion === 2 ? '▲' : ''}
               </th>
               <th>Доступный баланс</th>
               <th>Затраты</th>
@@ -237,8 +236,8 @@ const Users = () => {
             </tr>
             </thead>
             <tbody>
-            {sortedUsers?.map((user) => (
-              <tr key={user.id}>
+            {sortedUsers?.map((user, i) => (
+              <tr key={i}>
                 <th>
                   <input
                     type='checkbox'
@@ -336,43 +335,17 @@ const Users = () => {
                 Выполнить
               </CustomButton>
             </div>
-            <div
-              className='pagination-field-wrapper'
-              style={{ marginLeft: 'auto' }}
-            >
-              <span className='pagination-field-title'>
-                Пользователей на страницу:
-              </span>
-              <Select
-                size='small'
-                name='page_size'
-                value={paginationData.page_size}
-                onChange={onPaginationDataChange}
-              >
-                <option value='5'>5</option>
-                <option value='10'>10</option>
-                <option value='20'>20</option>
-                <option value='50'>50</option>
-                <option value='100'>100</option>
-              </Select>
-            </div>
             <div className='pagination-field-wrapper'>
-              <span className='pagination-field-title'>Страница:</span>
-              <Select
+              <CustomButton
+                color='info'
                 size='small'
-                name='page'
-                value={paginationData.page}
-                onChange={onPaginationDataChange}
+                style={{ marginTop: 'auto' }}
+                rounded
+                onClick={onShowMore}
+                loading={usersLoading}
               >
-                {Array.from({ length: usersPagesAmount || 0 }, (_, index) => (
-                  <option
-                    key={index + 1}
-                    value={index + 1}
-                  >
-                    {index + 1}
-                  </option>
-                ))}
-              </Select>
+                {!usersPagesAmount || paginationData.page < usersPagesAmount ? 'Показать ещё...' : 'Больше данных нет'}
+              </CustomButton>
             </div>
           </div>
         </div>

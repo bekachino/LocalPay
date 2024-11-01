@@ -27,7 +27,7 @@ const Payments = () => {
   const { user } = useAppSelector((state) => state.userState);
   const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({
-    page: 2,
+    page: 1,
     page_size: 600,
   });
   const [searchWord, setSearchWord] = useState('');

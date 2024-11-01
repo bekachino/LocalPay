@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   users: [],
-  usersPagesAmount: [],
+  usersPagesAmount: 0,
   payments: [],
   paymentsPagesAmount: 0,
   paymentsForUploadLoading: false,
@@ -36,10 +36,14 @@ const AdminSlice = createSlice({
         payload: {
           total_pages,
           results,
+          isSearch,
         },
       }) => {
         state.usersLoading = false;
-        state.users = results || [];
+        state.users = isSearch ? results : [
+          ...state.users,
+          ...results,
+        ];
         state.usersPagesAmount = total_pages || 1;
       },
     );
@@ -87,9 +91,7 @@ const AdminSlice = createSlice({
         state.paymentsLoading = false;
         state.payments = isSearch ? results : [
           ...state.payments,
-          ...(
-            results || []
-          ),
+          ...results,
         ];
         state.paymentsPagesAmount = total_pages || 1;
       },

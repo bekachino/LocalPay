@@ -10,10 +10,15 @@ export const getUsers = createAsyncThunk('admin/getUsers', async ({
 }, {
   dispatch,
   rejectWithValue,
+  isSearch,
 }) => {
   try {
     const req = await axiosApi(`users/?page=${page}&page_size=${page_size}&search=${searchWord}`);
-    return await req.data;
+    return {
+      results: await req.data?.results,
+      total_pages: await req.data?.total_pages,
+      isSearch,
+    };
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
@@ -37,7 +42,7 @@ export const createUser = createAsyncThunk('admin/createUser', async (data, {
   } catch (e) {
     dispatch(addAlert({
       type: 'error',
-      message: e?.response?.status === 400 ? 'Пользователь с таким логином уже сущесвует' : ERROR_MESSAGES[e?.response?.status || 500],
+      message: e?.response?.status === 400 ? e.response?.data?.write_off || 'Пользователь с таким логином уже сущесвует' : ERROR_MESSAGES[e?.response?.status || 500],
     }));
     return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
@@ -86,7 +91,7 @@ export const deleteUser = createAsyncThunk('admin/deleteUser', async (userId, {
 export const getPayments = createAsyncThunk('admin/getPayments', async ({
   page,
   page_size,
-  searchWord = false,
+  searchWord,
   date_from,
   date_to,
   isSearch,
