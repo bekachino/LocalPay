@@ -3,23 +3,23 @@ import * as XLSX from 'xlsx-js-style';
 export const formatDate = (date) => {
   const newDate = new Date(date);
   const pad = (num, size) => num.toString().padStart(size, '0');
-
+  
   const year = newDate.getFullYear();
   const month = pad(newDate.getMonth() + 1, 2);
   const day = pad(newDate.getDate(), 2);
   const hours = pad(newDate.getHours(), 2);
   const minutes = pad(newDate.getMinutes(), 2);
-
+  
   return `${day}.${month}.${year}  ${!!hours && `${hours}:${minutes}`}`;
 };
 
 export const handleExcelFileExport = (payments, chosenPayments) => {
   const workbook = XLSX.utils.book_new();
-
+  
   const worksheet = XLSX.utils.json_to_sheet([]);
-
+  
   let rowIndex = 1;
-
+  
   XLSX.utils.sheet_add_aoa(
     worksheet,
     [
@@ -32,14 +32,14 @@ export const handleExcelFileExport = (payments, chosenPayments) => {
         'Сервис инженер',
       ],
     ],
-    { origin: `A1` }
+    { origin: `A1` },
   );
-
+  
   payments.forEach((payment) => {
     if (!chosenPayments.includes(payment.number_payment)) return;
-
+    
     rowIndex += 1;
-
+    
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
@@ -52,11 +52,12 @@ export const handleExcelFileExport = (payments, chosenPayments) => {
           payment.user_name || '-',
         ],
       ],
-      { origin: `A${rowIndex}` }
+      { origin: `A${rowIndex}` },
     );
   });
-
+  
   worksheet['!cols'] = [
+    { wch: 25 },
     { wch: 25 },
     { wch: 25 },
     { wch: 17 },
@@ -64,27 +65,27 @@ export const handleExcelFileExport = (payments, chosenPayments) => {
     { wch: 20 },
     { wch: 25 },
   ];
-
+  
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Платежи');
-
+  
   XLSX.writeFile(workbook, 'Платежи.xlsx');
 };
 
 export const handleNewVersionExcelFileExport = (payments) => {
   let totalLocalPaySum = 0;
   let totalPlanUpSum = 0;
-
+  
   const workbook = XLSX.utils.book_new();
   const worksheet = XLSX.utils.json_to_sheet([]);
-
+  
   let rowIndex = 1;
-
+  
   [...payments?.slice(0, payments?.length - 1)]?.forEach((payment) => {
     const userName = `Платежи пользователя: ${payment?.name || '-'} ${payment?.surname || '-'}`;
     XLSX.utils.sheet_add_aoa(worksheet, [[userName]], {
       origin: `A${rowIndex}`,
     });
-
+    
     worksheet['!merges'] = worksheet['!merges'] || [];
     worksheet['!merges'].push({
       s: {
@@ -96,7 +97,7 @@ export const handleNewVersionExcelFileExport = (payments) => {
         c: 5,
       },
     });
-
+    
     const cellAddress = XLSX.utils.encode_cell({
       r: rowIndex - 1,
       c: 0,
@@ -110,31 +111,33 @@ export const handleNewVersionExcelFileExport = (payments) => {
         bold: true,
       },
     };
-
+    
     rowIndex += 1;
-
+    
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
         [
           'Время проведения платежа',
+          'Время платежа PlanUp',
           'Лицевой счет',
           'Баланс в ЛокалПэй',
           'Баланс в Планап',
           'Статус платежа',
         ],
       ],
-      { origin: `A${rowIndex}` }
+      { origin: `A${rowIndex}` },
     );
-
+    
     rowIndex += 1;
-
+    
     payment?.payments.forEach((singleUserPayment) => {
       XLSX.utils.sheet_add_aoa(
         worksheet,
         [
           [
             singleUserPayment.date_payment || '-',
+            singleUserPayment.end_date || '-',
             singleUserPayment.ls_abon || '-',
             singleUserPayment.localpay_money || 0,
             singleUserPayment.planup_money || 0,
@@ -144,33 +147,37 @@ export const handleNewVersionExcelFileExport = (payments) => {
               : '-',
           ],
         ],
-        { origin: `A${rowIndex}` }
+        { origin: `A${rowIndex}` },
       );
       rowIndex += 1;
     });
-
+    
     const sumLocalPayMoney = payment?.payments.reduce((total, payment) => {
       return (
         total +
-        (Number.isInteger(Number(payment?.localpay_money)) &&
-        payment?.status_payment === 'Выполнен'
-          ? Number(payment?.localpay_money)
-          : 0)
+        (
+          Number.isInteger(Number(payment?.localpay_money)) &&
+          payment?.status_payment === 'Выполнен'
+            ? Number(payment?.localpay_money)
+            : 0
+        )
       );
     }, 0);
     const sumPlanUpMoney = payment?.payments.reduce((total, payment) => {
       return (
         total +
-        (Number.isInteger(Number(payment?.planup_money)) &&
-        payment?.status_payment === 'Выполнен'
-          ? Number(payment?.planup_money)
-          : 0)
+        (
+          Number.isInteger(Number(payment?.planup_money)) &&
+          payment?.status_payment === 'Выполнен'
+            ? Number(payment?.planup_money)
+            : 0
+        )
       );
     }, 0);
-
+    
     totalLocalPaySum += sumLocalPayMoney;
     totalPlanUpSum += sumPlanUpMoney;
-
+    
     XLSX.utils.sheet_add_aoa(
       worksheet,
       [
@@ -183,14 +190,14 @@ export const handleNewVersionExcelFileExport = (payments) => {
           '',
         ],
       ],
-      { origin: `A${rowIndex}` }
+      { origin: `A${rowIndex}` },
     );
-
+    
     rowIndex += 2;
   });
-
+  
   rowIndex += 2;
-
+  
   XLSX.utils.sheet_add_aoa(
     worksheet,
     [
@@ -203,9 +210,9 @@ export const handleNewVersionExcelFileExport = (payments) => {
         '',
       ],
     ],
-    { origin: `A${rowIndex}` }
+    { origin: `A${rowIndex}` },
   );
-
+  
   const localPaySumCell = XLSX.utils.encode_cell({
     r: rowIndex - 1,
     c: 2,
@@ -214,7 +221,7 @@ export const handleNewVersionExcelFileExport = (payments) => {
     r: rowIndex - 1,
     c: 3,
   });
-
+  
   worksheet[localPaySumCell].s = {
     alignment: {
       horizontal: 'center',
@@ -233,8 +240,9 @@ export const handleNewVersionExcelFileExport = (payments) => {
       bold: true,
     },
   };
-
+  
   worksheet['!cols'] = [
+    { wch: 35 },
     { wch: 35 },
     { wch: 17 },
     { wch: 23 },
@@ -242,8 +250,8 @@ export const handleNewVersionExcelFileExport = (payments) => {
     { wch: 20 },
     { wch: 25 },
   ];
-
+  
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Платежи по пользователям');
-
+  
   XLSX.writeFile(workbook, 'Платежи по пользователям.xlsx');
 };
