@@ -11,7 +11,7 @@ export const getUsers = createAsyncThunk(
   ) => {
     try {
       const req = await axiosApi(
-        `users/?page=${page}&page_size=${page_size}&search=${searchWord}`
+        `users/?page=${page}&page_size=${page_size}&search=${searchWord || ''}`
       );
       return {
         results: await req.data?.results,
