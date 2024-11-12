@@ -4,7 +4,8 @@ import {
   createUser,
   deleteUser,
   editUser,
-  getPayments, getPaymentsForUpload,
+  getPayments,
+  getPaymentsForUpload,
   getUsers,
 } from './adminThunk';
 
@@ -32,25 +33,16 @@ const AdminSlice = createSlice({
     });
     builder.addCase(
       getUsers.fulfilled,
-      (state, {
-        payload: {
-          total_pages,
-          results,
-          isSearch,
-        },
-      }) => {
+      (state, { payload: { total_pages, results, isSearch } }) => {
         state.usersLoading = false;
-        state.users = isSearch ? results : [
-          ...state.users,
-          ...results,
-        ];
+        state.users = isSearch ? results : [...state.users, ...results];
         state.usersPagesAmount = total_pages || 1;
-      },
+      }
     );
     builder.addCase(getUsers.rejected, (state) => {
       state.usersLoading = false;
     });
-    
+
     builder.addCase(createUser.pending, (state) => {
       state.createUserLoading = true;
     });
@@ -60,7 +52,7 @@ const AdminSlice = createSlice({
     builder.addCase(createUser.rejected, (state) => {
       state.createUserLoading = false;
     });
-    
+
     builder.addCase(editUser.pending, (state) => {
       state.editUserLoading = true;
     });
@@ -70,47 +62,38 @@ const AdminSlice = createSlice({
     builder.addCase(editUser.rejected, (state) => {
       state.editUserLoading = false;
     });
-    
+
     builder.addCase(deleteUser.pending, (_) => {});
     builder.addCase(deleteUser.fulfilled, (_) => {});
     builder.addCase(deleteUser.rejected, (_) => {});
-    
+
     builder.addCase(getPayments.pending, (state) => {
       state.paymentsLoading = true;
       state.paymentsPagesAmount = 1;
     });
     builder.addCase(
       getPayments.fulfilled,
-      (state, {
-        payload: {
-          total_pages,
-          results,
-          isSearch,
-        },
-      }) => {
+      (state, { payload: { total_pages, results, isSearch } }) => {
         state.paymentsLoading = false;
-        state.payments = isSearch ? results : [
-          ...state.payments,
-          ...results,
-        ];
+        state.payments = isSearch ? results : [...state.payments, ...results];
         state.paymentsPagesAmount = total_pages || 1;
-      },
+      }
     );
     builder.addCase(getPayments.rejected, (state) => {
       state.paymentsLoading = false;
     });
-    
+
     builder.addCase(annulPayment.pending, (_) => {});
     builder.addCase(annulPayment.fulfilled, (_) => {});
     builder.addCase(annulPayment.rejected, (_) => {});
-    
-    builder.addCase(getPaymentsForUpload.pending, state => {
+
+    builder.addCase(getPaymentsForUpload.pending, (state) => {
       state.paymentsForUploadLoading = true;
     });
-    builder.addCase(getPaymentsForUpload.fulfilled, state => {
+    builder.addCase(getPaymentsForUpload.fulfilled, (state) => {
       state.paymentsForUploadLoading = false;
     });
-    builder.addCase(getPaymentsForUpload.rejected, state => {
+    builder.addCase(getPaymentsForUpload.rejected, (state) => {
       state.paymentsForUploadLoading = false;
     });
   },
