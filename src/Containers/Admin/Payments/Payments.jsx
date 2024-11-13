@@ -146,7 +146,7 @@ const Payments = () => {
       dispatch(
         getPaymentsForUpload({
           ...dateFilter,
-          user_id: users?.find(
+          user_id: !!searchWord ? users?.find(
             (payment) =>
               (payment?.name?.toLowerCase() || '').includes(
                 searchWord?.toLowerCase() || ''
@@ -154,7 +154,7 @@ const Payments = () => {
               (payment?.surname?.toLowerCase() || '').includes(
                 searchWord?.toLowerCase() || ''
               )
-          )?.id,
+          )?.id : null,
         })
       ).then((res) => {
         if (res?.error) {
