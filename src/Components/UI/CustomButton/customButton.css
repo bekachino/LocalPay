@@ -104,7 +104,7 @@
 }
 
 .custom-btn-loading {
-  color: transparent!important;
+  color: transparent !important;
 }
 
 .custom-btn-loading::before {

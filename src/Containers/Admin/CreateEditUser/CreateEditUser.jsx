@@ -19,7 +19,13 @@ const CreateEditUser = ({ isEdit }) => {
     (state) => state.adminState
   );
   const { user } = useAppSelector((state) => state.dataState);
-  const [state, setState] = useState({ role: 'user' });
+  const [state, setState] = useState({
+    role: 'user',
+    balance: 0,
+    avail_balance: 0,
+    refill: 0,
+    write_off: 0,
+  });
 
   useEffect(() => {
     if (isEdit && id) {
