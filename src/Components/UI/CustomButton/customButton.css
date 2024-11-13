@@ -101,7 +101,10 @@
 .custom-btn-loading,
 .custom-btn:disabled {
   position: relative;
-  color: transparent;
+}
+
+.custom-btn-loading {
+  color: transparent!important;
 }
 
 .custom-btn-loading::before {
