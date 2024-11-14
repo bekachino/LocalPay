@@ -31,7 +31,7 @@ const Payments = () => {
   const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({
     page: 1,
-    page_size: 2,
+    page_size: 1000,
   });
   const [searchWord, setSearchWord] = useState('');
   const [dateFilter, setDateFilter] = useState(null);
