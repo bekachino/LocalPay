@@ -1,4 +1,4 @@
-export const apiUrl = 'http://10.1.2.171:8000/';
+export const apiUrl = 'http://185.39.79.80:8000/';
 
 export const ERROR_MESSAGES = {
   400: 'Неверные данные',
