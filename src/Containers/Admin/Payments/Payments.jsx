@@ -31,7 +31,7 @@ const Payments = () => {
   const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({
     page: 1,
-    page_size: 1000,
+    page_size: 2,
   });
   const [searchWord, setSearchWord] = useState('');
   const [dateFilter, setDateFilter] = useState(null);
@@ -58,7 +58,6 @@ const Payments = () => {
   }, [
     // do not add searchWord, dateFilter as deps
     dispatch,
-    paginationData,
   ]);
   
   const handleSearchWordChange = (e) => {
@@ -88,6 +87,12 @@ const Payments = () => {
         page: prevState.page + 1,
       }
     ));
+    
+    dispatch(getPayments({
+      ...paginationData,
+      page: paginationData.page + 1,
+      searchWord, ...dateFilter,
+    }));
   };
   
   const searchWithFilters = async () => {
