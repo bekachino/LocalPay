@@ -69,12 +69,14 @@ const CreateEditUser = ({ isEdit }) => {
         role: state?.role ? state.role : 'user',
       })).then((res) => {
         if (!!res.payload.id) {
-          dispatch(getUsers({
-            page: 1,
-            page_size: 600,
-            searchWord: isEdit ? state?.login || '' : '',
-          }));
-          navigate('/users');
+          setTimeout(() => {
+            navigate('/users');
+            dispatch(getUsers({
+              page: 1,
+              page_size: 600,
+              searchWord: isEdit ? state?.login || '' : '',
+            }));
+          }, 1000);
         }
       });
     } else {
@@ -83,12 +85,14 @@ const CreateEditUser = ({ isEdit }) => {
         is_active: true,
       })).then((res) => {
         if (!!res.payload.id) {
-          dispatch(getUsers({
-            page: 1,
-            page_size: 600,
-            searchWord: isEdit ? state?.login || '' : '',
-          }));
-          navigate('/users');
+          setTimeout(() => {
+            navigate('/users');
+            dispatch(getUsers({
+              page: 1,
+              page_size: 600,
+              searchWord: isEdit ? state?.login || '' : '',
+            }));
+          }, 1000);
         }
       });
     }

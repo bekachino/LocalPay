@@ -11,11 +11,11 @@
 }
 
 .custom-btn:hover {
-  scale: 1.07;
+  scale: 1.01;
 }
 
 .custom-btn:active {
-  scale: 0.95;
+  scale: 0.98;
 }
 
 .custom-btn:disabled {
