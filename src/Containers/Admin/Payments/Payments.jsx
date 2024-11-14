@@ -14,6 +14,7 @@ import { addAlert } from '../../../features/data/dataSlice';
 import './payments.css';
 import { useAppSelector } from '../../../app/hooks';
 import { jwtDecode } from 'jwt-decode';
+import { clearPayments } from '../../../features/admin/adminSlice';
 
 const Payments = () => {
   const usersListRef = useRef();
@@ -30,7 +31,7 @@ const Payments = () => {
   const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({
     page: 1,
-    page_size: 600,
+    page_size: 1000,
   });
   const [searchWord, setSearchWord] = useState('');
   const [dateFilter, setDateFilter] = useState(null);
@@ -39,15 +40,18 @@ const Payments = () => {
   const [paymentInAnnulmentProcess, setPaymentInAnnulmentProcess] = useState([]);
   const [filtersChanged, setFiltersChanged] = useState(false);
   
+  console.log(paymentsPagesAmount);
+  
   useEffect(() => {
     dispatch(getUsers({
       page: 1,
       page_size: 99999,
     }));
+    return () => dispatch(clearPayments());
   }, [dispatch]);
   
   useEffect(() => {
-    if (!paymentsPagesAmount || paginationData.page < paymentsPagesAmount) {
+    if (!paymentsPagesAmount || paginationData.page <= paymentsPagesAmount) {
       dispatch(getPayments({
         ...paginationData,
         searchWord, ...dateFilter,
