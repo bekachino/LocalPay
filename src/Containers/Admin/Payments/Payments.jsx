@@ -143,6 +143,8 @@ const Payments = () => {
           payment?.name?.toLowerCase() || ''
         ).includes(searchWord?.toLowerCase() || '') || (
           payment?.surname?.toLowerCase() || ''
+        ).includes(searchWord?.toLowerCase() || '') || (
+          `${payment?.name} ${payment?.surname}`?.toLowerCase() || ''
         ).includes(searchWord?.toLowerCase() || ''))?.id : null,
       })).then((res) => {
         if (res?.error) {

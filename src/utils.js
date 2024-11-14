@@ -180,6 +180,7 @@ export const handleNewVersionExcelFileExport = (payments) => {
         [
           '',
           '',
+          '',
           `сумма: ${sumLocalPayMoney}`,
           `сумма: ${sumPlanUpMoney}`,
           '',
