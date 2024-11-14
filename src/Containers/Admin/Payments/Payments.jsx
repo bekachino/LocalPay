@@ -40,8 +40,6 @@ const Payments = () => {
   const [paymentInAnnulmentProcess, setPaymentInAnnulmentProcess] = useState([]);
   const [filtersChanged, setFiltersChanged] = useState(false);
   
-  console.log(paymentsPagesAmount);
-  
   useEffect(() => {
     dispatch(getUsers({
       page: 1,

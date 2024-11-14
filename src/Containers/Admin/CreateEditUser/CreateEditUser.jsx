@@ -72,6 +72,7 @@ const CreateEditUser = ({ isEdit }) => {
           dispatch(getUsers({
             page: 1,
             page_size: 600,
+            searchWord: state?.login || '',
           }));
           navigate('/users');
         }
@@ -85,6 +86,7 @@ const CreateEditUser = ({ isEdit }) => {
           dispatch(getUsers({
             page: 1,
             page_size: 600,
+            searchWord: state?.login || '',
           }));
           navigate('/users');
         }
