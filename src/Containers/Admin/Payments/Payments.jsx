@@ -279,18 +279,24 @@ const Payments = () => {
                       className='user-action-btns'
                       style={{ position: 'unset' }}
                     >
-                      <CustomButton
-                        color='success'
-                        onClick={(_) => onPaymentAnnulment(payment?.id)}
-                        size='small'
-                        loading={paymentInAnnulmentProcess.includes(payment?.id)}
-                        disabled={[
-                          'Списание с бухгалтерии',
-                          'Пополнение с бухгалтерии',
-                        ].includes(payment?.status_payment) || !!payment?.annulment}
-                      >
-                        аннулировать
-                      </CustomButton>
+                      {[
+                        'Списание с бухгалтерии',
+                        'Пополнение с бухгалтерии',
+                      ].includes(payment?.status_payment) || !!payment?.annulment ?
+                        <span
+                          style={{
+                            color: '#ff2626',
+                            fontWeight: 'bold',
+                          }}
+                        >аннулирован</span> :
+                        <CustomButton
+                          color='success'
+                          onClick={(_) => onPaymentAnnulment(payment?.id)}
+                          size='small'
+                          loading={paymentInAnnulmentProcess.includes(payment?.id)}
+                        >
+                          аннулировать
+                        </CustomButton>}
                     </div>
                   </td>
                 )}
