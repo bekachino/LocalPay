@@ -33,15 +33,14 @@ const Comments = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!commentsPagesAmount || paginationData.page <= commentsPagesAmount) {
-      dispatch(
-        getComments({
-          ...paginationData,
-          searchWord,
-          ...dateFilter,
-        })
-      );
-    }
+    dispatch(
+      getComments({
+        ...paginationData,
+        searchWord,
+        ...dateFilter,
+        isSearch: true,
+      })
+    );
   }, [
     // do not add searchWord, dateFilter as deps
     dispatch,
@@ -133,6 +132,7 @@ const Comments = () => {
               placeholder="поиск..."
               color="success"
               onChange={handleSearchWordChange}
+              autoFocus
             />
             <Input
               type="date"

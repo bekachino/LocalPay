@@ -15,10 +15,10 @@ import Select from '../../../Components/UI/Select/Select';
 import Input from '../../../Components/UI/Input/Input';
 import CustomButton from '../../../Components/UI/CustomButton/CustomButton';
 import { addAlert } from '../../../features/data/dataSlice';
-import './payments.css';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { jwtDecode } from 'jwt-decode';
 import { clearPayments } from '../../../features/admin/adminSlice';
+import './payments.css';
 
 const Payments = () => {
   const usersListRef = useRef();
@@ -57,15 +57,14 @@ const Payments = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!paymentsPagesAmount || paginationData.page <= paymentsPagesAmount) {
-      dispatch(
-        getPayments({
-          ...paginationData,
-          searchWord,
-          ...dateFilter,
-        })
-      );
-    }
+    dispatch(
+      getPayments({
+        ...paginationData,
+        searchWord,
+        ...dateFilter,
+        isSearch: true,
+      })
+    );
   }, [
     // do not add searchWord, dateFilter as deps
     dispatch,
@@ -221,6 +220,7 @@ const Payments = () => {
               placeholder="поиск..."
               color="success"
               onChange={handleSearchWordChange}
+              autoFocus
             />
             <Input
               type="date"

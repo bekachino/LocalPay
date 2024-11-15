@@ -11,10 +11,10 @@ import Users from './Containers/Admin/Users/Users';
 import IconButton from './Components/UI/IconButton/IconButton';
 import HomeIcon from './assets/home-icon.svg';
 import Payments from './Containers/Admin/Payments/Payments';
-import './App.css';
 import Profile from './Containers/Profile/Profile';
 import CreatePayment from './Containers/User/CreatePayment/CreatePayment';
 import Comments from './Containers/Admin/Comments/Comments';
+import './App.css';
 
 function App() {
   const { user } = useAppSelector((state) => state.userState);
