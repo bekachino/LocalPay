@@ -1,24 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Paper from '../../../Components/UI/Paper/Paper';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  annulPayment, getPayments, getPaymentsForUpload, getUsers,
+  annulPayment,
+  getPayments,
+  getPaymentsForUpload,
+  getUsers,
 } from '../../../features/admin/adminThunk';
 import {
-  formatDate, handleExcelFileExport, handleNewVersionExcelFileExport,
+  formatDate,
+  handleExcelFileExport,
+  handleNewVersionExcelFileExport,
 } from '../../../utils';
 import Select from '../../../Components/UI/Select/Select';
 import Input from '../../../Components/UI/Input/Input';
 import CustomButton from '../../../Components/UI/CustomButton/CustomButton';
 import { addAlert } from '../../../features/data/dataSlice';
 import './payments.css';
-import { useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { jwtDecode } from 'jwt-decode';
 import { clearPayments } from '../../../features/admin/adminSlice';
 
 const Payments = () => {
   const usersListRef = useRef();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     payments,
     paymentsLoading,
@@ -26,7 +30,7 @@ const Payments = () => {
     paymentsForUploadLoading,
     users,
     usersLoading,
-  } = useSelector((state) => state.adminState);
+  } = useAppSelector((state) => state.adminState);
   const { user } = useAppSelector((state) => state.userState);
   const { role } = jwtDecode(user.access || '');
   const [paginationData, setPaginationData] = useState({

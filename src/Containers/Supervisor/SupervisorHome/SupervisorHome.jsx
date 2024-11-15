@@ -42,6 +42,14 @@ const SupervisorHome = () => {
             Платежи
           </CustomButton>
           <CustomButton
+            color="success"
+            size="large"
+            icon={PaymentIcon}
+            linkTo="/comments"
+          >
+            Операции платежей
+          </CustomButton>
+          <CustomButton
             color="error"
             size="large"
             icon={LogoutIcon}

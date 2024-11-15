@@ -43,6 +43,14 @@ const AdminHome = () => {
             Платежи
           </CustomButton>
           <CustomButton
+            color="success"
+            size="large"
+            icon={PaymentIcon}
+            linkTo="/comments"
+          >
+            Операции платежей
+          </CustomButton>
+          <CustomButton
             className="t-nw"
             color="secondary"
             size="large"

@@ -156,3 +156,30 @@ export const annulPayment = createAsyncThunk('admin/annulPayment', async (id, {
     return rejectWithValue(ERROR_MESSAGES[e.response.status]);
   }
 });
+
+export const getComments = createAsyncThunk('admin/getComments', async ({
+  page,
+  page_size,
+  searchWord,
+  date_from,
+  date_to,
+  isSearch,
+}, {
+  dispatch,
+  rejectWithValue,
+}) => {
+  try {
+    const req = await axiosApi(`comments_list/?offset=${page === 1 ? 0 : page * page_size - page_size}&limit=${page_size}&search=${searchWord || ''}&date_from=${date_from || ''}&date_to=${date_to || ''}`);
+    return {
+      results: await req.data?.results,
+      total_pages: Math.ceil(await req.data?.count / page_size),
+      isSearch,
+    };
+  } catch (e) {
+    dispatch(addAlert({
+      type: 'error',
+      message: ERROR_MESSAGES[e?.response?.status || 500],
+    }));
+    return rejectWithValue(ERROR_MESSAGES[e.response.status]);
+  }
+});

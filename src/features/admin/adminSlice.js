@@ -3,7 +3,7 @@ import {
   annulPayment,
   createUser,
   deleteUser,
-  editUser,
+  editUser, getComments,
   getPayments,
   getPaymentsForUpload,
   getUsers,
@@ -13,12 +13,15 @@ const initialState = {
   users: [],
   usersPagesAmount: 0,
   payments: [],
+  comments: [],
   paymentsPagesAmount: 0,
+  commentsPagesAmount: 0,
   paymentsForUploadLoading: false,
   usersLoading: false,
   createUserLoading: false,
   editUserLoading: false,
   paymentsLoading: false,
+  commentsLoading: false,
 };
 
 const AdminSlice = createSlice({
@@ -117,6 +120,31 @@ const AdminSlice = createSlice({
     });
     builder.addCase(getPaymentsForUpload.rejected, (state) => {
       state.paymentsForUploadLoading = false;
+    });
+    
+    builder.addCase(getComments.pending, (state) => {
+      state.commentsLoading = true;
+      state.paymentsPagesAmount = 1;
+    });
+    builder.addCase(
+      getComments.fulfilled,
+      (state, {
+        payload: {
+          total_pages,
+          results,
+          isSearch,
+        },
+      }) => {
+        state.commentsLoading = false;
+        state.comments = isSearch ? results : [
+          ...state.comments,
+          ...results,
+        ];
+        state.commentsPagesAmount = total_pages || 1;
+      },
+    );
+    builder.addCase(getComments.rejected, (state) => {
+      state.commentsLoading = false;
     });
   },
 });
