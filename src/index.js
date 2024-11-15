@@ -17,5 +17,5 @@ root.render(
         <App />
       </BrowserRouter>
     </Provider>
-  </PersistGate>,
+  </PersistGate>
 );
