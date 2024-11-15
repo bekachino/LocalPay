@@ -1,9 +1,13 @@
+.App:has(.create-payment) {
+  background-image: linear-gradient(to bottom right, #c5dac0, #3a8838);
+}
+
 .create-payment {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to bottom right, #c5dac0, #3a8838);
   background-repeat: no-repeat;
+  width: 100%;
 }
 
 .create-payment .home-paper {

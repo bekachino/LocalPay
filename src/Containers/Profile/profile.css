@@ -1,9 +1,13 @@
+.App:has(.profile) {
+  background-image: linear-gradient(to bottom right, #b1a38f, #ed9836);
+}
+
 .profile {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to bottom right, #b1a38f, #ed9836);
   background-repeat: no-repeat;
+  width: 100%;
 }
 
 .profile .home-paper {

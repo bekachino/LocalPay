@@ -1,8 +1,11 @@
+.App:has(.payments) {
+  background-image: linear-gradient(to bottom right, #c5dac0, #3a8838);
+}
+
 .payments {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to bottom right, #c5dac0, #3a8838);
   background-repeat: no-repeat;
 }
 

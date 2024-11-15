@@ -1,0 +1,9 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: transparent;
+  backdrop-filter: blur(15px);
+  padding: 10px 0 10px 15px;
+  width: 230px;
+}

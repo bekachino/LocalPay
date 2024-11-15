@@ -289,7 +289,7 @@ const Payments = () => {
               <th>Дата принятия оплаты</th>
               <th>Баланс</th>
               <th>Статус оплаты</th>
-              <th>Действия</th>
+              {['admin'].includes(role) && <th>Действия</th>}
             </tr>
             </thead>
             <tbody>

@@ -18,3 +18,18 @@ body,
   min-height: 100vh;
   margin: 0;
 }
+
+.App {
+  display: flex;
+}
+
+.home-paper {
+  width: calc(100vw - 230px);
+}
+
+.home-paper h1 {
+  color: #FFFFFF;
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}

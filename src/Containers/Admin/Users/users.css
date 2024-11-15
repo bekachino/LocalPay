@@ -1,13 +1,15 @@
+.App:has(.users) {
+  background-image: linear-gradient(to bottom right, #9ca3af, #2563eb);
+}
+
 .users {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to bottom right, #9ca3af, #2563eb);
   background-repeat: no-repeat;
 }
 
 .users .home-paper {
-  width: calc(100% - 30px);
   max-width: unset !important;
 }
 
@@ -26,7 +28,7 @@
   width: 100%;
   overflow: auto;
   overscroll-behavior: contain;
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 200px);
   box-sizing: border-box;
   margin-top: 10px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -47,6 +49,7 @@
   padding: 12px 15px;
   text-align: left;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  font-weight: bold;
 }
 
 .users-list th {

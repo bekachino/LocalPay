@@ -1,9 +1,13 @@
+.App:has(.login) {
+  background-image: linear-gradient(to bottom right, #aa9cc1, #5d25eb);
+}
+
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to bottom right, #aa9cc1, #5d25eb);
   background-repeat: no-repeat;
+  width: 100%;
 }
 
 .login-paper {

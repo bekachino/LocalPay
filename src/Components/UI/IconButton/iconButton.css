@@ -9,6 +9,10 @@
   cursor: pointer;
 }
 
+.icon-button button {
+  border: none;
+}
+
 .icon-button-primary {
 }
 
