@@ -21,7 +21,6 @@ const CreateEditUser = ({ isEdit }) => {
     createUserLoading,
     getUserLoading,
     regions,
-    regionsLoading,
   } = useAppSelector((state) => state.adminState);
   const { user } = useAppSelector((state) => state.dataState);
   const [state, setState] = useState({
@@ -50,7 +49,19 @@ const CreateEditUser = ({ isEdit }) => {
     if (isEdit && user) {
       setState(user);
     }
-  }, [user]);
+  }, [
+    isEdit,
+    user,
+  ]);
+  
+  useEffect(() => {
+    if (!!regions) setState(prevState => (
+      {
+        ...prevState,
+        region: regions[0].value,
+      }
+    ));
+  }, [regions]);
   
   const handleChange = (e) => {
     const {
