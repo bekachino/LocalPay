@@ -196,6 +196,7 @@ const Users = () => {
             size="small"
             placeholder="поиск..."
             onChange={handleSearchWordChange}
+            datalist={users?.map(user => `${user?.name || ''} ${user?.surname || ''}`)}
           />
           <CustomButton
             size="small"

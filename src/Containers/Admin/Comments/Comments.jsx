@@ -10,7 +10,7 @@ import '../Payments/payments.css';
 const Comments = () => {
   const usersListRef = useRef();
   const dispatch = useAppDispatch();
-  const { comments, commentsLoading, commentsPagesAmount } = useAppSelector(
+  const { comments, commentsLoading, commentsPagesAmount, users } = useAppSelector(
     (state) => state.adminState
   );
   const [paginationData, setPaginationData] = useState({
@@ -133,6 +133,7 @@ const Comments = () => {
               color="success"
               onChange={handleSearchWordChange}
               autoFocus
+              datalist={users?.map(user => `${user?.name || ''} ${user?.surname || ''}`)}
             />
             <Input
               type="date"

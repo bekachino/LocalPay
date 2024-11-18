@@ -173,19 +173,19 @@ const Payments = () => {
           ...dateFilter,
           user_id: !!searchWord
             ? users?.find(
-              (payment) =>
+              (user) =>
                 (
-                  payment?.name?.toLowerCase() || ''
+                  user?.name?.toLowerCase() || ''
                 ).includes(
                   searchWord?.toLowerCase() || '',
                 ) ||
                 (
-                  payment?.surname?.toLowerCase() || ''
+                  user?.surname?.toLowerCase() || ''
                 ).includes(
                   searchWord?.toLowerCase() || '',
                 ) ||
                 (
-                  `${payment?.name} ${payment?.surname}`?.toLowerCase() || ''
+                  `${user?.name} ${user?.surname}`?.toLowerCase() || ''
                 ).includes(searchWord?.toLowerCase() || ''),
             )?.id
             : null,
@@ -236,10 +236,13 @@ const Payments = () => {
           >
             <Input
               size='small'
+              name='search'
+              value={searchWord}
               placeholder='поиск...'
               color='success'
               onChange={handleSearchWordChange}
               autoFocus
+              datalist={users?.map(user => `${user?.name || ''} ${user?.surname || ''}`)}
             />
             <Input
               type='date'
