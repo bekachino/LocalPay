@@ -9,10 +9,10 @@ const Input = ({
   className,
   ...rest
 }) => {
-  console.log(datalist);
   return (
     <>
       <input
+        name={name}
         list={`${name}-input`}
         className={`${className} custom-input custom-input-color-${
           ![
