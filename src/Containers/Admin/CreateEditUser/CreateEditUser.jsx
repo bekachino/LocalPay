@@ -55,7 +55,7 @@ const CreateEditUser = ({ isEdit }) => {
   ]);
   
   useEffect(() => {
-    if (!!regions) setState(prevState => (
+    if (!!regions.length) setState(prevState => (
       {
         ...prevState,
         region: regions[0].value,
