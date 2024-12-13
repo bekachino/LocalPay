@@ -100,7 +100,7 @@ export const getPayments = createAsyncThunk('admin/getPayments', async ({
   rejectWithValue,
 }) => {
   try {
-    const req = await axiosApi(`api/payment-history/?offset=${page === 1 ? 0 : page * page_size - page_size}&limit=${page_size}&search=${searchWord || ''}&date_from=${date_from || ''}&date_to=${date_to || ''}`);
+    const req = await axiosApi(`payment-history/?offset=${page === 1 ? 0 : page * page_size - page_size}&limit=${page_size}&search=${searchWord || ''}&date_from=${date_from || ''}&date_to=${date_to || ''}`);
     return {
       results: await req.data?.results,
       total_pages: Math.ceil((
@@ -126,7 +126,7 @@ export const getPaymentsForUpload = createAsyncThunk('admin/getPaymentsForUpload
   rejectWithValue,
 }) => {
   try {
-    const req = await axiosApi.post(`api/user/payment-comparison/`, {
+    const req = await axiosApi.post(`user/payment-comparison/`, {
       date_from,
       date_to,
       user_id,
@@ -146,7 +146,7 @@ export const annulPayment = createAsyncThunk('admin/annulPayment', async (id, {
   rejectWithValue,
 }) => {
   try {
-    const req = await axiosApi.put(`api/payment_update/${id}/`, {
+    const req = await axiosApi.put(`payment_update/${id}/`, {
       annulment: true,
     });
     return await req.data;

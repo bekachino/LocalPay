@@ -7,7 +7,7 @@ export const signIn = createAsyncThunk(
   'user/signIn',
   async (userData, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axiosApi.post('api/token/', userData);
+      const response = await axiosApi.post('token/', userData);
       dispatch(
         addAlert({
           type: 'success',
@@ -52,7 +52,7 @@ export const createPayment = createAsyncThunk(
   'user/createPayment',
   async (data, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axiosApi.post('api/create-payment/', data);
+      const response = await axiosApi.post('create-payment/', data);
       dispatch(
         addAlert({
           type: 'success',
